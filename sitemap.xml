@@ -1,12 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>http://ondev.github.io/blog/2013/08/25/kai-shi-shi-yong-octopressliao/</loc>
+        <lastmod>2013-08-25T16:57:13+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://ondev.github.io/about/</loc>
         <lastmod>2013-08-25T13:53:07+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/blog/archives/</loc>
-        <lastmod>2013-08-25T13:40:16+08:00</lastmod>
+        <lastmod>2013-08-25T16:57:13+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/gallery/</loc>
@@ -14,7 +18,7 @@
     </url>
     <url>
         <loc>http://ondev.github.io/</loc>
-        <lastmod>2013-08-25T13:40:16+08:00</lastmod>
+        <lastmod>2013-08-25T16:57:13+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/robots.txt</loc>
