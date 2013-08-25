@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-08-25T16:22:48+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
