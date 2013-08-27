@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Haven's Dev Blog]]></title>
-  <link href="http://ondev.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: ios | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
   <updated>2013-08-28T00:04:29+08:00</updated>
   <id>http://ondev.github.io/</id>
@@ -27,16 +27,6 @@
 <a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
 
 <hr />
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[开始使用Octopress了]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/25/kai-shi-shi-yong-octopressliao/"/>
-    <updated>2013-08-25T16:55:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/25/kai-shi-shi-yong-octopressliao</id>
-    <content type="html"><![CDATA[<p>开始使用octopress了，今天设置好了，以后blog就开始写在这儿了。
-这是一个不错的blog系统，非常适合我们的开发人员。</p>
 ]]></content>
   </entry>
   
