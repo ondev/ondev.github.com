@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: opensource | Haven's Dev Blog]]></title>
-  <link href="http://ondev.github.io/blog/categories/opensource/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Open Source Code | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/open-source-code/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-08-29T23:47:58+08:00</updated>
+  <updated>2013-08-29T23:51:50+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-08-29T23:47:58+08:00</updated>
+  <updated>2013-08-29T23:51:50+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -35,6 +35,23 @@
 <p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
 
 <p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS开源介绍系统]]></title>
+    <link href="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/"/>
+    <updated>2013-08-27T23:46:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong</id>
+    <content type="html"><![CDATA[<ul>
+<li><p>iOS解析excel文件</p></li>
+</ul>
+
+
+<p>excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个<a href="http://sourceforge.net/projects/libxls/">libxls</a>(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装，源码在：
+<a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
+
+<hr />
 ]]></content>
   </entry>
   
