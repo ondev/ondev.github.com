@@ -5,14 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - Haven's Dev Blog</title>
+  <title>Make iOS Framework - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="Blog Archive 2013 Make iOS Framework
-Aug 29 2013 posted in framework, iOS iOS开源介绍系统
-Aug 27 2013 posted in ios, opensource 开始使用Octopress了
-Aug 25 2013 &hellip;">
+  <meta name="description" content="制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。 1.用模板 下载xcode模板后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。 2.用static library生成 这种方法是用脚本将 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +18,7 @@ Aug 25 2013 &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.io/blog/archives">
+  <link rel="canonical" href="http://ondev.github.io/blog/2013/08/29/make-ios-framework">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -69,61 +66,133 @@ Aug 25 2013 &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Make iOS Framework</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-29T23:23:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
 
-  
-  <h2>2013</h2>
+<h3>1.用模板</h3>
 
-<article>
-  
-<h1><a href="/blog/2013/08/29/make-ios-framework/">Make iOS Framework</a></h1>
-<time datetime="2013-08-29T23:23:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>29</span> <span class='year'>2013</span></time>
+<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/framework/'>framework</a>, <a class='category' href='/blog/categories/ios/'>iOS</a></span>
-</footer>
+<h3>2.用static library生成</h3>
 
+<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。
+脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。
+但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
 
-</article>
+<h3>3.用bundle模拟</h3>
 
+<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
 
-
-<article>
-  
-<h1><a href="/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/">iOS开源介绍系统</a></h1>
-<time datetime="2013-08-27T23:46:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>27</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ios/'>ios</a>, <a class='category' href='/blog/categories/opensource/'>opensource</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2013/08/25/kai-shi-shi-yong-octopressliao/">开始使用Octopress了</a></h1>
-<time datetime="2013-08-25T16:55:00+08:00" pubdate><span class='month'>Aug</span> <span class='day'>25</span> <span class='year'>2013</span></time>
-
-
-</article>
-
+<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-29T23:23:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/framework/'>framework</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>
+  
+</span>
+
+
+	  
+
+<DIV style="font-size:12px;BORDER-BOTTOM: #bbbbbb 1px solid; BORDER-LEFT: #bbbbbb 1px solid; BACKGROUND: #f6f6f6; HEIGHT: 120px; BORDER-TOP: #bbbbbb 1px solid; BORDER-RIGHT: #bbbbbb 1px solid" class=logdevright> 
+<DIV style="MARGIN-TOP: 10px; FLOAT: left; MARGIN-LEFT: 5px; MARGIN-RIGHT: 10px"> 
+<IMG alt="" src="/images/avator.jpg" width=90 height=100></DIV> 
+<DIV style="LINE-HEIGHT: 200%; MARGIN-TOP: 10px; COLOR: #000000"> 
+作者： <A href="http://www.ifun.cc/">Haven</A> <BR> 
+出处： <A href="http://www.ifun.cc/">http://www.ifun.cc/</A> 
+<BR>本文基于<a target="_blank" title="Creative Commons Attribution 2.5 China Mainland License" href="http://creativecommons.org/licenses/by/2.5/cn/"> 
+署名 2.5 中国大陆</a>许可协议发布，欢迎转载，演绎或用于商业目的，但是必须保留本文的署名 
+<a href="http://www.ifun.cc/">Haven</a>（包含链接）。 </DIV></DIV> 
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/08/29/make-ios-framework/" data-via="" data-counturl="http://ondev.github.io/blog/2013/08/29/make-ios-framework/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/" title="Previous Post: iOS开源介绍系统">&laquo; iOS开源介绍系统</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
+
+  <section>
+    <h1>您的反馈是我努力的强大动力</h1>
+    <div id="duoshuo_thread" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-TITLE="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"logdev"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
 
 </div>
 

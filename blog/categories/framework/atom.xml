@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: iOS | Haven's Dev Blog]]></title>
-  <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
+  <title><![CDATA[Category: framework | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/framework/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
   <updated>2013-08-29T23:40:40+08:00</updated>
   <id>http://ondev.github.io/</id>

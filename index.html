@@ -9,7 +9,7 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="iOS解析excel文件 excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个libxls(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装， &hellip;">
+  <meta name="description" content="制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。 1.用模板 下载xcode模板后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。 2.用static library生成 这种方法是用脚本将 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/08/29/make-ios-framework/">Make iOS Framework</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-08-29T23:23:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
+
+<h3>1.用模板</h3>
+
+<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
+
+<h3>2.用static library生成</h3>
+
+<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。
+脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。
+但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
+
+<h3>3.用bundle模拟</h3>
+
+<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
+
+<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -174,11 +226,15 @@
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ios/'>ios (1)</a></li><li><a href='/blog/categories/opensource/'>opensource (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/framework/'>framework (1)</a></li><li><a href='/blog/categories/ios/'>ios (1)</a></li><li><a href='/blog/categories/ios/'>iOS (1)</a></li><li><a href='/blog/categories/opensource/'>opensource (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/08/29/make-ios-framework/">Make iOS Framework</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/">iOS开源介绍系统</a>
@@ -217,7 +273,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ios' style='font-size: 160.0%'>ios(1)</a> <a href='/blog/categories/opensource' style='font-size: 160.0%'>opensource(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/framework' style='font-size: 160.0%'>framework(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>ios(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(1)</a> <a href='/blog/categories/opensource' style='font-size: 160.0%'>opensource(1)</a> </span>
 </section>
 
 
