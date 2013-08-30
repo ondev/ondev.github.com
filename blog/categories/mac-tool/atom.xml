@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mac Tool | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/mac-tool/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-08-30T20:24:24+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下常用工具]]></title>
+    <link href="http://ondev.github.io/blog/2013/08/30/macxia-chang-yong-gong-ju/"/>
+    <updated>2013-08-30T20:17:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/08/30/macxia-chang-yong-gong-ju</id>
+    <content type="html"><![CDATA[<p>在此列一些mac下的常用工具</p>
+
+<hr />
+
+<h1>Omnigraffle</h1>
+
+<p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
+这儿列出的是5.2.1版本。
+name:<a href="&#109;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#112;&#114;&#97;&#x74;&#x65;&#122;&#x40;&#114;&#x75;&#108;&#x65;&#x2e;&#110;&#101;&#116;">&#x70;&#x72;&#x61;&#x74;&#x65;&#122;&#64;&#x72;&#117;&#108;&#x65;&#46;&#x6e;&#x65;&#x74;</a>
+sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
+]]></content>
+  </entry>
+  
+</feed>
