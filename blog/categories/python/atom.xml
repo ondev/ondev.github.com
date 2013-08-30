@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Python | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/python/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-08-30T20:15:26+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Python语法快速学习]]></title>
+    <link href="http://ondev.github.io/blog/2013/08/30/pythonyu-fa-kuai-su-xue-xi/"/>
+    <updated>2013-08-30T00:07:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/08/30/pythonyu-fa-kuai-su-xue-xi</id>
+    <content type="html"><![CDATA[<p>最近学习了一下，python，算是如门了吧。
+看的是：简明python教程。
+这个教程主要讲的是python的语法，由于我比较熟悉c/c++，所以python的语法很轻松。 看了python，才知道python这语言的语法是如此的简单。我用过java,javascript, erlang, lua, php, python是最好用的一门语言了，有一种相见恨晚的感觉。</p>
+
+<p>最爽的就是不需要{}来说明作用域
+其它的都与c/c++差不多了。</p>
+
+<p>用这门语言可以快速开发demo产品，特别是对于移动应用的开发。</p>
+
+<p>下一步就要经常用用python来处理生活中的问题。</p>
+]]></content>
+  </entry>
+  
+</feed>
