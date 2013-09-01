@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mac Tool | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/mac-tool/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-08-31T20:49:13+08:00</updated>
+  <updated>2013-09-01T20:17:24+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -22,14 +22,14 @@
 
 <hr />
 
-<h1>Omnigraffle</h1>
+<h3>Omnigraffle</h3>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#58;&#112;&#x72;&#97;&#x74;&#x65;&#x7a;&#64;&#x72;&#117;&#x6c;&#101;&#x2e;&#110;&#101;&#x74;">&#112;&#114;&#97;&#x74;&#101;&#122;&#64;&#114;&#117;&#108;&#101;&#x2e;&#x6e;&#101;&#116;</a>
+name:<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#x3a;&#x70;&#x72;&#97;&#x74;&#x65;&#x7a;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#x65;&#116;">&#112;&#x72;&#97;&#x74;&#101;&#x7a;&#x40;&#114;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
-<h1>Charles</h1>
+<h3>Charles</h3>
 
 <p>支持Mac与Windows,通过代理的方式可以抓取http/https包。这样可以用来分析iOS上运行的程序的通信包。还可以修改通信的response包。</p>
 ]]></content>
