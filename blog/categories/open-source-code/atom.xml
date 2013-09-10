@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Open Source Code | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/open-source-code/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-06T19:34:56+08:00</updated>
+  <updated>2013-09-10T19:32:58+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Parse Json to Objective_C Model]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/10/parse-json-to-objective-c-model/"/>
+    <updated>2013-09-10T19:17:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/10/parse-json-to-objective-c-model</id>
+    <content type="html"><![CDATA[<p>在开发server/client的移动应用程序时候，往往用json来转输数据。
+最近用空闲时间写了一个根据json自动生成Objectiv_c的源码程序。原理是借鉴WSDL2Objc的源码，用到了STSTemplateEngine.
+源码托管在Github:<a href="https://github.com/ondev/Json2Objc">Json2Objc</a></p>
+
+<p>运行程序，然后有三个需要指定的东西：需要指定json文件，生成的文件的存放路径，生成文件的名字。</p>
+
+<p>然后parse，如果没有错误发生，就会在Finder中打开生成的目录。</p>
+
+<p>如何用生成的文件，可以参看参看TestCase。</p>
+
+<p>有任何不明白的地方请留言。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开源介绍系统]]></title>
