@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-10T19:32:58+08:00</updated>
+  <updated>2013-09-14T16:21:56+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AMR for iOS]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/14/amr-for-ios/"/>
+    <updated>2013-09-14T16:17:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/14/amr-for-ios</id>
+    <content type="html"><![CDATA[<p>两年前（2011），我编译了opencore-amr，由于版本与iOS sdk的更新，可能大家用的时候有些麻烦了。今天我又重新编译了一下opencore-amr for iOS,然后将Demo放到了<a href="https://github.com/ondev/AMRDemoForiOS">Github</a></p>
+
+<p>加入了一些新内容，具体请看DEMO,有不明白的可以留言。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Parse Json to Objective_C Model]]></title>
@@ -94,7 +105,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#58;&#112;&#x72;&#97;&#x74;&#x65;&#x7a;&#x40;&#x72;&#117;&#108;&#x65;&#x2e;&#x6e;&#x65;&#116;">&#112;&#114;&#x61;&#116;&#101;&#122;&#64;&#114;&#x75;&#108;&#x65;&#46;&#110;&#101;&#x74;</a>
+name:<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x70;&#x72;&#97;&#116;&#x65;&#x7a;&#x40;&#x72;&#x75;&#108;&#x65;&#x2e;&#110;&#x65;&#116;">&#x70;&#x72;&#x61;&#116;&#101;&#x7a;&#64;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
