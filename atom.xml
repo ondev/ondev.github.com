@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-23T23:07:00+08:00</updated>
+  <updated>2013-09-23T23:14:53+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Lua学习]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/23/luaxue-xi/"/>
+    <updated>2013-09-23T23:08:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/23/luaxue-xi</id>
+    <content type="html"><![CDATA[<p>Lua是一个轻量级的脚本语言，可以很方便的嵌入到其它宿主程序中，对宿主程序进行扩展。
+给自己制定了一个关于Lua的学习任务表。</p>
+
+<h3>Lua语法学习</h3>
+
+<h3>C调用Lua脚本</h3>
+
+<h3>Lua调用C方法(导出C方法到Lua)</h3>
+
+<h3>Lua调用C++类（导出C++类到Lua）</h3>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[我的书架]]></title>
@@ -122,7 +140,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#112;&#x72;&#97;&#116;&#x65;&#122;&#x40;&#x72;&#117;&#108;&#101;&#46;&#x6e;&#101;&#116;">&#x70;&#114;&#97;&#x74;&#x65;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#x2e;&#110;&#x65;&#116;</a>
+name:<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#x70;&#114;&#97;&#x74;&#101;&#122;&#64;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#101;&#116;">&#112;&#114;&#97;&#116;&#101;&#x7a;&#x40;&#114;&#x75;&#108;&#101;&#46;&#110;&#101;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
