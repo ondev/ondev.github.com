@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ebook | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/ebook/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-09-23T23:07:00+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[我的书架]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/23/wo-de-shu-jia/"/>
+    <updated>2013-09-23T22:59:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/23/wo-de-shu-jia</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>在记录一下自己所看书，随便评化一下。</p>
+
+<hr />
+
+<h1>Test-Driven iOS Development</h1>
+
+<p>最近在看《Test-Driven iOS Development》,ios下测驱动开发系统学习的一本书，对应用架构也有一点帮助，团队开发很有用的一本书。</p>
+]]></content>
+  </entry>
+  
+</feed>

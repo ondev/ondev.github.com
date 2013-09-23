@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-14T16:21:56+08:00</updated>
+  <updated>2013-09-23T23:07:00+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,23 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[我的书架]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/23/wo-de-shu-jia/"/>
+    <updated>2013-09-23T22:59:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/23/wo-de-shu-jia</id>
+    <content type="html"><![CDATA[<hr />
+
+<p>在记录一下自己所看书，随便评化一下。</p>
+
+<hr />
+
+<h1>Test-Driven iOS Development</h1>
+
+<p>最近在看《Test-Driven iOS Development》,ios下测驱动开发系统学习的一本书，对应用架构也有一点帮助，团队开发很有用的一本书。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AMR for iOS]]></title>
@@ -105,7 +122,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x70;&#x72;&#97;&#116;&#x65;&#x7a;&#x40;&#x72;&#x75;&#108;&#x65;&#x2e;&#110;&#x65;&#116;">&#x70;&#x72;&#x61;&#116;&#101;&#x7a;&#64;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;</a>
+name:<a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#112;&#x72;&#97;&#116;&#x65;&#122;&#x40;&#x72;&#117;&#108;&#101;&#46;&#x6e;&#101;&#116;">&#x70;&#114;&#97;&#x74;&#x65;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#x2e;&#110;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
