@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lua | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/lua/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-09-23T23:15:20+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Lua学习]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/23/luaxue-xi/"/>
+    <updated>2013-09-23T23:08:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/23/luaxue-xi</id>
+    <content type="html"><![CDATA[<p>Lua是一个轻量级的脚本语言，可以很方便的嵌入到其它宿主程序中，对宿主程序进行扩展。
+给自己制定了一个关于Lua的学习任务表。</p>
+
+<h3>Lua语法学习</h3>
+
+<h3>C调用Lua脚本</h3>
+
+<h3>Lua调用C方法(导出C方法到Lua)</h3>
+
+<h3>Lua调用C++类（导出C++类到Lua）</h3>
+]]></content>
+  </entry>
+  
+</feed>
