@@ -9,9 +9,21 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="Lua是一个轻量级的脚本语言，可以很方便的嵌入到其它宿主程序中，对宿主程序进行扩展。
-给自己制定了一个关于Lua的学习任务表。 Lua语法学习 C调用Lua脚本 Lua调用C方法(导出C方法到Lua) Lua调用C++类（导出C++类到Lua）
-">
+  <meta name="description" content="通过SIM卡获取country code,下面是代码片段 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale = [ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +81,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/26/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>通过SIM卡获取country code,下面是代码片段</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
+</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
+</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
+</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+</span><span class='line'>    return [carrier isoCountryCode];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
+</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以通过两个宏进行调用了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
+</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还有一种，是获取Device本地设置的地区。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是获取本地设置的语言</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -355,7 +454,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#112;&#x72;&#x61;&#116;&#101;&#x7a;&#x40;&#114;&#117;&#x6c;&#x65;&#x2e;&#110;&#x65;&#116;">&#112;&#x72;&#97;&#116;&#x65;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;</a>
+name:<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x70;&#x72;&#97;&#x74;&#x65;&#x7a;&#x40;&#114;&#x75;&#x6c;&#x65;&#x2e;&#x6e;&#x65;&#116;">&#112;&#x72;&#x61;&#x74;&#101;&#122;&#64;&#x72;&#x75;&#x6c;&#x65;&#46;&#x6e;&#101;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
@@ -509,44 +608,9 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/25/kai-shi-shi-yong-octopressliao/">开始使用Octopress了</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-25T16:55:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>开始使用octopress了，今天设置好了，以后blog就开始写在这儿了。
-这是一个不错的blog系统，非常适合我们的开发人员。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -578,6 +642,10 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/26/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/23/luaxue-xi/">Lua学习</a>
       </li>
     
@@ -591,10 +659,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <li class="post">
         <a href="/blog/2013/09/10/parse-json-to-objective-c-model/">Parse Json to Objective_C Model</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming/">出几个精品域名</a>
       </li>
     
   </ul>

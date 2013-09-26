@@ -5,11 +5,25 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>出几个精品域名 - Haven's Dev Blog</title>
+  <title>iOS获取ISO country code - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="有几个精品域名, 打包处理了 anypray.com 可以作宗教网站 atpray.com 同上 atfang.com 可以做房产网站 fangat.com 同上 ejiaoji.com E交际 linjuliao.com 邻居聊 herepos.com 这儿有 linkfuns.com &hellip;">
+  <meta name="description" content="通过SIM卡获取country code,下面是代码片段 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale = [ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +32,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.io/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming">
+  <link rel="canonical" href="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -70,7 +84,7 @@
   
   <header>
     
-      <h1 class="entry-title">出几个精品域名</h1>
+      <h1 class="entry-title">iOS获取ISO Country Code</h1>
     
     
       <p class="meta">
@@ -86,54 +100,65 @@
   
 
 
-<time datetime="2013-09-06T19:27:00+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>有几个精品域名, 打包处理了</p>
+<div class="entry-content"><p>通过SIM卡获取country code,下面是代码片段</p>
 
-<h3>anypray.com</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
+</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
+</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
+</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+</span><span class='line'>    return [carrier isoCountryCode];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
+</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)
+</span></code></pre></td></tr></table></div></figure>
 
-<p>可以作宗教网站</p>
 
-<h3>atpray.com</h3>
+<p>这样就可以通过两个宏进行调用了</p>
 
-<p>同上</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
+</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
 
-<h3>atfang.com</h3>
 
-<p>可以做房产网站</p>
+<p>还有一种，是获取Device本地设置的地区。</p>
 
-<h3>fangat.com</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
 
-<p>同上</p>
 
-<h3>ejiaoji.com</h3>
+<p>下面是获取本地设置的语言</p>
 
-<p>E交际</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
 
-<h3>linjuliao.com</h3>
-
-<p>邻居聊</p>
-
-<h3>herepos.com</h3>
-
-<p>这儿有</p>
-
-<h3>linkfuns.com</h3>
-
-<h3>notlaugh.com</h3>
-
-<p>不准笑</p>
-
-<h3>ririch.com</h3>
-
-<h3>sohoin.com</h3>
-
-<p>11个米一起处理，有喜欢的请留言，我会联系您。</p>
 </div>
 
 
@@ -156,7 +181,7 @@
   
 
 
-<time datetime="2013-09-06T19:27:00+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
+<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
       
 
 
@@ -176,7 +201,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming/" data-via="" data-counturl="http://ondev.github.io/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code/" data-via="" data-counturl="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code/" >Tweet</a>
   
   
   
@@ -185,10 +210,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/30/macxia-chang-yong-gong-ju/" title="Previous Post: Mac下常用工具">&laquo; Mac下常用工具</a>
+        <a class="basic-alignment left" href="/blog/2013/09/23/luaxue-xi/" title="Previous Post: Lua学习">&laquo; Lua学习</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/10/parse-json-to-objective-c-model/" title="Next Post: Parse Json to Objective_C Model">Parse Json to Objective_C Model &raquo;</a>
       
     </p>
   </footer>
