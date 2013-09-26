@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-26T21:58:14+08:00</updated>
+  <updated>2013-09-26T22:38:57+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,21 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS常用宏]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/26/ioschang-yong-hong/"/>
+    <updated>2013-09-26T22:10:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/26/ioschang-yong-hong</id>
+    <content type="html"><![CDATA[<p>最近整理了一下代码，发现iOS下开发用过不少宏。在此汇总一下，大部份来自网络，方便大家使用。</p>
+
+<script src='https://gist.github.com/6714742.js?file='></script>
+
+
+<div><noscript><pre><code>&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/6714742&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</code></pre></noscript></div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS获取ISO country code]]></title>
@@ -200,7 +215,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x70;&#x72;&#97;&#x74;&#x65;&#x7a;&#x40;&#114;&#x75;&#x6c;&#x65;&#x2e;&#x6e;&#x65;&#116;">&#112;&#x72;&#x61;&#x74;&#101;&#122;&#64;&#x72;&#x75;&#x6c;&#x65;&#46;&#x6e;&#101;&#x74;</a>
+name:<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#117;&#108;&#101;&#x2e;&#x6e;&#101;&#x74;">&#x70;&#114;&#97;&#116;&#x65;&#x7a;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
