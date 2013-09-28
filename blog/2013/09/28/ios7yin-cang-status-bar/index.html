@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS开源介绍系统 - Haven's Dev Blog</title>
+  <title>iOS7隐藏status bar - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="iOS解析excel文件 excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个libxls(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装， &hellip;">
+  <meta name="description" content="iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
+在iOS7以前的版本，hide是通过以下代码实现 1
+[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong">
+  <link rel="canonical" href="http://ondev.github.io/blog/2013/09/28/ios7yin-cang-status-bar">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -70,7 +72,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS开源介绍系统</h1>
+      <h1 class="entry-title">iOS7隐藏status Bar</h1>
     
     
       <p class="meta">
@@ -86,22 +88,74 @@
   
 
 
-<time datetime="2013-08-27T23:46:00+08:00" pubdate data-updated="true">Aug 27<span>th</span>, 2013</time>
+<time datetime="2013-09-28T18:38:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><ul>
-<li><p>iOS解析excel文件</p></li>
-</ul>
+<div class="entry-content"><p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
+在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];</span></code></pre></td></tr></table></div></figure>
 
 
-<p>excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个<a href="http://sourceforge.net/projects/libxls/">libxls</a>(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装，源码在：
-<a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释：
+// Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system.
+现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
 
-<hr />
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController.
+这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)prefersStatusBarHidden
+</span><span class='line'>{
+</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
+</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
 </div>
 
 
@@ -124,12 +178,12 @@
   
 
 
-<time datetime="2013-08-27T23:46:00+08:00" pubdate data-updated="true">Aug 27<span>th</span>, 2013</time>
+<time datetime="2013-09-28T18:38:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/open-source-code/'>Open Source Code</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
   
 </span>
 
@@ -138,7 +192,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/" data-via="" data-counturl="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/09/28/ios7yin-cang-status-bar/" data-via="" data-counturl="http://ondev.github.io/blog/2013/09/28/ios7yin-cang-status-bar/" >Tweet</a>
   
   
   
@@ -147,10 +201,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/25/kai-shi-shi-yong-octopressliao/" title="Previous Post: 开始使用Octopress了">&laquo; 开始使用Octopress了</a>
+        <a class="basic-alignment left" href="/blog/2013/09/28/gua-pei-ios7kai-fa-2/" title="Previous Post: 适配iOS7开发2">&laquo; 适配iOS7开发2</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/08/29/make-ios-framework/" title="Next Post: Make iOS Framework">Make iOS Framework &raquo;</a>
       
     </p>
   </footer>

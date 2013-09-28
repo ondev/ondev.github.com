@@ -9,8 +9,9 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。
-今天来介绍一下autolayout下的适配工作。 首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard. 拖一个UIButton到view中。 &hellip;">
+  <meta name="description" content="iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
+在iOS7以前的版本，hide是通过以下代码实现 1
+[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +69,102 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/28/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-28T18:38:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
+在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释：
+// Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system.
+现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
+
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController.
+这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)prefersStatusBarHidden
+</span><span class='line'>{
+</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
+</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -792,55 +889,6 @@ xcode5+ios7运行效果：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/30/macxia-chang-yong-gong-ju/">Mac下常用工具</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-30T20:17:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在此列一些mac下的常用工具</p>
-
-<hr />
-
-<h3>Omnigraffle</h3>
-
-<p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
-这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#114;&#117;&#108;&#x65;&#x2e;&#x6e;&#101;&#x74;">&#112;&#114;&#97;&#116;&#x65;&#x7a;&#64;&#x72;&#x75;&#108;&#x65;&#x2e;&#110;&#101;&#116;</a>
-sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
-
-<h3>Charles</h3>
-
-<p>支持Mac与Windows,通过代理的方式可以抓取http/https包。这样可以用来分析iOS上运行的程序的通信包。还可以修改通信的response包。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -868,11 +916,15 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (7)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (8)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/28/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/09/28/gua-pei-ios7kai-fa-2/">适配iOS7开发2</a>
@@ -888,10 +940,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <li class="post">
         <a href="/blog/2013/09/26/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/23/luaxue-xi/">Lua学习</a>
       </li>
     
   </ul>
@@ -923,7 +971,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 108.57142857142857%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(7)</a> <a href='/blog/categories/lua' style='font-size: 108.57142857142857%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 108.57142857142857%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 117.14285714285714%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 108.57142857142857%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 108.57142857142857%'>Python(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 107.5%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(8)</a> <a href='/blog/categories/lua' style='font-size: 107.5%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 107.5%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 115.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 107.5%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 107.5%'>Python(1)</a> </span>
 </section>
 
 

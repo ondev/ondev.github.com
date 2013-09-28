@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-28T17:51:16+08:00</updated>
+  <updated>2013-09-28T19:16:31+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,75 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7隐藏status bar]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/28/ios7yin-cang-status-bar/"/>
+    <updated>2013-09-28T18:38:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/28/ios7yin-cang-status-bar</id>
+    <content type="html"><![CDATA[<p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
+在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释：
+// Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system.
+现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
+
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController.
+这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)prefersStatusBarHidden
+</span><span class='line'>{
+</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
+</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[适配iOS7开发2]]></title>
@@ -506,7 +575,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#114;&#117;&#108;&#x65;&#x2e;&#x6e;&#101;&#x74;">&#112;&#114;&#97;&#116;&#x65;&#x7a;&#64;&#x72;&#x75;&#108;&#x65;&#x2e;&#110;&#101;&#116;</a>
+name:<a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#x70;&#114;&#x61;&#116;&#x65;&#x7a;&#64;&#114;&#117;&#108;&#101;&#46;&#x6e;&#101;&#x74;">&#112;&#114;&#x61;&#116;&#101;&#122;&#64;&#114;&#117;&#108;&#x65;&#x2e;&#x6e;&#x65;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
