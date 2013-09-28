@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-28T16:17:58+08:00</updated>
+  <updated>2013-09-28T17:51:16+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,72 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[适配iOS7开发2]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa-2/"/>
+    <updated>2013-09-28T16:54:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa-2</id>
+    <content type="html"><![CDATA[<p>在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。
+今天来介绍一下autolayout下的适配工作。</p>
+
+<p>首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard.</p>
+
+<p>拖一个UIButton到view中。 由于开启了autoLayout， 在xcode4.6.3中，自动会有两个auto layout约束，分别是水平与垂直的约束：</p>
+
+<p><img src="/images/toiOS72/ios72_tut1.png"/><br/></p>
+
+<p>运行程序效果：</p>
+
+<br/>
+
+
+<p><img src="/images/toiOS72/ios72_tut2.png"/><br/>
+可以看到是垂直方向上距status bar底部是45px，距右边是186px.</p>
+
+<p>现在我们用xcode5打开这个工程。会提示Upgrade storyboard，我们点击Upgrade.
+Upgrade后，你会发现，垂直方向上有变化了，约束是从顶部开始，不是从status bar底部开始计算。这也我们想要的结果不一样，我们还是希望约束是从status bar底部开始计算。</p>
+
+<p>仔细看看storyboard中的View Controller， 你会发现，这儿多了两个东东，分别是Top Layout Guide，Bottom Layout Guide.
+<img src="/images/toiOS72/ios72_tut3.png"/><br/></p>
+
+<p>选在我们的button,按住control键，然后拖到Top Layout Guide上，在弹出的对话框选择Vertical spacing</p>
+
+<br/>
+
+
+<p><img src="/images/toiOS72/ios72_tut4.png"/><br/>
+这样又建立了一个垂直约束，你会发现这个约束是从Status bar底部开始计算的。这个约束有点像是我们需要的，
+<img src="/images/toiOS72/ios72_tut5.png"/><br/>
+但是这个约束距status bar是25px,我们想要的是45px. 那只需要修改一下，将25px改为45px
+<img src="/images/toiOS72/ios72_tut6.png"/><br/>
+你会发现有storyboard中有红色提示，这说明约束条件发生了冲突，因为垂直约束的值都为45，显示冲突了。由于我们只需要status bar底部开始计算的那个约束，所以我们将旧的那个删掉即可。
+<img src="/images/toiOS72/ios72_tut7.png"/><br/></p>
+
+<p>现在分别选择iOS6/iOS7来运行。都是距status bar下面45px显示button. 适配工程完成。</p>
+
+<p>顺便介绍一下xcode5中，用xib或storyboard布局的时候，preview iOS7与iOS7以前版本的效果。
+快捷键：option+command+enter 打开Assistant editor,然后选择右边的automatic->preview->xxxxx(preview)</p>
+
+<br/>
+
+
+<p><img src="/images/toiOS72/ios72_tut8.png"/><br/>
+然后在出现的画面下面有一个切换iOS7与以前版本的切换开关</p>
+
+<br/>
+
+
+<p><img src="/images/toiOS72/ios72_tut9.png"/><br/></p>
+
+<p>这样可以方例你实时的查看布局效果以适配不同版本的iOS.</p>
+
+<p>最后：
+auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。</p>
+
+<p>参考：<a href＝“https://developer.apple.com/library/ios/qa/qa1797/_index.html”><a href="https://developer.apple.com/library/ios/qa/qa1797/_index.html">https://developer.apple.com/library/ios/qa/qa1797/_index.html</a></a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[适配iOS7开发]]></title>
@@ -244,31 +310,6 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
 <p>如何用生成的文件，可以参看参看TestCase。</p>
 
 <p>有任何不明白的地方请留言。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Make iOS Framework]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/29/make-ios-framework/"/>
-    <updated>2013-08-29T23:23:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/29/make-ios-framework</id>
-    <content type="html"><![CDATA[<p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
-
-<h3>1.用模板</h3>
-
-<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
-
-<h3>2.用static library生成</h3>
-
-<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。
-脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。
-但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
-
-<h3>3.用bundle模拟</h3>
-
-<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
-
-<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
 ]]></content>
   </entry>
   
