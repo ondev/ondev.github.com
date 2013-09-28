@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-26T22:38:57+08:00</updated>
+  <updated>2013-09-28T11:24:02+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[适配iOS7开发]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa/"/>
+    <updated>2013-09-28T11:04:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa</id>
+    <content type="html"><![CDATA[<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。</p>
+
+<p>首先看一个例子，用xcode5创建一个Empty Application的工程，
+然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController.
+现在运行程序，将会看到一个空白页。
+现在我们向里面加点东西。
+在viewDidLoad中加入以下代码
+```</p>
+
+<pre><code>self.view.backgroundColor = [UIColor grayColor];
+UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+btn.frame = CGRectMake(0, 0, 100, 44);
+btn.layer.cornerRadius = 0;
+btn.layer.borderColor = [UIColor blackColor].CGColor;
+btn.layer.borderWidth = 1;
+[btn setTitle:@"Test" forState:UIControlStateNormal];
+[self.view addSubview:btn];
+</code></pre>
+
+<p>```</p>
+
+<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
+<img src="/images/ios7_tut1.png"/>
+注意没，是与statusBar重叠了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS常用宏]]></title>
@@ -75,23 +107,6 @@
 <p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
 
 <p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开源介绍系统]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/"/>
-    <updated>2013-08-27T23:46:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong</id>
-    <content type="html"><![CDATA[<ul>
-<li><p>iOS解析excel文件</p></li>
-</ul>
-
-
-<p>excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个<a href="http://sourceforge.net/projects/libxls/">libxls</a>(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装，源码在：
-<a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
-
-<hr />
 ]]></content>
   </entry>
   

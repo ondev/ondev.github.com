@@ -5,13 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mac下常用工具 - Haven's Dev Blog</title>
+  <title>适配iOS7开发 - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="在此列一些mac下的常用工具 Omnigraffle Omnigroup这个不用多说，就是mac下的viso
-这儿列出的是5.2.1版本。
-name:&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&# &hellip;">
+  <meta name="description" content="iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +18,7 @@ name:&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&# &h
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.io/blog/2013/08/30/macxia-chang-yong-gong-ju">
+  <link rel="canonical" href="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -72,7 +70,7 @@ name:&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&# &h
   
   <header>
     
-      <h1 class="entry-title">Mac下常用工具</h1>
+      <h1 class="entry-title">适配iOS7开发</h1>
     
     
       <p class="meta">
@@ -88,27 +86,42 @@ name:&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&# &h
   
 
 
-<time datetime="2013-08-30T20:17:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
+<time datetime="2013-09-28T11:04:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>在此列一些mac下的常用工具</p>
+<div class="entry-content"><p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。</p>
 
-<hr />
+<p>首先看一个例子，用xcode5创建一个Empty Application的工程，
+然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController.
+现在运行程序，将会看到一个空白页。
+现在我们向里面加点东西。
+在viewDidLoad中加入以下代码</p>
 
-<h3>Omnigraffle</h3>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self.view.backgroundColor = [UIColor grayColor];
+</span><span class='line'>UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+</span><span class='line'>btn.frame = CGRectMake(0, 0, 100, 44);
+</span><span class='line'>btn.layer.cornerRadius = 0;
+</span><span class='line'>btn.layer.borderColor = [UIColor blackColor].CGColor;
+</span><span class='line'>btn.layer.borderWidth = 1;
+</span><span class='line'>[btn setTitle:@"Test" forState:UIControlStateNormal];
+</span><span class='line'>[self.view addSubview:btn];</span></code></pre></td></tr></table></div></figure>
 
-<p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
-这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;">&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&#110;&#101;&#x74;</a>
-sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
-<h3>Charles</h3>
-
-<p>支持Mac与Windows,通过代理的方式可以抓取http/https包。这样可以用来分析iOS上运行的程序的通信包。还可以修改通信的response包。</p>
+<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
+<img src="/images/ios7_tut1.png"/>
+注意没，是与statusBar重叠了。</p>
 </div>
 
 
@@ -131,12 +144,12 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
   
 
 
-<time datetime="2013-08-30T20:17:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2013</time>
+<time datetime="2013-09-28T11:04:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mac-tool/'>Mac Tool</a>
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
   
 </span>
 
@@ -145,7 +158,7 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/08/30/macxia-chang-yong-gong-ju/" data-via="" data-counturl="http://ondev.github.io/blog/2013/08/30/macxia-chang-yong-gong-ju/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa/" data-via="" data-counturl="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa/" >Tweet</a>
   
   
   
@@ -154,10 +167,8 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/08/30/pythonyu-fa-kuai-su-xue-xi/" title="Previous Post: Python语法快速学习">&laquo; Python语法快速学习</a>
+        <a class="basic-alignment left" href="/blog/2013/09/26/ioschang-yong-hong/" title="Previous Post: iOS常用宏">&laquo; iOS常用宏</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming/" title="Next Post: 出几个精品域名">出几个精品域名 &raquo;</a>
       
     </p>
   </footer>

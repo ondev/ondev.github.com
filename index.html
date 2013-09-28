@@ -9,7 +9,7 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="最近整理了一下代码，发现iOS下开发用过不少宏。在此汇总一下，大部份来自网络，方便大家使用。 &lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;https://github.com/gist/6714742&quot;&gt; &hellip;">
+  <meta name="description" content="iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +67,70 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/28/gua-pei-ios7kai-fa/">适配iOS7开发</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-28T11:04:00+08:00" pubdate data-updated="true">Sep 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。</p>
+
+<p>首先看一个例子，用xcode5创建一个Empty Application的工程，
+然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController.
+现在运行程序，将会看到一个空白页。
+现在我们向里面加点东西。
+在viewDidLoad中加入以下代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self.view.backgroundColor = [UIColor grayColor];
+</span><span class='line'>UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+</span><span class='line'>btn.frame = CGRectMake(0, 0, 100, 44);
+</span><span class='line'>btn.layer.cornerRadius = 0;
+</span><span class='line'>btn.layer.borderColor = [UIColor blackColor].CGColor;
+</span><span class='line'>btn.layer.borderWidth = 1;
+</span><span class='line'>[btn setTitle:@"Test" forState:UIControlStateNormal];
+</span><span class='line'>[self.view addSubview:btn];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
+<img src="/images/ios7_tut1.png"/>
+注意没，是与statusBar重叠了。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -482,7 +546,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#117;&#108;&#101;&#x2e;&#x6e;&#101;&#x74;">&#x70;&#114;&#97;&#116;&#x65;&#x7a;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#x65;&#116;</a>
+name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;">&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&#110;&#101;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
@@ -540,58 +604,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/29/make-ios-framework/">Make iOS Framework</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-29T23:23:00+08:00" pubdate data-updated="true">Aug 29<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
-
-<h3>1.用模板</h3>
-
-<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
-
-<h3>2.用static library生成</h3>
-
-<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。
-脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。
-但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
-
-<h3>3.用bundle模拟</h3>
-
-<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
-
-<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -619,11 +631,15 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (5)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (6)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/28/gua-pei-ios7kai-fa/">适配iOS7开发</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/09/26/ioschang-yong-hong/">iOS常用宏</a>
@@ -639,10 +655,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <li class="post">
         <a href="/blog/2013/09/23/wo-de-shu-jia/">我的书架</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/14/amr-for-ios/">AMR for iOS</a>
       </li>
     
   </ul>
@@ -674,7 +686,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 112.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(5)</a> <a href='/blog/categories/lua' style='font-size: 112.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 112.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 124.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 112.0%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 112.0%'>Python(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 110.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(6)</a> <a href='/blog/categories/lua' style='font-size: 110.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 110.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 120.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 110.0%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 110.0%'>Python(1)</a> </span>
 </section>
 
 

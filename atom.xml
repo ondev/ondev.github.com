@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-26T22:38:57+08:00</updated>
+  <updated>2013-09-28T11:24:02+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[适配iOS7开发]]></title>
+    <link href="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa/"/>
+    <updated>2013-09-28T11:04:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa</id>
+    <content type="html"><![CDATA[<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。</p>
+
+<p>首先看一个例子，用xcode5创建一个Empty Application的工程，
+然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController.
+现在运行程序，将会看到一个空白页。
+现在我们向里面加点东西。
+在viewDidLoad中加入以下代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>self.view.backgroundColor = [UIColor grayColor];
+</span><span class='line'>UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+</span><span class='line'>btn.frame = CGRectMake(0, 0, 100, 44);
+</span><span class='line'>btn.layer.cornerRadius = 0;
+</span><span class='line'>btn.layer.borderColor = [UIColor blackColor].CGColor;
+</span><span class='line'>btn.layer.borderWidth = 1;
+</span><span class='line'>[btn setTitle:@"Test" forState:UIControlStateNormal];
+</span><span class='line'>[self.view addSubview:btn];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
+<img src="http://ondev.github.io/images/ios7_tut1.png"/>
+注意没，是与statusBar重叠了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS常用宏]]></title>
@@ -215,7 +252,7 @@
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#117;&#108;&#101;&#x2e;&#x6e;&#101;&#x74;">&#x70;&#114;&#97;&#116;&#x65;&#x7a;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#x65;&#116;</a>
+name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;">&#x70;&#114;&#97;&#x74;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&#110;&#101;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
