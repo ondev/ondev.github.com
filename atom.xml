@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-09-28T19:16:31+08:00</updated>
+  <updated>2013-10-04T20:46:02+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,37 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[DeckView在iOS7中的bug]]></title>
+    <link href="http://ondev.github.io/blog/2013/10/04/deckviewzai-ios7zhong-de-bug/"/>
+    <updated>2013-10-04T20:17:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/10/04/deckviewzai-ios7zhong-de-bug</id>
+    <content type="html"><![CDATA[<p>前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。<br>
+我iOS开发的朋友可能用过<a href="https://github.com/Inferis/ViewDeck" >ViewDeck</a>这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。<br></p>
+
+<p>首先，我说说我用viewdeck的ui布局， window的rooterViewController是一个UITabBarViewController, 然后IIViewDeckController是UITabBarViewController的子view. 然后每一个IIViewDeckController的left,center是UINavigationController. 还有一点需要说明， UITabBar的background Image是自定义的一张图片。</p>
+
+<p>这样的布局在iOS6上显示正常的，在iOS7 3.5 retina的Simulator上显示也是正常的，但是在iPhone4s上显示不正确了，IIViewDeckController的left与center的view高度刚好少44。也就是说这个问题只会在设备上出现。我debug了一下，发现造成这个问题的原因是UITabBar自定义了背景图片，如果不自定义则ok.但是我们的程序是需要自定义UITabBar的背景的。由于我看到刚好少了44px,所以我就试着在IIViewDeckController的viewDidLoad中加了一句代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        self.extendedLayoutIncludesOpaqueBars = YES;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以成功运行了。
+这句话的意思就是，是否延升到Tabbar区域。默认是NO的，由于Tabbar是44px,这样修改刚好可以fix这个问
+但是最让我费解的就是在Simulator上没有这个问题，在Device上有问题，不过问题总算解决了。</p>
+
+<p>我也把我做的<a href="https://github.com/ondev/TestViewDeck">测试工程</a>放到了GitHub, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。
+我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
+
+<p>如果你的测试结果与我不一样，请告诉我。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS7隐藏status bar]]></title>
@@ -575,7 +606,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#97;&#x69;&#108;&#116;&#111;&#58;&#x70;&#114;&#x61;&#116;&#x65;&#x7a;&#64;&#114;&#117;&#108;&#101;&#46;&#x6e;&#101;&#x74;">&#112;&#114;&#x61;&#116;&#101;&#122;&#64;&#114;&#117;&#108;&#x65;&#x2e;&#x6e;&#x65;&#x74;</a>
+name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x70;&#x72;&#x61;&#x74;&#x65;&#122;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#110;&#101;&#x74;">&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#x72;&#x75;&#108;&#101;&#x2e;&#x6e;&#101;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>

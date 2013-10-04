@@ -9,9 +9,8 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。
-在iOS7以前的版本，hide是通过以下代码实现 1
-[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation: &hellip;">
+  <meta name="description" content="前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
+我iOS开发的朋友可能用过ViewDeck这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。 首先， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -69,6 +68,64 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/04/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-04T20:17:00+08:00" pubdate data-updated="true">Oct 4<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。<br>
+我iOS开发的朋友可能用过<a href="https://github.com/Inferis/ViewDeck" >ViewDeck</a>这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。<br></p>
+
+<p>首先，我说说我用viewdeck的ui布局， window的rooterViewController是一个UITabBarViewController, 然后IIViewDeckController是UITabBarViewController的子view. 然后每一个IIViewDeckController的left,center是UINavigationController. 还有一点需要说明， UITabBar的background Image是自定义的一张图片。</p>
+
+<p>这样的布局在iOS6上显示正常的，在iOS7 3.5 retina的Simulator上显示也是正常的，但是在iPhone4s上显示不正确了，IIViewDeckController的left与center的view高度刚好少44。也就是说这个问题只会在设备上出现。我debug了一下，发现造成这个问题的原因是UITabBar自定义了背景图片，如果不自定义则ok.但是我们的程序是需要自定义UITabBar的背景的。由于我看到刚好少了44px,所以我就试着在IIViewDeckController的viewDidLoad中加了一句代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        self.extendedLayoutIncludesOpaqueBars = YES;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以成功运行了。
+这句话的意思就是，是否延升到Tabbar区域。默认是NO的，由于Tabbar是44px,这样修改刚好可以fix这个问
+但是最让我费解的就是在Simulator上没有这个问题，在Device上有问题，不过问题总算解决了。</p>
+
+<p>我也把我做的<a href="https://github.com/ondev/TestViewDeck">测试工程</a>放到了GitHub, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。
+我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
+
+<p>如果你的测试结果与我不一样，请告诉我。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -813,82 +870,6 @@ xcode5+ios7运行效果：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/06/chu-ji-ge-jing-pin-yu-ming/">出几个精品域名</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-06T19:27:00+08:00" pubdate data-updated="true">Sep 6<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有几个精品域名, 打包处理了</p>
-
-<h3>anypray.com</h3>
-
-<p>可以作宗教网站</p>
-
-<h3>atpray.com</h3>
-
-<p>同上</p>
-
-<h3>atfang.com</h3>
-
-<p>可以做房产网站</p>
-
-<h3>fangat.com</h3>
-
-<p>同上</p>
-
-<h3>ejiaoji.com</h3>
-
-<p>E交际</p>
-
-<h3>linjuliao.com</h3>
-
-<p>邻居聊</p>
-
-<h3>herepos.com</h3>
-
-<p>这儿有</p>
-
-<h3>linkfuns.com</h3>
-
-<h3>notlaugh.com</h3>
-
-<p>不准笑</p>
-
-<h3>ririch.com</h3>
-
-<h3>sohoin.com</h3>
-
-<p>11个米一起处理，有喜欢的请留言，我会联系您。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -916,11 +897,15 @@ xcode5+ios7运行效果：
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (8)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (8)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/[ios]/'>［iOS］ (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/04/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/09/28/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a>
@@ -936,10 +921,6 @@ xcode5+ios7运行效果：
     
       <li class="post">
         <a href="/blog/2013/09/26/ioschang-yong-hong/">iOS常用宏</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/26/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a>
       </li>
     
   </ul>
@@ -971,7 +952,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 107.5%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(8)</a> <a href='/blog/categories/lua' style='font-size: 107.5%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 107.5%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 115.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 107.5%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 107.5%'>Python(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 107.5%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(8)</a> <a href='/blog/categories/lua' style='font-size: 107.5%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 107.5%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 115.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 107.5%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 107.5%'>Python(1)</a> <a href='/blog/categories/[ios]' style='font-size: 107.5%'>［iOS］(1)</a> </span>
 </section>
 
 
