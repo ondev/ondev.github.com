@@ -9,8 +9,7 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
-我iOS开发的朋友可能用过ViewDeck这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。 首先， &hellip;">
+  <meta name="description" content="iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。 iOS7 CoreBluetooth http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +67,70 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-10T20:50:00+08:00" pubdate data-updated="true">Oct 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</br></p>
+
+<h4>iOS7 CoreBluetooth</h4>
+
+<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/"><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a></a></br>
+<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
+
+<h4>iOS7 Feature</h4>
+
+<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> </br>
+<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a></br>
+<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> </br>
+<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a></br>
+<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a></br>
+<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></br></p>
+
+<h4>iBeacon</h4>
+
+<p><a href="http://redbearlab.com/ibeacon/"><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a></a>  </br>
+<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/"><a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a></a> </br>
+<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api"><a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></a></br></p>
+
+<h4>Other Tutorial</h4>
+
+<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/"><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a></a></br>
+<a href="https://github.com/shu223/iOS7-Sampler"><a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a></a></br>
+<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/"><a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a></a></p>
+
+<p>如果你有更好的教程请补充。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -824,52 +887,6 @@ xcode5+ios7运行效果：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/10/parse-json-to-objective-c-model/">Parse Json to Objective_C Model</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-10T19:17:00+08:00" pubdate data-updated="true">Sep 10<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>在开发server/client的移动应用程序时候，往往用json来转输数据。
-最近用空闲时间写了一个根据json自动生成Objectiv_c的源码程序。原理是借鉴WSDL2Objc的源码，用到了STSTemplateEngine.
-源码托管在Github:<a href="https://github.com/ondev/Json2Objc">Json2Objc</a></p>
-
-<p>运行程序，然后有三个需要指定的东西：需要指定json文件，生成的文件的存放路径，生成文件的名字。</p>
-
-<p>然后parse，如果没有错误发生，就会在Finder中打开生成的目录。</p>
-
-<p>如何用生成的文件，可以参看参看TestCase。</p>
-
-<p>有任何不明白的地方请留言。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -897,11 +914,15 @@ xcode5+ios7运行效果：
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (9)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (10)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/10/04/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a>
@@ -917,10 +938,6 @@ xcode5+ios7运行效果：
     
       <li class="post">
         <a href="/blog/2013/09/28/gua-pei-ios7kai-fa/">适配iOS7开发</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/26/ioschang-yong-hong/">iOS常用宏</a>
       </li>
     
   </ul>
@@ -952,7 +969,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 106.66666666666667%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(9)</a> <a href='/blog/categories/lua' style='font-size: 106.66666666666667%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.66666666666667%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 113.33333333333333%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.66666666666667%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 106.66666666666667%'>Python(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 106.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(10)</a> <a href='/blog/categories/lua' style='font-size: 106.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 112.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.0%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 106.0%'>Python(1)</a> </span>
 </section>
 
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-10-04T22:07:25+08:00</updated>
+  <updated>2013-10-10T22:00:14+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7新知识汇总]]></title>
+    <link href="http://ondev.github.io/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/"/>
+    <updated>2013-10-10T20:50:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/10/10/ios7xin-zhi-shi-hui-zong</id>
+    <content type="html"><![CDATA[<p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</br></p>
+
+<h4>iOS7 CoreBluetooth</h4>
+
+<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/"><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a></a></br>
+<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
+
+<h4>iOS7 Feature</h4>
+
+<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> </br>
+<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a></br>
+<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> </br>
+<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a></br>
+<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a></br>
+<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></br></p>
+
+<h4>iBeacon</h4>
+
+<p><a href="http://redbearlab.com/ibeacon/"><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a></a>  </br>
+<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/"><a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a></a> </br>
+<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api"><a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></a></br></p>
+
+<h4>Other Tutorial</h4>
+
+<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/"><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a></a></br>
+<a href="https://github.com/shu223/iOS7-Sampler"><a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a></a></br>
+<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/"><a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a></a></p>
+
+<p>如果你有更好的教程请补充。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[DeckView在iOS7中的bug]]></title>
@@ -606,7 +643,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#x72;&#97;&#116;&#101;&#x7a;&#64;&#x72;&#x75;&#x6c;&#101;&#x2e;&#x6e;&#101;&#116;">&#112;&#x72;&#x61;&#x74;&#x65;&#x7a;&#x40;&#x72;&#117;&#x6c;&#101;&#46;&#x6e;&#101;&#116;</a>
+name:<a href="&#x6d;&#97;&#x69;&#x6c;&#116;&#111;&#58;&#x70;&#114;&#x61;&#x74;&#x65;&#122;&#64;&#x72;&#117;&#108;&#101;&#x2e;&#110;&#x65;&#116;">&#112;&#114;&#x61;&#x74;&#x65;&#x7a;&#64;&#114;&#x75;&#108;&#101;&#46;&#x6e;&#x65;&#x74;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
