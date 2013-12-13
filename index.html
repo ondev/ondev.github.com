@@ -9,7 +9,8 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。 iOS7 CoreBluetooth http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/ &hellip;">
+  <meta name="description" content="最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind&hellip; 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno. 首先是下载程序.
+解压放到你的站点目录。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +68,62 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/13/an-zhuang-xiunolun-tan/">安装xiuno论坛</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-13T20:48:00+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind&hellip; 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
+
+<p>首先是<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">下载程序</a>.
+解压放到你的站点目录。
+然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限
+修改权限命令：
+&lsquo;&rsquo;&lsquo;
+chmod -R 777 ./xiuno
+&rsquo;&lsquo;&rsquo;</p>
+
+<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
+
+<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。
+&lsquo;&rsquo;&lsquo;
+sudo vim php.ini
+&rsquo;&lsquo;&rsquo;
+如果是Mac系统，php.ini的目录是/etc,  下面有一个php.ini.default文件
+‘‘‘
+cp php.ini.default php.ini
+sudo vim php.ini
+‘‘‘</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -855,44 +912,6 @@ xcode5+ios7运行效果：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/14/amr-for-ios/">AMR for iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-14T16:17:00+08:00" pubdate data-updated="true">Sep 14<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>两年前（2011），我编译了opencore-amr，由于版本与iOS sdk的更新，可能大家用的时候有些麻烦了。今天我又重新编译了一下opencore-amr for iOS,然后将Demo放到了<a href="https://github.com/ondev/AMRDemoForiOS">Github</a></p>
-
-<p>加入了一些新内容，具体请看DEMO,有不明白的可以留言。</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -920,11 +939,15 @@ xcode5+ios7运行效果：
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (10)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (10)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/wang-zhan-jian-she/'>网站建设 (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/12/13/an-zhuang-xiunolun-tan/">安装xiuno论坛</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a>
@@ -940,10 +963,6 @@ xcode5+ios7运行效果：
     
       <li class="post">
         <a href="/blog/2013/09/28/gua-pei-ios7kai-fa-2/">适配iOS7开发2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/28/gua-pei-ios7kai-fa/">适配iOS7开发</a>
       </li>
     
   </ul>
@@ -975,7 +994,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 106.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(10)</a> <a href='/blog/categories/lua' style='font-size: 106.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 112.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.0%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 106.0%'>Python(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/ebook' style='font-size: 106.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(10)</a> <a href='/blog/categories/lua' style='font-size: 106.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 112.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.0%'>opencore-amr(1)</a> <a href='/blog/categories/python' style='font-size: 106.0%'>Python(1)</a> <a href='/blog/categories/wang-zhan-jian-she' style='font-size: 106.0%'>网站建设(1)</a> </span>
 </section>
 
 

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: 网站建设 | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/wang-zhan-jian-she/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-12-13T20:59:56+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[安装xiuno论坛]]></title>
+    <link href="http://ondev.github.io/blog/2013/12/13/an-zhuang-xiunolun-tan/"/>
+    <updated>2013-12-13T20:48:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/12/13/an-zhuang-xiunolun-tan</id>
+    <content type="html"><![CDATA[<p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind&hellip; 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
+
+<p>首先是<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">下载程序</a>.
+解压放到你的站点目录。
+然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限
+修改权限命令：
+&lsquo;&rsquo;&lsquo;
+chmod -R 777 ./xiuno
+&rsquo;&lsquo;&rsquo;</p>
+
+<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
+
+<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。
+&lsquo;&rsquo;&lsquo;
+sudo vim php.ini
+&rsquo;&lsquo;&rsquo;
+如果是Mac系统，php.ini的目录是/etc,  下面有一个php.ini.default文件
+‘‘‘
+cp php.ini.default php.ini
+sudo vim php.ini
+‘‘‘</p>
+]]></content>
+  </entry>
+  
+</feed>

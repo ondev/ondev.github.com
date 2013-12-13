@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Lua - Haven's Dev Blog</title>
+  <title>安装xiuno论坛 - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="Category: Lua">
+  <meta name="description" content="最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind&hellip; 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno. 首先是下载程序.
+解压放到你的站点目录。 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.ioblog/categories/lua">
+  <link rel="canonical" href="http://ondev.github.io/blog/2013/12/13/an-zhuang-xiunolun-tan">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -66,35 +67,104 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Lua</h1>
+    
+      <h1 class="entry-title">安装xiuno论坛</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-13T20:48:00+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2013</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind&hellip; 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
 
-  
-  <h2>2013</h2>
+<p>首先是<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">下载程序</a>.
+解压放到你的站点目录。
+然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限
+修改权限命令：
+&lsquo;&rsquo;&lsquo;
+chmod -R 777 ./xiuno
+&rsquo;&lsquo;&rsquo;</p>
 
-<article>
-  
-<h1><a href="/blog/2013/09/23/luaxue-xi/">Lua学习</a></h1>
-<time datetime="2013-09-23T23:08:00+08:00" pubdate><span class='month'>Sep</span> <span class='day'>23</span> <span class='year'>2013</span></time>
+<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/lua/'>Lua</a></span>
-</footer>
-
-
-</article>
-
+<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。
+&lsquo;&rsquo;&lsquo;
+sudo vim php.ini
+&rsquo;&lsquo;&rsquo;
+如果是Mac系统，php.ini的目录是/etc,  下面有一个php.ini.default文件
+‘‘‘
+cp php.ini.default php.ini
+sudo vim php.ini
+‘‘‘</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-13T20:48:00+08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/wang-zhan-jian-she/'>网站建设</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/12/13/an-zhuang-xiunolun-tan/" data-via="" data-counturl="http://ondev.github.io/blog/2013/12/13/an-zhuang-xiunolun-tan/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/" title="Previous Post: iOS7新知识汇总">&laquo; iOS7新知识汇总</a>
+      
+      
+    </p>
+  </footer>
 </article>
 
 </div>
