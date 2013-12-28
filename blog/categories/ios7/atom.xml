@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS7 | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/ios7/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-12-28T16:04:01+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AMR for iOS7]]></title>
+    <link href="http://ondev.github.io/blog/2013/12/28/amr-for-ios7/"/>
+    <updated>2013-12-28T15:48:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/12/28/amr-for-ios7</id>
+    <content type="html"><![CDATA[<p>前不久<a href="http://www.ifun.cc/blog/2013/09/14/amr-for-ios/">这儿</a>重新编译了opencore amr.
+环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。</p>
+
+<p>Xcode5+iOS7已出来有一段时间了</p>
+
+<p>今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3</p>
+
+<p>还是以前的shell, 支持arm64平台。</p>
+
+<p>我编译了一份库，<a href="https://github.com/ondev/AMR-for-iOS7">传送门</a>。</p>
+]]></content>
+  </entry>
+  
+</feed>

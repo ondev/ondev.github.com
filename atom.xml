@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-12-28T13:57:35+08:00</updated>
+  <updated>2013-12-28T16:04:01+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,24 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[AMR for iOS7]]></title>
+    <link href="http://ondev.github.io/blog/2013/12/28/amr-for-ios7/"/>
+    <updated>2013-12-28T15:48:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/12/28/amr-for-ios7</id>
+    <content type="html"><![CDATA[<p>前不久<a href="http://www.ifun.cc/blog/2013/09/14/amr-for-ios/">这儿</a>重新编译了opencore amr.
+环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。</p>
+
+<p>Xcode5+iOS7已出来有一段时间了</p>
+
+<p>今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3</p>
+
+<p>还是以前的shell, 支持arm64平台。</p>
+
+<p>我编译了一份库，<a href="https://github.com/ondev/AMR-for-iOS7">传送门</a>。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac下配置神器PhpStrom开发环境]]></title>
@@ -770,7 +788,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x70;&#x72;&#x61;&#x74;&#101;&#x7a;&#64;&#x72;&#117;&#108;&#101;&#46;&#x6e;&#x65;&#x74;">&#x70;&#x72;&#x61;&#x74;&#x65;&#x7a;&#x40;&#114;&#117;&#108;&#x65;&#x2e;&#110;&#x65;&#116;</a>
+name:<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x70;&#114;&#97;&#116;&#x65;&#x7a;&#x40;&#114;&#117;&#108;&#101;&#x2e;&#x6e;&#x65;&#116;">&#112;&#x72;&#x61;&#116;&#x65;&#122;&#x40;&#114;&#x75;&#x6c;&#x65;&#x2e;&#x6e;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
