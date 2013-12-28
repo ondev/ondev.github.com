@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: PhpStorm | Haven's Dev Blog]]></title>
+  <link href="http://ondev.github.io/blog/categories/phpstorm/atom.xml" rel="self"/>
+  <link href="http://ondev.github.io/"/>
+  <updated>2013-12-28T13:57:35+08:00</updated>
+  <id>http://ondev.github.io/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下配置神器PhpStrom开发环境]]></title>
+    <link href="http://ondev.github.io/blog/2013/12/27/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/"/>
+    <updated>2013-12-27T22:46:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2013/12/27/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing</id>
+    <content type="html"><![CDATA[<p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
+
+<p>安装我就不用多说了嘛。<br>
+安装成功后，接下来就运行。<br>
+运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。
+刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
+
+<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.<br></p>
+
+<p>```
+<html>
+<head></p>
+
+<pre><code>&lt;title&gt;PHP 测试&lt;/title&gt;
+</code></pre>
+
+<p></head>
+<body>
+&lt;?php echo &lsquo;<p>Hello World</p>&rsquo;; ?>
+</body>
+</html>
+```</p>
+
+<p>接着我们点击运行</p>
+
+<p><img src="/images/configPhpStorm/1.png"/><br/></p>
+
+<p>会出现一个对话框</p>
+
+<p><img src="/images/configPhpStorm/2.png"/><br/></p>
+
+<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：</p>
+
+<p><img src="/images/configPhpStorm/3.png"/><br/></p>
+
+<p>看到了吧，解释器设置。
+mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。</p>
+
+<p><img src="/images/configPhpStorm/4.png"/><br/>
+配置好后点击ok。</p>
+
+<p>配置好后，就有解释器了。</p>
+
+<p><img src="/images/configPhpStorm/5.png"/><br/></p>
+
+<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标，</p>
+
+<p><img src="/images/configPhpStorm/6.png"/><br/>
+你将会看502错误，</p>
+
+<p><img src="/images/configPhpStorm/7.png"/><br/>
+回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到</p>
+
+<p><img src="/images/configPhpStorm/8.png"/><br/></p>
+
+<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。
+安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。</p>
+
+<p><code>
+curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5
+</code></p>
+
+<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器：
+PhpStorm->Preferences->PHP 会来到解释器设置页</p>
+
+<p><img src="/images/configPhpStorm/9.png"/><br/></p>
+
+<p>设置我们安装的php解释器：/usr/local/php5/bin</p>
+
+<p><img src="/images/configPhpStorm/10.png"/><br/></p>
+
+<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容：</p>
+
+<p><img src="/images/configPhpStorm/11.png"/><br/></p>
+
+<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
+
+<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
+]]></content>
+  </entry>
+  
+</feed>

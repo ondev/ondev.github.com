@@ -73,12 +73,18 @@
         <lastmod>2013-12-14T10:40:58+08:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ondev.github.io/blog/2013/12/27/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/
+        </loc>
+        <lastmod>2013-12-28T13:56:55+08:00</lastmod>
+    </url>
+    <url>
         <loc>http://ondev.github.io/about/</loc>
         <lastmod>2013-10-12T15:56:01+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/blog/archives/</loc>
-        <lastmod>2013-12-14T10:40:58+08:00</lastmod>
+        <lastmod>2013-12-28T13:56:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/gallery/</loc>
@@ -86,7 +92,7 @@
     </url>
     <url>
         <loc>http://ondev.github.io/</loc>
-        <lastmod>2013-12-14T10:40:58+08:00</lastmod>
+        <lastmod>2013-12-28T13:56:55+08:00</lastmod>
     </url>
     <url>
         <loc>http://ondev.github.io/robots.txt</loc>
