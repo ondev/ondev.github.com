@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2013-12-28T16:04:01+08:00</updated>
+  <updated>2014-01-03T23:38:54+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PhpStorm调试xiuno bbs]]></title>
+    <link href="http://ondev.github.io/blog/2014/01/03/phpstormdiao-shi-xiuno-bbs/"/>
+    <updated>2014-01-03T20:54:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2014/01/03/phpstormdiao-shi-xiuno-bbs</id>
+    <content type="html"><![CDATA[<p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
+
+<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
+
+<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
+
+<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files<br>
+<img src="http://ondev.github.io/images/storm4xiuno/1.png"/></p>
+
+<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
+<img src="http://ondev.github.io/images/storm4xiuno/2.png"/></p>
+
+<p>接下来设置local http server. <br>
+<img src="http://ondev.github.io/images/storm4xiuno/3.png"/></p>
+
+<p>接下来设置http server的path<br>
+<img src="http://ondev.github.io/images/storm4xiuno/4.png"/></p>
+
+<p>接下来设置运行环境<br>
+<img src="http://ondev.github.io/images/storm4xiuno/5.png"/></p>
+
+<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
+<img src="http://ondev.github.io/images/storm4xiuno/6.png"/></p>
+
+<p><img src="http://ondev.github.io/images/storm4xiuno/7.png"/>
+名字任意，但是目前server后面是红色的，点击它后面的button进行设置<br>
+<img src="http://ondev.github.io/images/storm4xiuno/8.png"/></p>
+
+<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
+<img src="http://ondev.github.io/images/storm4xiuno/9.png"/></p>
+
+<p>接着是http目录设置，如图<br>
+<img src="http://ondev.github.io/images/storm4xiuno/10.png"/></p>
+
+<p>这样你就可以通过PhoStorm运行或调试源码了。</p>
+
+<p>xiuno的调试宏记得打开哟。<br>
+<img src="http://ondev.github.io/images/storm4xiuno/10.png"/></p>
+
+<p>我也开始学习php写程序了，<sup>V</sup>^</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[AMR for iOS7]]></title>
@@ -788,7 +836,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#58;&#x70;&#114;&#97;&#116;&#x65;&#x7a;&#x40;&#114;&#117;&#108;&#101;&#x2e;&#x6e;&#x65;&#116;">&#112;&#x72;&#x61;&#116;&#x65;&#122;&#x40;&#114;&#x75;&#x6c;&#x65;&#x2e;&#x6e;&#x65;&#116;</a>
+name:<a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#x6f;&#x3a;&#112;&#x72;&#97;&#116;&#101;&#122;&#64;&#114;&#117;&#108;&#101;&#46;&#110;&#101;&#116;">&#112;&#114;&#x61;&#116;&#101;&#x7a;&#64;&#x72;&#x75;&#108;&#101;&#46;&#x6e;&#101;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
@@ -854,16 +902,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 <a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
 
 <hr />
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[开始使用Octopress了]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/25/kai-shi-shi-yong-octopressliao/"/>
-    <updated>2013-08-25T16:55:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/25/kai-shi-shi-yong-octopressliao</id>
-    <content type="html"><![CDATA[<p>开始使用octopress了，今天设置好了，以后blog就开始写在这儿了。
-这是一个不错的blog系统，非常适合我们的开发人员。</p>
 ]]></content>
   </entry>
   

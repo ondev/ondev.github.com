@@ -9,8 +9,7 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="前不久这儿重新编译了opencore amr.
-环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。 Xcode5+iOS7已出来有一段时间了 今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3 还是以前的shell, 支持arm64平台。 &hellip;">
+  <meta name="description" content="上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs. 首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +67,81 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/03/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno Bbs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-03T20:54:00+08:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
+
+<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
+
+<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
+
+<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files<br>
+<img src="/images/storm4xiuno/1.png"/></p>
+
+<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
+<img src="/images/storm4xiuno/2.png"/></p>
+
+<p>接下来设置local http server. <br>
+<img src="/images/storm4xiuno/3.png"/></p>
+
+<p>接下来设置http server的path<br>
+<img src="/images/storm4xiuno/4.png"/></p>
+
+<p>接下来设置运行环境<br>
+<img src="/images/storm4xiuno/5.png"/></p>
+
+<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
+<img src="/images/storm4xiuno/6.png"/></p>
+
+<p><img src="/images/storm4xiuno/7.png"/>
+名字任意，但是目前server后面是红色的，点击它后面的button进行设置<br>
+<img src="/images/storm4xiuno/8.png"/></p>
+
+<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
+<img src="/images/storm4xiuno/9.png"/></p>
+
+<p>接着是http目录设置，如图<br>
+<img src="/images/storm4xiuno/10.png"/></p>
+
+<p>这样你就可以通过PhoStorm运行或调试源码了。</p>
+
+<p>xiuno的调试宏记得打开哟。<br>
+<img src="/images/storm4xiuno/10.png"/></p>
+
+<p>我也开始学习php写程序了，<sup>V</sup>^</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -900,93 +974,6 @@ xcode5+ios7运行效果：
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/09/26/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>通过SIM卡获取country code,下面是代码片段</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
-</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
-</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
-</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-</span><span class='line'>    return [carrier isoCountryCode];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
-</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就可以通过两个宏进行调用了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
-</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>还有一种，是获取Device本地设置的地区。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是获取本地设置的语言</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1014,11 +1001,15 @@ xcode5+ios7运行效果：
 </section>
 <section>
   <h1>博文分类</h1>
-    <ul id="category-list"><li><a href='/blog/categories/amr/'>amr (1)</a></li><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (10)</a></li><li><a href='/blog/categories/ios7/'>iOS7 (1)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/phpstorm/'>PhpStorm (1)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/wang-zhan-jian-she/'>网站建设 (1)</a></li></ul>
+    <ul id="category-list"><li><a href='/blog/categories/amr/'>amr (1)</a></li><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (10)</a></li><li><a href='/blog/categories/ios7/'>iOS7 (1)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/phpstorm/'>PhpStorm (2)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/wang-zhan-jian-she/'>网站建设 (1)</a></li></ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/01/03/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno Bbs</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/12/28/amr-for-ios7/">AMR for iOS7</a>
@@ -1034,10 +1025,6 @@ xcode5+ios7运行效果：
     
       <li class="post">
         <a href="/blog/2013/10/10/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/10/04/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a>
       </li>
     
   </ul>
@@ -1069,7 +1056,7 @@ ds.charset = 'UTF-8';
 </section>
 <section>
   <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/amr' style='font-size: 106.0%'>amr(1)</a> <a href='/blog/categories/ebook' style='font-size: 106.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(10)</a> <a href='/blog/categories/ios7' style='font-size: 106.0%'>iOS7(1)</a> <a href='/blog/categories/lua' style='font-size: 106.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 112.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.0%'>opencore-amr(1)</a> <a href='/blog/categories/phpstorm' style='font-size: 106.0%'>PhpStorm(1)</a> <a href='/blog/categories/python' style='font-size: 106.0%'>Python(1)</a> <a href='/blog/categories/wang-zhan-jian-she' style='font-size: 106.0%'>网站建设(1)</a> </span>
+    <span id="tag-cloud"><a href='/blog/categories/amr' style='font-size: 106.0%'>amr(1)</a> <a href='/blog/categories/ebook' style='font-size: 106.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(10)</a> <a href='/blog/categories/ios7' style='font-size: 106.0%'>iOS7(1)</a> <a href='/blog/categories/lua' style='font-size: 106.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 106.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 112.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 106.0%'>opencore-amr(1)</a> <a href='/blog/categories/phpstorm' style='font-size: 112.0%'>PhpStorm(2)</a> <a href='/blog/categories/python' style='font-size: 106.0%'>Python(1)</a> <a href='/blog/categories/wang-zhan-jian-she' style='font-size: 106.0%'>网站建设(1)</a> </span>
 </section>
 
 
@@ -1082,7 +1069,7 @@ ds.charset = 'UTF-8';
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Haven -
+  Copyright &copy; 2014 - Haven -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
