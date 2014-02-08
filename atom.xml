@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2014-01-04T09:37:49+08:00</updated>
+  <updated>2014-02-08T11:04:09+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,142 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LevelDB for iOS]]></title>
+    <link href="http://ondev.github.io/blog/2014/02/08/leveldb-for-ios/"/>
+    <updated>2014-02-08T10:50:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2014/02/08/leveldb-for-ios</id>
+    <content type="html"><![CDATA[<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
+
+<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。
+首先就是下载源码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
+现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
+
+<p>定位到.cc.o的198行与.c.o的205行
+修改为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
+</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
+</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
+</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
+</span><span class='line'>
+</span><span class='line'>.c.o:
+</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
+</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
+</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存，</p>
+
+<p>然后用命令进行编译</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
+
+<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
+创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
+<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
+
+<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+</span><span class='line'>    NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
+</span><span class='line'>    THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
+</span><span class='line'>    
+</span><span class='line'>    //存储字符串
+</span><span class='line'>    [db setString:@"成都" forKey:@"city"];
+</span><span class='line'>    
+</span><span class='line'>    //存储基本类型
+</span><span class='line'>    [db setInt:13579 forKey:@"count"];
+</span><span class='line'>    [db setFloat:30.2 forKey:@"temperature"];
+</span><span class='line'>    
+</span><span class='line'>    //存储Data数据
+</span><span class='line'>    NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
+</span><span class='line'>    [db setData:data forKey:@"data"];
+</span><span class='line'>    
+</span><span class='line'>    //存储任意对象(实现了NSCoding协议的对象)
+</span><span class='line'>    [db setObject:[NSDate date] forKey:@"object"];
+</span><span class='line'>    
+</span><span class='line'>    
+</span><span class='line'>    NSLog(@"城市:%@",[db stringForKey:@"city"]);
+</span><span class='line'>    NSLog(@"数量:%d",[db intForKey:@"count"]);
+</span><span class='line'>    NSLog(@"Data:%@",[db dataForKey:@"data"]);
+</span><span class='line'>    NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
+
+<hr />
+
+<p>参考：<br>
+<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
+<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
+<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[PhpStorm调试xiuno bbs]]></title>
@@ -836,7 +972,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#x6f;&#58;&#112;&#114;&#97;&#116;&#x65;&#122;&#64;&#114;&#x75;&#108;&#x65;&#x2e;&#x6e;&#x65;&#x74;">&#112;&#x72;&#x61;&#116;&#x65;&#x7a;&#64;&#114;&#117;&#x6c;&#x65;&#46;&#x6e;&#101;&#x74;</a>
+name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x70;&#114;&#97;&#116;&#101;&#x7a;&#x40;&#114;&#x75;&#108;&#101;&#x2e;&#x6e;&#101;&#116;">&#112;&#114;&#97;&#x74;&#x65;&#122;&#64;&#114;&#117;&#x6c;&#x65;&#46;&#110;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
@@ -885,23 +1021,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 <p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
 
 <p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS开源介绍系统]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong/"/>
-    <updated>2013-08-27T23:46:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/27/ioskai-yuan-jie-shao-xi-tong</id>
-    <content type="html"><![CDATA[<ul>
-<li><p>iOS解析excel文件</p></li>
-</ul>
-
-
-<p>excel文件是一些表格，有时候服务器与客户端开发当中，可以用它来记录与设计数据结构，然后我们可以用代码解析excel文件，并自动生成相应的数据结构。今天要介绍的是一个<a href="http://sourceforge.net/projects/libxls/">libxls</a>(libxls是用c/c++写的用来解析excel的开源库)的Objective_C封装，源码在：
-<a href="https://github.com/dhoerl/DHlibxls"><a href="https://github.com/dhoerl/DHlibxls">https://github.com/dhoerl/DHlibxls</a></a></p>
-
-<hr />
 ]]></content>
   </entry>
   

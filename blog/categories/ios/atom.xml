@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2014-01-04T09:37:49+08:00</updated>
+  <updated>2014-02-08T11:04:09+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,113 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[LevelDB for iOS]]></title>
+    <link href="http://ondev.github.io/blog/2014/02/08/leveldb-for-ios/"/>
+    <updated>2014-02-08T10:50:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2014/02/08/leveldb-for-ios</id>
+    <content type="html"><![CDATA[<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
+
+<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。
+首先就是下载源码
+<code>
+clone levelDB repo https://code.google.com/p/leveldb/
+</code>
+这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
+现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
+
+<p>定位到.cc.o的198行与.c.o的205行
+修改为：</p>
+
+<p>```
+.cc.o:</p>
+
+<pre><code>mkdir -p ios-x86/$(dir $@)
+$(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+mkdir -p ios-arm/$(dir $@)
+xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+lipo ios-x86/$@ ios-arm/$@ -create -output $@
+</code></pre>
+
+<p>.c.o:</p>
+
+<pre><code>mkdir -p ios-x86/$(dir $@)
+$(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+mkdir -p ios-arm/$(dir $@)
+xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+lipo ios-x86/$@ ios-arm/$@ -create -output $@
+</code></pre>
+
+<p>```
+保存，</p>
+
+<p>然后用命令进行编译</p>
+
+<p>```
+CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</p>
+
+<p>```
+或</p>
+
+<p><code>
+CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS
+</code>
+都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
+
+<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
+创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
+<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
+
+<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
+
+<p>```</p>
+
+<h1>import &ldquo;THLevelDB.h&rdquo;</h1>
+
+<p>```</p>
+
+<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
+
+<p>```
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);</p>
+
+<pre><code>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
+THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
+
+//存储字符串
+[db setString:@"成都" forKey:@"city"];
+
+//存储基本类型
+[db setInt:13579 forKey:@"count"];
+[db setFloat:30.2 forKey:@"temperature"];
+
+//存储Data数据
+NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
+[db setData:data forKey:@"data"];
+
+//存储任意对象(实现了NSCoding协议的对象)
+[db setObject:[NSDate date] forKey:@"object"];
+
+
+NSLog(@"城市:%@",[db stringForKey:@"city"]);
+NSLog(@"数量:%d",[db intForKey:@"count"]);
+NSLog(@"Data:%@",[db dataForKey:@"data"]);
+NSLog(@"对象:%@",[db objectForKey:@"object"]);
+</code></pre>
+
+<p>```</p>
+
+<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
+
+<hr />
+
+<p>参考：<br>
+<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
+<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
+<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS7新知识汇总]]></title>
@@ -216,200 +323,6 @@ Upgrade后，你会发现，垂直方向上有变化了，约束是从顶部开�
 auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。</p>
 
 <p>参考：<a href＝“https://developer.apple.com/library/ios/qa/qa1797/_index.html”><a href="https://developer.apple.com/library/ios/qa/qa1797/_index.html">https://developer.apple.com/library/ios/qa/qa1797/_index.html</a></a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[适配iOS7开发]]></title>
-    <link href="http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa/"/>
-    <updated>2013-09-28T11:04:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/09/28/gua-pei-ios7kai-fa</id>
-    <content type="html"><![CDATA[<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。
-本文所说的适配是指：用xcode5+iOS7sdk编译的程序能正常的运行在iOS6及以下的设备上。</p>
-
-<p>首先看一个例子，用xcode5创建一个Empty Application的工程，
-然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController.
-现在运行程序，将会看到一个空白页。
-现在我们向里面加点东西。
-在viewDidLoad中加入以下代码</p>
-
-<p>```</p>
-
-<pre><code>self.view.backgroundColor = [UIColor grayColor];
-UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-btn.frame = CGRectMake(0, 0, 100, 44);
-btn.layer.cornerRadius = 0;
-btn.layer.borderColor = [UIColor blackColor].CGColor;
-btn.layer.borderWidth = 1;
-[btn setTitle:@"Test" forState:UIControlStateNormal];
-[self.view addSubview:btn];
-</code></pre>
-
-<p>```</p>
-
-<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
-<img src="/images/toiOS7/ios7_tut1.png"/><br/>
-注意没，是与statusBar重叠了。</p>
-
-<p>下面我们做一些修改，修改AppDelegate中的window的rootViewController值：</p>
-
-<p><code>
-ViewController *vc = [[ViewController alloc] init];
-UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-self.window.rootViewController = nav;
-</code>
-再运行，程序，你将看到
-<img src="/images/toiOS7/ios7_tut2.png"/><br/>
-我们的button到哪儿去了，其实它是被Navigation Bar档住了。细心的读者可能会问，你刚才不是说了Navigation Bar是半透明的吗？即然是半透明的为何我看不到button呢？ 的确Navigation Bar是半透明的，不过透明度不高，然后看不清后成的button.如果你不相信，你可以再一个黑色的view看看效果。将下面代码放入viewDidLoad</p>
-
-<p><code>
-UIView *v = [[UIView alloc] initWithFrame:CGRectMake(100, 0, 100, 70)];
-v.backgroundColor = [UIColor blackColor];
-[self.view addSubview:v];
-</code></p>
-
-<p>然后运行，看看效果：
-<img src="/images/toiOS7/ios7_tut3.png"/><br/>
-现在可以清楚的看到Navigation Bar后面的view， 可以看到，UIViewController的view是全屏的坐标系了。</p>
-
-<p>这样与我们iOS6与以前的坐标不一样了，以前是从Navigation Bar底部开始计算y值的，现在却是从Status Bar开始计算y值。</p>
-
-<p>不要着急，苹果公司有解决方案：将下面代码放在viewDidLoad中</p>
-
-<p><code>
-self.edgesForExtendedLayout = UIRectEdgeNone;
-</code></p>
-
-<p>再运行，看看效果：
-<img src="/images/toiOS7/ios7_tut4.png"/><br/>
-现在坐标就是开始从Navigation Bar开始计算了。然而这种情况只适合在Navigation Bar的情况，如果没有Navigation Bar, 坐标仍然是从Status Bar顶部开始计算的。</p>
-
-<p>如果底部有Tab Bar的情况呢，如果要兼容以前的frame设置，那么就需要设置UIViewController的edgesForExtendedLayout为UIRectEdgeNone。</p>
-
-<h1>代码如何适配iOS7</h1>
-
-<p>如果我们的代码没有用storyboard, 没有用xib,纯代码的情况，如果要适配iOS7，那么上面只是介绍了有Navigation Bar, Tool Bar的情况，如果只是单纯的View,那么我们的代码运行在iOS7上，会有向上20px偏移，这需要手动修改：</p>
-
-<p>```
-if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
-
-<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-}
-</code></pre>
-
-<p>```
-这种方法需要对所有的UIViewController进行设置，比较麻烦，还有一种较为简单的方法，就是设置window，这样可以影响所有的subview, 参考自<a href="http://stackoverflow.com/questions/18294872/ios-7-status-bar-back-to-ios-6-style/18855464#18855464">stackoverflow</a></p>
-
-<p>```
-if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
-
-<pre><code>    [application setStatusBarStyle:UIStatusBarStyleLightContent];
-    self.window.clipsToBounds =YES;
-    self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
-
-    //Added on 19th Sep 2013
-    self.window.bounds = CGRectMake(0, 20, self.window.frame.size.width, self.window.frame.size.height);
-}
-</code></pre>
-
-<p>```
-下面是第二方法的运行效果：
-<img src="/images/toiOS7/ios7_tut5.png"/><br/>
-不过第二种方法有问题，当你Rotate Simulator的时候你将会看到问题，Status Bar位置将不动。所以我不推荐用第二种方法，可以写一个UIViewController的category方法，然后调用方法一中的代码。这样对全工程进行修改以适配iOS7.</p>
-
-<h1>下面介绍一下xib的方法</h1>
-
-<p>新建一个UIViewController的子类，叫TestViewController，选中创建xib文件
-然后，在在AppDelegate中将window的rootViewController换成我们新建的TestViewController实例，代码如下：</p>
-
-<p><code>
-TestViewController *vc2 = [[TestViewController alloc] init];
-self.window.rootViewController = vc2;
-</code></p>
-
-<p>用xcode4.6.3+ios6运行程序，
-<img src="/images/toiOS7/ios7_ios6.png"/><br/>
-现在我们在xib中拖入一个button，frame为(177, 0, 73, 44)
-<img src="/images/toiOS7/ios7_tut6.png"/><br/>
-由于iOS7中扁平化设计了，button没有了边框，等一下我们会用xcode5+ios7来运行本程序，为了更清楚的看清frame，在此我将button的边框显示出来，前面代码生成的button也是显示了边框的，我们关系一个UIButton的变量textBtn到代码中,并用代码再生成一个button</p>
-
-<p><code>
-_testBtn.layer.borderWidth = 1;
-UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-btn.frame = CGRectMake(0, 0, 100, 44);
-btn.layer.cornerRadius = 0;
-btn.layer.borderColor = [UIColor blackColor].CGColor;
-btn.layer.borderWidth = 1;
-[btn setTitle:@"Test" forState:UIControlStateNormal];
-[self.view addSubview:btn];
-</code>
-运行程序，效果如下：
-<img src="/images/toiOS7/ios7_tut7.png"/><br/>
-关闭xocde4.5与Simulator,然后用xcode5打开用iOS7的效果：
-<img src="/images/toiOS7/ios7_tut8.png"/><br/>
-对比可以看出，iOS7是全屏的模式。
-这样一来，从iOS6中升级过来的程序，布局就不正确了，有20px的偏移，上面介绍了用代码解决的方法，在这儿我们先用代码的方法来试试，在viewWillAppear中加入以下代码：</p>
-
-<p>```
-if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
-
-<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-}
-</code></pre>
-
-<p>```
-再运行程序，效果如下：
-<img src="/images/toiOS7/ios7_tut9.png"/><br/>
-其中代码加入的button，下移了20px, 可是xib中拖入的button还是以status bar顶为y＝0开始计算frame.这可能是由于我们用到了auto layout, 所以xib有自己的frame计算方式. 代码生成的没有用auto layout约束，则受到了上面代码的影响。
-我们在xocde5中选择xib，如果是xcode4.6创建的xib, xcode5会提示你升级，我们选择升级，如果你选择了忽略也没关系，可以在右边的open in下拉列表中选择xcode5. xcode5对xib做了很多优化，相比以前的xib，xcode5的xib文件不但小，而且功能更强大。
-我们禁用xib的autolayout试试，再运行：
-<img src="/images/toiOS7/ios7_tut10.png"/><br/>
-这下由于没有auto layout的作用，都开始从status bar下面开始计算frame了。</p>
-
-<p>如果你的程序view全是xib，没有用代码生成，那么这儿还有一种解决方法，()条件是xib中没有开启autolayout)不用代码控制self.view.bounds,所以我们先将viewDidLoad中的</p>
-
-<p>```
-if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
-
-<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-}
-</code></pre>
-
-<p>```
-删掉。</p>
-
-<p>然后在在xcode5中选择我们的xib，并选择view中拖入的button，选择它的Size inspector,如图：
-<img src="/images/toiOS7/ios7_tut11.png"/><br/>
-细心的你可能发现了，右边较之前的版本多一些内容。多了一个ios6/ios7 Deltas.它就是用来做iOS6的xib适配到iOS7用的东西。
-由于iOS7中，全屏的模式，所以我们需要设置我们的＋20,这样才从status bar底部开始显示。现在我们将我们的button的y值设为20.如图：
-<img src="/images/toiOS7/ios7_tut12.png"/><br/>
-xcode5+ios7运行效果：
-<img src="/images/toiOS7/ios7_tut13.png"/><br/>
-由于它的frame是从20开始的，细心的读者可能会有疑问了，如果我们运行在iOS7以前的设备上，由于frame是从20开始的，不是我们想要的效果。的确是这样的，下面是iOS6上运行的效果：
-<img src="/images/toiOS7/ios7_tut14.png"/><br/>
-是从status bar下面20px.<br/>
-也就是说适配工作不成功。
-等等，刚才我们说的ios6/ios7 Deltas,现在是时候出场了。
-现在我们在将Deltas中y值设为-20.
-<img src="/images/toiOS7/ios7_tut15.png"/><br/>
-再运行到iOS6的设备上，效果如下：
-<img src="/images/toiOS7/ios7_tut16.png"/><br/></p>
-
-<p>小结：
-从iOS7以前的工程适配到iOS7，且没有用autolayout,</p>
-
-<ol>
-<li>在viewDidLoad中加入以下代码完成短配工作
-<code>
-if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-     self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
- }
-</code></li>
-<li>xib中用调整frame的y值+20，并设置Delats中y为-20. 如果是代码生成的view,则需要手动处理subview的frame的y值，所以都在原来基础上+20</li>
-</ol>
-
-
-<p>最后我们要记住一点：iOS7默认是全屏的。 所以得有两套值。</p>
 ]]></content>
   </entry>
   
