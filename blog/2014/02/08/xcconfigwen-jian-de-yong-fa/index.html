@@ -5,25 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS获取ISO country code - Haven's Dev Blog</title>
+  <title>xcconfig文件的用法 - Haven's Dev Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="通过SIM卡获取country code,下面是代码片段 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale = [ &hellip;">
+  <meta name="description" content="xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -32,7 +18,7 @@ NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code">
+  <link rel="canonical" href="http://ondev.github.io/blog/2014/02/08/xcconfigwen-jian-de-yong-fa">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Dev Blog" type="application/atom+xml">
@@ -84,7 +70,7 @@ NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale 
   
   <header>
     
-      <h1 class="entry-title">iOS获取ISO Country Code</h1>
+      <h1 class="entry-title">Xcconfig文件的用法</h1>
     
     
       <p class="meta">
@@ -100,65 +86,54 @@ NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale 
   
 
 
-<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
+<time datetime="2014-02-08T11:09:00+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>通过SIM卡获取country code,下面是代码片段</p>
+<div class="entry-content"><p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
+
+<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" />
+图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.
+当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
+
+<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
+
+<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
+首先在xcode中选中要进行配置的一行，如图
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
+然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
+粘贴的内容类似：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
-</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
-</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
-</span><span class='line'>};
+</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
+</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
 </span><span class='line'>
-</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
-</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-</span><span class='line'>    return [carrier isoCountryCode];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
-</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这样就可以通过两个宏进行调用了</p>
+<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
-</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
+<p>按照这个方法配置所有你想要配置的。</p>
 
+<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
+注意图中选中项。</p>
 
-<p>还有一种，是获取Device本地设置的地区。</p>
+<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
+<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。
+可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
 
-
-<p>下面是获取本地设置的语言</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
-
+<p>参考：
+<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
 </div>
 
 
@@ -181,15 +156,21 @@ NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale 
   
 
 
-<time datetime="2013-09-26T21:28:00+08:00" pubdate data-updated="true">Sep 26<span>th</span>, 2013</time>
+<time datetime="2014-02-08T11:09:00+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xcode/'>Xcode</a>
+  
+</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code/" data-via="" data-counturl="http://ondev.github.io/blog/2013/09/26/ioshuo-qu-iso-country-code/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.io/blog/2014/02/08/xcconfigwen-jian-de-yong-fa/" data-via="" data-counturl="http://ondev.github.io/blog/2014/02/08/xcconfigwen-jian-de-yong-fa/" >Tweet</a>
   
   
   
@@ -198,10 +179,8 @@ NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale 
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/09/23/luaxue-xi/" title="Previous Post: Lua学习">&laquo; Lua学习</a>
+        <a class="basic-alignment left" href="/blog/2014/02/08/leveldb-for-ios/" title="Previous Post: LevelDB for iOS">&laquo; LevelDB for iOS</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/26/ioschang-yong-hong/" title="Next Post: iOS常用宏">iOS常用宏 &raquo;</a>
       
     </p>
   </footer>

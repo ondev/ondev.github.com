@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Dev Blog]]></title>
   <link href="http://ondev.github.io/atom.xml" rel="self"/>
   <link href="http://ondev.github.io/"/>
-  <updated>2014-02-08T11:04:09+08:00</updated>
+  <updated>2014-02-08T11:10:25+08:00</updated>
   <id>http://ondev.github.io/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,55 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[xcconfig文件的用法]]></title>
+    <link href="http://ondev.github.io/blog/2014/02/08/xcconfigwen-jian-de-yong-fa/"/>
+    <updated>2014-02-08T11:09:00+08:00</updated>
+    <id>http://ondev.github.io/blog/2014/02/08/xcconfigwen-jian-de-yong-fa</id>
+    <content type="html"><![CDATA[<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
+
+<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" />
+图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.
+当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
+
+<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
+
+<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
+首先在xcode中选中要进行配置的一行，如图
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
+然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
+粘贴的内容类似：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
+</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
+</span><span class='line'>
+</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
+
+<p>按照这个方法配置所有你想要配置的。</p>
+
+<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
+注意图中选中项。</p>
+
+<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
+
+<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。
+可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
+
+<p>参考：
+<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[LevelDB for iOS]]></title>
@@ -972,7 +1021,7 @@ xcode5+ios7运行效果：
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigroup</a>这个不用多说，就是mac下的viso
 这儿列出的是5.2.1版本。
-name:<a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x70;&#114;&#97;&#116;&#101;&#x7a;&#x40;&#114;&#x75;&#108;&#101;&#x2e;&#x6e;&#101;&#116;">&#112;&#114;&#97;&#x74;&#x65;&#122;&#64;&#114;&#117;&#x6c;&#x65;&#46;&#110;&#x65;&#116;</a>
+name:<a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#58;&#x70;&#114;&#97;&#x74;&#x65;&#122;&#x40;&#114;&#x75;&#108;&#x65;&#46;&#110;&#101;&#x74;">&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#114;&#x75;&#108;&#101;&#46;&#110;&#x65;&#116;</a>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <h3>Charles</h3>
@@ -996,31 +1045,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 <p>用这门语言可以快速开发demo产品，特别是对于移动应用的开发。</p>
 
 <p>下一步就要经常用用python来处理生活中的问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Make iOS Framework]]></title>
-    <link href="http://ondev.github.io/blog/2013/08/29/make-ios-framework/"/>
-    <updated>2013-08-29T23:23:00+08:00</updated>
-    <id>http://ondev.github.io/blog/2013/08/29/make-ios-framework</id>
-    <content type="html"><![CDATA[<p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
-
-<h3>1.用模板</h3>
-
-<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
-
-<h3>2.用static library生成</h3>
-
-<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。
-脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。
-但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
-
-<h3>3.用bundle模拟</h3>
-
-<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
-
-<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
 ]]></content>
   </entry>
   
