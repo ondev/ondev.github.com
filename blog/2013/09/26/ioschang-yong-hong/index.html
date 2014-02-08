@@ -140,6 +140,8 @@
   
   
   
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
 
     
@@ -174,9 +176,6 @@
   </li>
 </section>
 <section>
-    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
-</section>
-<section>
   <h1>博文分类</h1>
     <ul id="category-list"><li><a href='/blog/categories/amr/'>amr (1)</a></li><li><a href='/blog/categories/ebook/'>ebook (1)</a></li><li><a href='/blog/categories/ios/'>iOS (12)</a></li><li><a href='/blog/categories/ios7/'>iOS7 (1)</a></li><li><a href='/blog/categories/lib/'>Lib (1)</a></li><li><a href='/blog/categories/lua/'>Lua (1)</a></li><li><a href='/blog/categories/mac-tool/'>Mac Tool (1)</a></li><li><a href='/blog/categories/open-source-code/'>Open Source Code (2)</a></li><li><a href='/blog/categories/opencore-amr/'>opencore-amr (1)</a></li><li><a href='/blog/categories/phpstorm/'>PhpStorm (2)</a></li><li><a href='/blog/categories/python/'>Python (1)</a></li><li><a href='/blog/categories/xcode/'>Xcode (1)</a></li><li><a href='/blog/categories/wang-zhan-jian-she/'>网站建设 (1)</a></li></ul>
 </section>
@@ -207,6 +206,10 @@
   </ul>
 </section>
 <section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+<section>
 <h1>最近评论</h1>
 <ul class="ds-recent-comments" data-num-items="10">
 </ul>
@@ -232,9 +235,34 @@ ds.charset = 'UTF-8';
     </li>
   </ul>
 </section>
+
 <section>
-  <h1>Tag</h1>
-    <span id="tag-cloud"><a href='/blog/categories/amr' style='font-size: 105.0%'>amr(1)</a> <a href='/blog/categories/ebook' style='font-size: 105.0%'>ebook(1)</a> <a href='/blog/categories/ios' style='font-size: 160.0%'>iOS(12)</a> <a href='/blog/categories/ios7' style='font-size: 105.0%'>iOS7(1)</a> <a href='/blog/categories/lib' style='font-size: 105.0%'>Lib(1)</a> <a href='/blog/categories/lua' style='font-size: 105.0%'>Lua(1)</a> <a href='/blog/categories/mac-tool' style='font-size: 105.0%'>Mac Tool(1)</a> <a href='/blog/categories/open-source-code' style='font-size: 110.0%'>Open Source Code(2)</a> <a href='/blog/categories/opencore-amr' style='font-size: 105.0%'>opencore-amr(1)</a> <a href='/blog/categories/phpstorm' style='font-size: 110.0%'>PhpStorm(2)</a> <a href='/blog/categories/python' style='font-size: 105.0%'>Python(1)</a> <a href='/blog/categories/xcode' style='font-size: 105.0%'>Xcode(1)</a> <a href='/blog/categories/wang-zhan-jian-she' style='font-size: 105.0%'>网站建设(1)</a> </span>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 
@@ -256,6 +284,15 @@ ds.charset = 'UTF-8';
   
 
 
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 
 
