@@ -1,0 +1,17 @@
+---
+layout: post
+title: "AMR for iOS7"
+date: 2014-02-09 11:12:12 +0800
+comments: true
+categories: [iOS7]
+---
+
+前不久重新编译了opencore amr. 环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。
+
+Xcode5+iOS7已出来有一段时间了
+
+今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3
+
+还是以前的shell, 支持arm64平台。
+
+我编译了一份库，[传送门](https://github.com/ondev/AMR-for-iOS7)。
