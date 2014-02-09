@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcconfig文件的用法 - Haven's' Blog</title>
+  <meta name="author" content="Haven">
+
+  
+  <meta name="description" content="xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ondev.github.com/blog/2014/02/09/xcconfigwen-jian-de-yong-fa">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Haven's' Blog</a></h1>
+  
+    <h2>此刻打吨，你将做梦；而此刻学习，你将圆梦</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ondev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcconfig文件的用法</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
+
+<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
+图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
+当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
+
+<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
+
+<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
+首先在xcode中选中要进行配置的一行，如图<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
+然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
+粘贴的内容类似：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
+</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
+</span><span class='line'>
+</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
+
+<p>按照这个方法配置所有你想要配置的。</p>
+
+<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
+注意图中选中项。</p>
+
+<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
+
+<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
+可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
+
+<p>参考：
+<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/xcode/'>Xcode</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.com/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" data-via="" data-counturl="http://ondev.github.com/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/09/ios-http-url-cacheqing-chu/" title="Previous Post: iOS Http URL Cache清除">&laquo; iOS Http URL Cache清除</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
+  <p>研究软件安全技术</p> 
+  <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
+  <a href="https://github.com/ondev"><img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edccbnpos6j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <a href="mailto:topgifts@163.com"><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edccbys9f6j201c01cgld.jpg" width="48px" height="48px"></a>
+  <a href="/atom.xml"><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcccjezq1j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <li class="post">
+ 	 <a href="http://webscan.360.cn/index/checkwebsite/url/www.ifun.cc"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/92801c8d564b12eec8759b3f4bff4911"/></a>
+  </li>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (5)</a></li>
+<li class='category'><a href='/blog/categories/ios7/'>iOS7 (5)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10">
+</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013-2014 - Haven -
+  <span class="credit">Powered by Haven<a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

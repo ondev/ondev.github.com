@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS获取ISO Country Code - Haven's' Blog</title>
+  <meta name="author" content="Haven">
+
+  
+  <meta name="description" content="通过SIM卡获取country code,下面是代码片段 1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) { NSLocale *locale = [ &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ondev.github.com/blog/2014/02/08/ioshuo-qu-iso-country-code">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Haven's' Blog</a></h1>
+  
+    <h2>此刻打吨，你将做梦；而此刻学习，你将圆梦</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ondev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS获取ISO Country Code</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-08T22:54:47+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>通过SIM卡获取country code,下面是代码片段</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
+</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
+</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
+</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+</span><span class='line'>    return [carrier isoCountryCode];
+</span><span class='line'>};
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
+</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以通过两个宏进行调用了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
+</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还有一种，是获取Device本地设置的地区。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面是获取本地设置的语言</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-08T22:54:47+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.com/blog/2014/02/08/ioshuo-qu-iso-country-code/" data-via="" data-counturl="http://ondev.github.com/blog/2014/02/08/ioshuo-qu-iso-country-code/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/08/amr-for-ios/" title="Previous Post: AMR for iOS">&laquo; AMR for iOS</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/08/ioschang-yong-hong/" title="Next Post: iOS常用宏">iOS常用宏 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
+  <p>研究软件安全技术</p> 
+  <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
+  <a href="https://github.com/ondev"><img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edccbnpos6j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <a href="mailto:topgifts@163.com"><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edccbys9f6j201c01cgld.jpg" width="48px" height="48px"></a>
+  <a href="/atom.xml"><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcccjezq1j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <li class="post">
+ 	 <a href="http://webscan.360.cn/index/checkwebsite/url/www.ifun.cc"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/92801c8d564b12eec8759b3f4bff4911"/></a>
+  </li>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (5)</a></li>
+<li class='category'><a href='/blog/categories/ios7/'>iOS7 (5)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10">
+</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013-2014 - Haven -
+  <span class="credit">Powered by Haven<a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

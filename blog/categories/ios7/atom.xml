@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: iOS7 | Haven's' Blog]]></title>
+  <link href="http://ondev.github.com/blog/categories/ios7/atom.xml" rel="self"/>
+  <link href="http://ondev.github.com/"/>
+  <updated>2014-02-09T11:55:57+08:00</updated>
+  <id>http://ondev.github.com/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[AMR for iOS7]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/amr-for-ios7/"/>
+    <updated>2014-02-09T11:12:12+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/amr-for-ios7</id>
+    <content type="html"><![CDATA[<p>前不久重新编译了opencore amr. 环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。</p>
+
+<p>Xcode5+iOS7已出来有一段时间了</p>
+
+<p>今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3</p>
+
+<p>还是以前的shell, 支持arm64平台。</p>
+
+<p>我编译了一份库，<a href="https://github.com/ondev/AMR-for-iOS7">传送门</a>。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7新知识汇总]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/"/>
+    <updated>2014-02-09T10:24:48+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/ios7xin-zhi-shi-hui-zong</id>
+    <content type="html"><![CDATA[<p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</p>
+
+<p>iOS7 CoreBluetooth</p>
+
+<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a><br>
+<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
+
+<p>iOS7 Feature</p>
+
+<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> <br>
+<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a><br>
+<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> <br>
+<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a><br>
+<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a><br>
+<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></p>
+
+<p>iBeacon</p>
+
+<p><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a> <br>
+<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a> <br>
+<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></p>
+
+<p>iOS7 Multipeer Connectivity</p>
+
+<p><a href="http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/">http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/</a></p>
+
+<p>Other iOS7 Tutorial</p>
+
+<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a><br>
+<a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a><br>
+<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a><br>
+<a href="http://www.objc.io/issue-5/">http://www.objc.io/issue-5/</a><br>
+<a href="http://www.captechconsulting.com/blog-tags/ios">iOS7 Tutorial Series</a></p>
+
+<p>如果你有更好的教程请补充。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7隐藏status Bar]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar/"/>
+    <updated>2014-02-09T00:49:11+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar</id>
+    <content type="html"><![CDATA[<p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<p>```
+[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];</p>
+
+<p>```</p>
+
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释： // Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system. 现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
+
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController. 这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<p>```
+&ndash; (UIStatusBarStyle)preferredStatusBarStyle
+{</p>
+
+<pre><code>return UIStatusBarStyleLightContent;
+//UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</code></pre>
+
+<p>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+}</p>
+
+<ul>
+<li>(BOOL)prefersStatusBarHidden
+{
+  return NO; //返回NO表示要显示，返回YES将hiden
+}
+```</li>
+</ul>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<p><code>
+[self setNeedsStatusBarAppearanceUpdate];
+</code></p>
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<p>```
+[UIView animateWithDuration:0.5 animations:^{</p>
+
+<pre><code>    [self setNeedsStatusBarAppearanceUpdate];
+}];
+</code></pre>
+
+<p>```
+现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[适配iOS7开发2]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/gua-pei-ios7kai-fa-2/"/>
+    <updated>2014-02-09T00:34:13+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/gua-pei-ios7kai-fa-2</id>
+    <content type="html"><![CDATA[<p>在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。 今天来介绍一下autolayout下的适配工作。<br></p>
+
+<p>首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard.<br>
+拖一个UIButton到view中。 由于开启了autoLayout， 在xcode4.6.3中，自动会有两个auto layout约束，分别是水平与垂直的约束：
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfz58ucgj20o00a40u0.jpg" alt="" /></p>
+
+<p>运行程序效果：
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcfzva8w4j20hs0vkjrm.jpg" alt="" /></p>
+
+<p>可以看到是垂直方向上距status bar底部是45px，距右边是186px.<br>
+现在我们用xcode5打开这个工程。会提示Upgrade storyboard，我们点击Upgrade. Upgrade后，你会发现，垂直方向上有变化了，约束是从顶部开始，不是从status bar底部开始计算。这也我们想要的结果不一样，我们还是希望约束是从status bar底部开始计算。<br>
+仔细看看storyboard中的View Controller， 你会发现，这儿多了两个东东，分别是Top Layout Guide，Bottom Layout Guide. <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg16hbatj20ny0adaal.jpg" alt="" /></p>
+
+<p>选在我们的button,按住control键，然后拖到Top Layout Guide上，在弹出的对话框选择Vertical spacing
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcg1x4fjij204n03bmx3.jpg" alt="" /></p>
+
+<p>这样又建立了一个垂直约束，你会发现这个约束是从Status bar底部开始计算的。这个约束有点像是我们需要的，
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg2i341lj20mt0a7wf4.jpg" alt="" /></p>
+
+<p>但是这个约束距status bar是25px,我们想要的是45px. 那只需要修改一下，将25px改为45px
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg36ji0xj20vk09fmy3.jpg" alt="" /></p>
+
+<p>你会发现有storyboard中有红色提示，这说明约束条件发生了冲突，因为垂直约束的值都为45，显示冲突了。由于我们只需要status bar底部开始计算的那个约束，所以我们将旧的那个删掉即可。
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg3vzbylj20nj0akt97.jpg" alt="" /></p>
+
+<p>现在分别选择iOS6/iOS7来运行。都是距status bar下面45px显示button. 适配工程完成。<br>
+顺便介绍一下xcode5中，用xib或storyboard布局的时候，preview iOS7与iOS7以前版本的效果。 快捷键：option+command+enter 打开Assistant editor,然后选择右边的automatic->preview->xxxxx(preview)
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg4xvwgnj20fi0fcabq.jpg" alt="" /></p>
+
+<p>然后在出现的画面下面有一个切换iOS7与以前版本的切换开关
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg5lktzgj20ca0l6t9c.jpg" alt="" /></p>
+
+<p>这样可以方例你实时的查看布局效果以适配不同版本的iOS.<br>
+最后： auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。</p>
+
+<p>参考：<a href="https://developer.apple.com/library/ios/qa/qa1797/_index.html">https://developer.apple.com/library/ios/qa/qa1797/_index.html</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[适配iOS7开发1]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/08/gua-pei-ios7kai-fa-1/"/>
+    <updated>2014-02-08T23:02:24+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/08/gua-pei-ios7kai-fa-1</id>
+    <content type="html"><![CDATA[<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。 本文所说的适配是指：用xcode5+iOS7sdk编译的程序能正常的运行在iOS6及以下的设备上。</p>
+
+<p>首先看一个例子，用xcode5创建一个Empty Application的工程， 然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController. 现在运行程序，将会看到一个空白页。 现在我们向里面加点东西。 在viewDidLoad中加入以下代码</p>
+
+<p><code>
+self.view.backgroundColor = [UIColor grayColor];
+UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+btn.frame = CGRectMake(0, 0, 100, 44);
+btn.layer.cornerRadius = 0;
+btn.layer.borderColor = [UIColor blackColor].CGColor;
+btn.layer.borderWidth = 1;
+[btn setTitle:@"Test" forState:UIControlStateNormal];
+[self.view addSubview:btn];
+</code></p>
+
+<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcdvo2yn4j20hs0vkgls.jpg" alt="" /></p>
+
+<p>注意没，是与statusBar重叠了。
+下面我们做一些修改，修改AppDelegate中的window的rootViewController值：</p>
+
+<p><code>
+ViewController *vc = [[ViewController alloc] init];
+UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+self.window.rootViewController = nav;
+</code></p>
+
+<p>再运行，程序，你将看到
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcdwv6tt7j20hs0vkq34.jpg" alt="" /></p>
+
+<p>我们的button到哪儿去了，其实它是被Navigation Bar档住了。细心的读者可能会问，你刚才不是说了Navigation Bar是半透明的吗？即然是半透明的为何我看不到button呢？ 的确Navigation Bar是半透明的，不过透明度不高，然后看不清后成的button.如果你不相信，你可以再一个黑色的view看看效果。将下面代码放入viewDidLoad</p>
+
+<p><code>
+UIView *v = [[UIView alloc] initWithFrame:CGRectMake(100, 0, 100, 70)];
+v.backgroundColor = [UIColor blackColor];
+[self.view addSubview:v];
+</code></p>
+
+<p>然后运行，看看效果：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcdyrmfs4j20hs0vkdg1.jpg" alt="" /></p>
+
+<p>现在可以清楚的看到Navigation Bar后面的view， 可以看到，UIViewController的view是全屏的坐标系了。<br>
+这样与我们iOS6与以前的坐标不一样了，以前是从Navigation Bar底部开始计算y值的，现在却是从Status Bar开始计算y值。<br>
+不要着急，苹果公司有解决方案：将下面代码放在viewDidLoad中</p>
+
+<p><code>
+self.edgesForExtendedLayout = UIRectEdgeNone;
+</code>
+再运行，看看效果：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcebwcwusj20hs0vkmxe.jpg" alt="" /></p>
+
+<p>现在坐标就是开始从Navigation Bar开始计算了。然而这种情况只适合在Navigation Bar的情况，如果没有Navigation Bar, 坐标仍然是从Status Bar顶部开始计算的。<br>
+如果底部有Tab Bar的情况呢，如果要兼容以前的frame设置，那么就需要设置UIViewController的edgesForExtendedLayout为UIRectEdgeNone。<br></p>
+
+<h3>代码如何适配iOS7</h3>
+
+<p>如果我们的代码没有用storyboard, 没有用xib,纯代码的情况，如果要适配iOS7，那么上面只是介绍了有Navigation Bar, Tool Bar的情况，如果只是单纯的View,那么我们的代码运行在iOS7上，会有向上20px偏移，这需要手动修改：</p>
+
+<p>```
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
+
+<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
+}
+</code></pre>
+
+<p>```</p>
+
+<p>这种方法需要对所有的UIViewController进行设置，比较麻烦，还有一种较为简单的方法，就是设置window，这样可以影响所有的subview, 参考自<a href="http://stackoverflow.com/questions/18294872/ios-7-status-bar-back-to-ios-6-style/18855464#18855464">stackoverflow</a></p>
+
+<p>```
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
+
+<pre><code>    [application setStatusBarStyle:UIStatusBarStyleLightContent];
+    self.window.clipsToBounds =YES;
+    self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
+
+    //Added on 19th Sep 2013
+    self.window.bounds = CGRectMake(0, 20, self.window.frame.size.width, self.window.frame.size.height);
+}
+</code></pre>
+
+<p>```</p>
+
+<p>下面是第二方法的运行效果：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edceixx3bmj20hs0vkaab.jpg" alt="" /></p>
+
+<p>不过第二种方法有问题，当你Rotate Simulator的时候你将会看到问题，Status Bar位置将不动。所以我不推荐用第二种方法，可以写一个UIViewController的category方法，然后调用方法一中的代码。这样对全工程进行修改以适配iOS7.</p>
+
+<h3>下面介绍一下xib的方法</h3>
+
+<p>新建一个UIViewController的子类，叫TestViewController，选中创建xib文件 然后，在在AppDelegate中将window的rootViewController换成我们新建的TestViewController实例，代码如下：</p>
+
+<p><code>
+TestViewController *vc2 = [[TestViewController alloc] init];
+self.window.rootViewController = vc2;
+</code></p>
+
+<p>用xcode4.6.3+ios6运行程序，
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edceozre4oj20hs0vkjrg.jpg" alt="" /></p>
+
+<p>现在我们在xib中拖入一个button，frame为(177, 0, 73, 44)
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edces84tk0j20ny0bhwg9.jpg" alt="" />
+由于iOS7中扁平化设计了，button没有了边框，等一下我们会用xcode5+ios7来运行本程序，为了更清楚的看清frame，在此我将button的边框显示出来，前面代码生成的button也是显示了边框的，我们关系一个UIButton的变量textBtn到代码中,并用代码再生成一个button</p>
+
+<p><code>
+_testBtn.layer.borderWidth = 1;
+UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+btn.frame = CGRectMake(0, 0, 100, 44);
+btn.layer.cornerRadius = 0;
+btn.layer.borderColor = [UIColor blackColor].CGColor;
+btn.layer.borderWidth = 1;
+[btn setTitle:@"Test" forState:UIControlStateNormal];
+[self.view addSubview:btn];
+</code></p>
+
+<p>运行程序，效果如下：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcf3ld7s9j20hs0vkjrp.jpg" alt="" /></p>
+
+<p>关闭xocde4.5与Simulator,然后用xcode5打开用iOS7的效果：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcf5nev3lj20hs0vk74i.jpg" alt="" /></p>
+
+<p>对比可以看出，iOS7是全屏的模式。 这样一来，从iOS6中升级过来的程序，布局就不正确了，有20px的偏移，上面介绍了用代码解决的方法，在这儿我们先用代码的方法来试试，在viewWillAppear中加入以下代码：</p>
+
+<p>```
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
+
+<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
+}
+</code></pre>
+
+<p>```</p>
+
+<p>再运行程序，效果如下：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcf8ajwtmj20hs0vkglu.jpg" alt="" /></p>
+
+<p>其中代码加入的button，下移了20px, 可是xib中拖入的button还是以status bar顶为y＝0开始计算frame.这可能是由于我们用到了auto layout, 所以xib有自己的frame计算方式. 代码生成的没有用auto layout约束，则受到了上面代码的影响。 我们在xocde5中选择xib，如果是xcode4.6创建的xib, xcode5会提示你升级，我们选择升级，如果你选择了忽略也没关系，可以在右边的open in下拉列表中选择xcode5. xcode5对xib做了很多优化，相比以前的xib，xcode5的xib文件不但小，而且功能更强大。 我们禁用xib的autolayout试试，再运行：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcf93kryej20hs0vkdg2.jpg" alt="" /></p>
+
+<p>这下由于没有auto layout的作用，都开始从status bar下面开始计算frame了。</p>
+
+<p>如果你的程序view全是xib，没有用代码生成，那么这儿还有一种解决方法，原因是xib中没有开启autolayout)不用代码控制self.view.bounds,所以我们先将viewWillAppear中的</p>
+
+<p>```
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
+
+<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
+}
+</code></pre>
+
+<p>```
+删掉。</p>
+
+<p>然后在在xcode5中选择我们的xib，并选择view中拖入的button，选择它的Size inspector,如图：
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcffnqm5uj20vo0cygmt.jpg" alt="" /></p>
+
+<p>细心的你可能发现了，右边较之前的版本多一些内容。多了一个ios6/ios7 Deltas.它就是用来做iOS6的xib适配到iOS7用的东西。 由于iOS7中，全屏的模式，所以我们需要设置我们的＋20,这样才从status bar底部开始显示。现在我们将我们的button的y值设为20.如图：<br>
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcfgu9hj7j208909tq3e.jpg" alt="" /></p>
+
+<p>xcode5+ios7运行效果：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcfj5xunjj20hs0vkgls.jpg" alt="" /></p>
+
+<p>由于它的frame是从20开始的，细心的读者可能会有疑问了，如果我们运行在iOS7以前的设备上，由于frame是从20开始的，不是我们想要的效果。的确是这样的，下面是iOS6上运行的效果：
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfll9kvjj20hs0vk74d.jpg" alt="" /></p>
+
+<p>是从status bar下面20px.
+也就是说适配工作不成功。 等等，刚才我们说的ios6/ios7 Deltas,现在是时候出场了。 现在我们在将Deltas中y值设为-20.<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfmtk3swj20780a3jrv.jpg" alt="" /></p>
+
+<p>再运行到iOS6的设备上，效果如下：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcfnfg3qmj20hs0vkaaa.jpg" alt="" /></p>
+
+<p>小结： 从iOS7以前的工程适配到iOS7，且没有用autolayout,<br>
+1.在viewDidLoad中加入以下代码完成短配工作</p>
+
+<p>```
+if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {</p>
+
+<pre><code>    self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
+}
+</code></pre>
+
+<p>```</p>
+
+<p>2.xib中用调整frame的y值+20，并设置Delats中y为-20. 如果是代码生成的view,则需要手动处理subview的frame的y值，所以都在原来基础上+20</p>
+
+<p>最后我们要记住一点：iOS7默认是全屏的。 所以得有两套值。</p>
+]]></content>
+  </entry>
+  
+</feed>

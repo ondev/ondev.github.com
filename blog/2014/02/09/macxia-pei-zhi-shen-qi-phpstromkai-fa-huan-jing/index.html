@@ -1,0 +1,394 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mac下配置神器PhpStrom开发环境 - Haven's' Blog</title>
+  <meta name="author" content="Haven">
+
+  
+  <meta name="description" content="php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。 安装我就不用多说了嘛。
+安装成功后，接下来就运行。
+运行后当然是创建一个了新工程，简单一点 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ondev.github.com/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Haven's' Blog</a></h1>
+  
+    <h2>此刻打吨，你将做梦；而此刻学习，你将圆梦</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ondev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Mac下配置神器PhpStrom开发环境</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:00:05+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
+
+<p>安装我就不用多说了嘛。<br>
+安装成功后，接下来就运行。<br>
+运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。 刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
+
+<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>    &lt;title&gt;PHP 测试&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着我们点击运行
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcxz9otroj20qf0ji413.jpg" alt="" /></p>
+
+<p>会出现一个对话框
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy003c4xj20iw0ikwgi.jpg" alt="" /></p>
+
+<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy0tu5m7j20dk0i1dgj.jpg" alt="" /></p>
+
+<p>看到了吧，解释器设置。 mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy1eg18oj20mx0ir3zn.jpg" alt="" /></p>
+
+<p>配置好后点击ok。</p>
+
+<p>配置好后，就有解释器了。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy2630cbj20d80htjrz.jpg" alt="" /></p>
+
+<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy319hyfj20ws0jcgns.jpg" alt="" /></p>
+
+<p>你将会看502错误，<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy3qaz2mj20qu07r0sv.jpg" alt="" /></p>
+
+<p>回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy4ae661j20lc07wdga.jpg" alt="" /></p>
+
+<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。 安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器： PhpStorm->Preferences->PHP 会来到解释器设置页<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy5cwpgaj20y40mvtbk.jpg" alt="" /></p>
+
+<p>设置我们安装的php解释器：/usr/local/php5/bin<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy5zj6k8j20mx0iqgmv.jpg" alt="" /></p>
+
+<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy6kpunej206r04imwy.jpg" alt="" /></p>
+
+<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
+
+<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:00:05+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/mac/'>Mac</a>, <a class='category' href='/blog/categories/php/'>PHP</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.com/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/" data-via="" data-counturl="http://ondev.github.com/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/09/an-zhuang-xiunolun-tan/" title="Previous Post: 安装xiuno论坛">&laquo; 安装xiuno论坛</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/09/amr-for-ios7/" title="Next Post: AMR for iOS7">AMR for iOS7 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
+  <p>研究软件安全技术</p> 
+  <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
+  <a href="https://github.com/ondev"><img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edccbnpos6j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <a href="mailto:topgifts@163.com"><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edccbys9f6j201c01cgld.jpg" width="48px" height="48px"></a>
+  <a href="/atom.xml"><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcccjezq1j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <li class="post">
+ 	 <a href="http://webscan.360.cn/index/checkwebsite/url/www.ifun.cc"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/92801c8d564b12eec8759b3f4bff4911"/></a>
+  </li>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (5)</a></li>
+<li class='category'><a href='/blog/categories/ios7/'>iOS7 (5)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10">
+</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013-2014 - Haven -
+  <span class="credit">Powered by Haven<a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iOS7隐藏status Bar - Haven's' Blog</title>
+  <meta name="author" content="Haven">
+
+  
+  <meta name="description" content="iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现 1
+[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Haven's' Blog</a></h1>
+  
+    <h2>此刻打吨，你将做梦；而此刻学习，你将圆梦</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ondev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">iOS7隐藏status Bar</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:49:11+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释： // Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system. 现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
+
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController. 这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)prefersStatusBarHidden
+</span><span class='line'>{
+</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
+</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:49:11+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios7/'>iOS7</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar/" data-via="" data-counturl="http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/02/09/gua-pei-ios7kai-fa-2/" title="Previous Post: 适配iOS7开发2">&laquo; 适配iOS7开发2</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/" title="Next Post: DeckView在iOS7中的bug">DeckView在iOS7中的bug &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
+  <p>研究软件安全技术</p> 
+  <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
+  <a href="https://github.com/ondev"><img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edccbnpos6j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <a href="mailto:topgifts@163.com"><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edccbys9f6j201c01cgld.jpg" width="48px" height="48px"></a>
+  <a href="/atom.xml"><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcccjezq1j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <li class="post">
+ 	 <a href="http://webscan.360.cn/index/checkwebsite/url/www.ifun.cc"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/92801c8d564b12eec8759b3f4bff4911"/></a>
+  </li>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (5)</a></li>
+<li class='category'><a href='/blog/categories/ios7/'>iOS7 (5)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10">
+</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013-2014 - Haven -
+  <span class="credit">Powered by Haven<a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

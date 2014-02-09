@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Mac | Haven's' Blog]]></title>
+  <link href="http://ondev.github.com/blog/categories/mac/atom.xml" rel="self"/>
+  <link href="http://ondev.github.com/"/>
+  <updated>2014-02-09T11:55:57+08:00</updated>
+  <id>http://ondev.github.com/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下配置神器PhpStrom开发环境]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/"/>
+    <updated>2014-02-09T11:00:05+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing</id>
+    <content type="html"><![CDATA[<p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
+
+<p>安装我就不用多说了嘛。<br>
+安装成功后，接下来就运行。<br>
+运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。 刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
+
+<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.</p>
+
+<p>```
+<html>
+<head></p>
+
+<pre><code>&lt;title&gt;PHP 测试&lt;/title&gt;
+</code></pre>
+
+<p></head>
+<body>
+&lt;?php echo &lsquo;<p>Hello World</p>&rsquo;; ?>
+</body>
+</html>
+```</p>
+
+<p>接着我们点击运行
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcxz9otroj20qf0ji413.jpg" alt="" /></p>
+
+<p>会出现一个对话框
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy003c4xj20iw0ikwgi.jpg" alt="" /></p>
+
+<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy0tu5m7j20dk0i1dgj.jpg" alt="" /></p>
+
+<p>看到了吧，解释器设置。 mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy1eg18oj20mx0ir3zn.jpg" alt="" /></p>
+
+<p>配置好后点击ok。</p>
+
+<p>配置好后，就有解释器了。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy2630cbj20d80htjrz.jpg" alt="" /></p>
+
+<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy319hyfj20ws0jcgns.jpg" alt="" /></p>
+
+<p>你将会看502错误，<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy3qaz2mj20qu07r0sv.jpg" alt="" /></p>
+
+<p>回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy4ae661j20lc07wdga.jpg" alt="" /></p>
+
+<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。 安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。<br></p>
+
+<p><code>
+curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5
+</code></p>
+
+<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器： PhpStorm->Preferences->PHP 会来到解释器设置页<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy5cwpgaj20y40mvtbk.jpg" alt="" /></p>
+
+<p>设置我们安装的php解释器：/usr/local/php5/bin<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy5zj6k8j20mx0iqgmv.jpg" alt="" /></p>
+
+<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy6kpunej206r04imwy.jpg" alt="" /></p>
+
+<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
+
+<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[安装xiuno论坛]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/09/an-zhuang-xiunolun-tan/"/>
+    <updated>2014-02-09T10:33:51+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/09/an-zhuang-xiunolun-tan</id>
+    <content type="html"><![CDATA[<p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind… 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
+
+<p>首先是下载<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">程序</a>. 解压放到你的站点目录。 然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限 修改权限命令：</p>
+
+<p><code>
+chmod -R 777 ./xiuno
+</code></p>
+
+<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
+
+<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。</p>
+
+<p><code>
+ sudo vim php.ini
+</code>
+如果是Mac系统，php.ini的目录是/etc, 下面有一个php.ini.default文件</p>
+
+<p><code>
+cp php.ini.default php.ini sudo vim php.ini
+</code></p>
+
+<p>一个vps如果要想建多个站，那么需要设置virtual host. 请先配置好virtual host，然后再进行站点安装，否则会出错，大家一定注意。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下常用工具]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/08/macxia-chang-yong-gong-ju/"/>
+    <updated>2014-02-08T22:46:53+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/08/macxia-chang-yong-gong-ju</id>
+    <content type="html"><![CDATA[<h2>在此列一些mac下的常用工具</h2>
+
+<p>Omnigraffle</p>
+
+<p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
+name:<a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#x70;&#x72;&#x61;&#116;&#101;&#x7a;&#64;&#114;&#x75;&#x6c;&#x65;&#46;&#110;&#x65;&#x74;">&#x70;&#114;&#x61;&#116;&#x65;&#122;&#64;&#x72;&#117;&#x6c;&#101;&#x2e;&#110;&#101;&#x74;</a> <br>
+sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
+
+<p>Charles</p>
+
+<p>支持Mac与Windows,通过代理的方式可以抓取http/https包。这样可以用来分析iOS上运行的程序的通信包。还可以修改通信的response包。</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Make iOS Framework]]></title>
+    <link href="http://ondev.github.com/blog/2014/02/08/make-ios-framework/"/>
+    <updated>2014-02-08T22:42:06+08:00</updated>
+    <id>http://ondev.github.com/blog/2014/02/08/make-ios-framework</id>
+    <content type="html"><![CDATA[<p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
+
+<h3>1.用模板</h3>
+
+<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
+
+<h3>2.用static library生成</h3>
+
+<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。 脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。 但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
+
+<h3>3.用bundle模拟</h3>
+
+<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
+
+<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
+]]></content>
+  </entry>
+  
+</feed>

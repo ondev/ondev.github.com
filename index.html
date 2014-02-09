@@ -1,1 +1,1038 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Haven's' Blog</title>
+  <meta name="author" content="Haven">
+
+  
+  <meta name="description" content="xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ondev.github.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Haven's' Blog</a></h1>
+  
+    <h2>此刻打吨，你将做梦；而此刻学习，你将圆梦</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:ondev.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/about">About</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
+
+<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
+图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
+当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
+
+<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
+
+<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
+首先在xcode中选中要进行配置的一行，如图<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
+然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
+粘贴的内容类似：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
+</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
+</span><span class='line'>
+</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
+
+<p>按照这个方法配置所有你想要配置的。</p>
+
+<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
+注意图中选中项。</p>
+
+<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
+
+<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
+可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
+
+<p>参考：
+<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>三行代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
+</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
+</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实只需要第一行即可。</p>
+
+<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:20:55+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/leveldb-for-ios/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
+
+<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
+首先就是下载源码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
+现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
+
+<p>定位到.cc.o的198行与.c.o的205行
+修改为：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
+</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
+</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
+</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
+</span><span class='line'>
+</span><span class='line'>.c.o:
+</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
+</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
+</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
+</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
+</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
+
+
+<p>保存，</p>
+
+<p>然后用命令进行编译</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
+
+
+<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
+
+<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
+创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
+<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
+
+<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+</span><span class='line'>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
+</span><span class='line'>THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
+</span><span class='line'>
+</span><span class='line'>//存储字符串
+</span><span class='line'>[db setString:@"成都" forKey:@"city"];
+</span><span class='line'>
+</span><span class='line'>//存储基本类型
+</span><span class='line'>[db setInt:13579 forKey:@"count"];
+</span><span class='line'>[db setFloat:30.2 forKey:@"temperature"];
+</span><span class='line'>
+</span><span class='line'>//存储Data数据
+</span><span class='line'>NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
+</span><span class='line'>[db setData:data forKey:@"data"];
+</span><span class='line'>
+</span><span class='line'>//存储任意对象(实现了NSCoding协议的对象)
+</span><span class='line'>[db setObject:[NSDate date] forKey:@"object"];
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>NSLog(@"城市:%@",[db stringForKey:@"city"]);
+</span><span class='line'>NSLog(@"数量:%d",[db intForKey:@"count"]);
+</span><span class='line'>NSLog(@"Data:%@",[db dataForKey:@"data"]);
+</span><span class='line'>NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
+
+<p>参考：
+<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
+<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
+<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:13:37+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
+
+<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
+
+<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
+
+<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files <br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcyawfkcmj20m00gfdh1.jpg" alt="" /></p>
+
+<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcybhsqt7j20ob0hrjtm.jpg" alt="" /></p>
+
+<p>接下来设置local http server. <br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcybzki5cj20od0hy3zw.jpg" alt="" /></p>
+
+<p>接下来设置http server的path<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyck053nj20oi0htta2.jpg" alt="" /></p>
+
+<p>接下来设置运行环境<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyd25tprj20tf0dl0u8.jpg" alt="" /></p>
+
+<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcydh8g8rj20te0io0u6.jpg" alt="" /> <br>
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcye01oj7j20t80do3zi.jpg" alt="" /></p>
+
+<p>名字任意，但是目前server后面是红色的，点击它后面的button进行设置 <br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyelh5jaj20l20ett9l.jpg" alt="" /></p>
+
+<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcyf2vhrsj20f109gt9o.jpg" alt="" /></p>
+
+<p>接着是http目录设置，如图 <br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyfkbk74j20tg0igdha.jpg" alt="" /></p>
+
+<p>这样你就可以通过PhoStorm运行或调试源码了。 <br>
+xiuno的调试宏记得打开哟。 <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcygccolzj21250d541f.jpg" alt="" /></p>
+
+<p>我也开始学习PHP写程序了. ^v^</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:12:12+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/amr-for-ios7/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前不久重新编译了opencore amr. 环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。</p>
+
+<p>Xcode5+iOS7已出来有一段时间了</p>
+
+<p>今天就来用iOS7＋Xcode5编译 opencore amr 0.1.3</p>
+
+<p>还是以前的shell, 支持arm64平台。</p>
+
+<p>我编译了一份库，<a href="https://github.com/ondev/AMR-for-iOS7">传送门</a>。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/">Mac下配置神器PhpStrom开发环境</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:00:05+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
+
+<p>安装我就不用多说了嘛。<br>
+安装成功后，接下来就运行。<br>
+运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。 刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
+
+<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
+</span><span class='line'>&lt;head&gt;
+</span><span class='line'>    &lt;title&gt;PHP 测试&lt;/title&gt;
+</span><span class='line'>&lt;/head&gt;
+</span><span class='line'>&lt;body&gt;
+</span><span class='line'>&lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt;
+</span><span class='line'>&lt;/body&gt;
+</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着我们点击运行
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcxz9otroj20qf0ji413.jpg" alt="" /></p>
+
+<p>会出现一个对话框
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy003c4xj20iw0ikwgi.jpg" alt="" /></p>
+
+<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy0tu5m7j20dk0i1dgj.jpg" alt="" /></p>
+
+<p>看到了吧，解释器设置。 mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy1eg18oj20mx0ir3zn.jpg" alt="" /></p>
+
+<p>配置好后点击ok。</p>
+
+<p>配置好后，就有解释器了。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy2630cbj20d80htjrz.jpg" alt="" /></p>
+
+<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy319hyfj20ws0jcgns.jpg" alt="" /></p>
+
+<p>你将会看502错误，<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy3qaz2mj20qu07r0sv.jpg" alt="" /></p>
+
+<p>回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy4ae661j20lc07wdga.jpg" alt="" /></p>
+
+<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。 安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5</span></code></pre></td></tr></table></div></figure>
+
+
+<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器： PhpStorm->Preferences->PHP 会来到解释器设置页<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy5cwpgaj20y40mvtbk.jpg" alt="" /></p>
+
+<p>设置我们安装的php解释器：/usr/local/php5/bin<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy5zj6k8j20mx0iqgmv.jpg" alt="" /></p>
+
+<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容<br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy6kpunej206r04imwy.jpg" alt="" /></p>
+
+<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
+
+<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/an-zhuang-xiunolun-tan/">安装xiuno论坛</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T10:33:51+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/an-zhuang-xiunolun-tan/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind… 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
+
+<p>首先是下载<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">程序</a>. 解压放到你的站点目录。 然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限 修改权限命令：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod -R 777 ./xiuno </span></code></pre></td></tr></table></div></figure>
+
+
+<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
+
+<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> sudo vim php.ini 
+</span><span class='line'> ``` 
+</span><span class='line'>如果是Mac系统，php.ini的目录是/etc, 下面有一个php.ini.default文件 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+cp php.ini.default php.ini sudo vim php.ini
+&#8220;`</p>
+
+<p>一个vps如果要想建多个站，那么需要设置virtual host. 请先配置好virtual host，然后再进行站点安装，否则会出错，大家一定注意。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T10:24:48+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</p>
+
+<p>iOS7 CoreBluetooth</p>
+
+<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a><br>
+<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
+
+<p>iOS7 Feature</p>
+
+<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> <br>
+<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a><br>
+<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> <br>
+<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a><br>
+<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a><br>
+<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></p>
+
+<p>iBeacon</p>
+
+<p><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a> <br>
+<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a> <br>
+<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></p>
+
+<p>iOS7 Multipeer Connectivity</p>
+
+<p><a href="http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/">http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/</a></p>
+
+<p>Other iOS7 Tutorial</p>
+
+<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a><br>
+<a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a><br>
+<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a><br>
+<a href="http://www.objc.io/issue-5/">http://www.objc.io/issue-5/</a><br>
+<a href="http://www.captechconsulting.com/blog-tags/ios">iOS7 Tutorial Series</a></p>
+
+<p>如果你有更好的教程请补充。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:52:32+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
+我iOS开发的朋友可能用过<a href="https://github.com/Inferis/ViewDeck">ViewDeck</a>这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。</p>
+
+<p>首先，我说说我用viewdeck的ui布局， window的rooterViewController是一个UITabBarViewController, 然后IIViewDeckController是UITabBarViewController的子view. 然后每一个IIViewDeckController的left,center是UINavigationController. 还有一点需要说明， UITabBar的background Image是自定义的一张图片。</p>
+
+<p>这样的布局在iOS6上显示正常的，在iOS7 3.5 retina的Simulator上显示也是正常的，但是在iPhone4s上显示不正确了，IIViewDeckController的left与center的view高度刚好少44。也就是说这个问题只会在设备上出现。我debug了一下，发现造成这个问题的原因是UITabBar自定义了背景图片，如果不自定义则ok.但是我们的程序是需要自定义UITabBar的背景的。由于我看到刚好少了44px,所以我就试着在IIViewDeckController的viewDidLoad中加了一句代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        self.extendedLayoutIncludesOpaqueBars = YES;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以成功运行了。 这句话的意思就是，是否延升到Tabbar区域。默认是NO的，由于Tabbar是44px,这样修改刚好可以fix这个问 但是最让我费解的就是在Simulator上没有这个问题，在Device上有问题，不过问题总算解决了。</p>
+
+<p>我也把我做的测试工程放到了<a href="https://github.com/ondev/TestViewDeck">GitHub</a>, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。 我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
+
+<p>如果你的测试结果与我不一样，请告诉我</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/09/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:49:11+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/ios7yin-cang-status-bar/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释： // Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system. 现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
+
+<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController. 这样就可以通过上面的方法来hiden status bar.</p>
+
+<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
+
+<p>只需要实现两个新方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
+</span><span class='line'>{
+</span><span class='line'>    return UIStatusBarStyleLightContent;
+</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
+</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)prefersStatusBarHidden
+</span><span class='line'>{
+</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
+
+<p>调用下面的一行代码将会触发上面的回调</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
+</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
+</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
+  <p>研究软件安全技术</p> 
+  <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
+  <a href="https://github.com/ondev"><img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edccbnpos6j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <a href="mailto:topgifts@163.com"><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edccbys9f6j201c01cgld.jpg" width="48px" height="48px"></a>
+  <a href="/atom.xml"><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcccjezq1j201c01cq2p.jpg" width="48px" height="48px"></a>
+  <li class="post">
+ 	 <a href="http://webscan.360.cn/index/checkwebsite/url/www.ifun.cc"><img border="0" src="http://img.webscan.360.cn/status/pai/hash/92801c8d564b12eec8759b3f4bff4911"/></a>
+  </li>
+</section>
+<section>
+  <h1>Categories</h1>
+  <ul id="categories">
+    <li class='category'><a href='/blog/categories/mac/'>Mac (4)</a></li>
+<li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
+<li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (5)</a></li>
+<li class='category'><a href='/blog/categories/ios7/'>iOS7 (5)</a></li>
+
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a>
+      </li>
+    
+  </ul>
+</section>
+<section>
+	<h1>访客地图</h1>
+    <div style="text-align:center; margin:0px; padding:0px; width:220px;"><embed src="http://rd.revolvermaps.com/f/g.swf" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" wmode="window" allowScriptAccess="always" allowNetworking="all" width="220" height="220" flashvars="m=0&amp;i=3yw1bh26d9v&amp;r=false&amp;v=true&amp;b=000000&amp;n=false&amp;s=220&amp;c=ff0000"></embed><br /><img src="http://jd.revolvermaps.com/c/3yw1bh26d9v.gif" width="1" height="1" alt="" /><a href="http://www.revolvermaps.com/?target=enlarge&amp;i=3yw1bh26d9v&amp;color=ff0000&amp;m=0">Large Visitor Globe</a></div>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/ondev">@ondev</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ondev',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+<section>
+<h1>Recent Comments</h1>
+<ul class="ds-recent-comments" data-num-items="10">
+</ul>
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013-2014 - Haven -
+  <span class="credit">Powered by Haven<a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
