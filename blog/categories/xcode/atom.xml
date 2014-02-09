@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Xcode | Haven's' Blog]]></title>
-  <link href="http://ondev.github.com/blog/categories/xcode/atom.xml" rel="self"/>
-  <link href="http://ondev.github.com/"/>
-  <updated>2014-02-09T11:55:57+08:00</updated>
-  <id>http://ondev.github.com/</id>
+  <link href="http://www.ifun.cc/blog/categories/xcode/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-02-09T12:09:11+08:00</updated>
+  <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Xcconfig文件的用法]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/"/>
     <updated>2014-02-09T11:24:19+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/09/xcconfigwen-jian-de-yong-fa</id>
+    <id>http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa</id>
     <content type="html"><![CDATA[<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
 
 <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>

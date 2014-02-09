@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: iOS7 | Haven's' Blog]]></title>
-  <link href="http://ondev.github.com/blog/categories/ios7/atom.xml" rel="self"/>
-  <link href="http://ondev.github.com/"/>
-  <updated>2014-02-09T11:55:57+08:00</updated>
-  <id>http://ondev.github.com/</id>
+  <link href="http://www.ifun.cc/blog/categories/ios7/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-02-09T12:09:11+08:00</updated>
+  <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[AMR for iOS7]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/09/amr-for-ios7/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/09/amr-for-ios7/"/>
     <updated>2014-02-09T11:12:12+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/09/amr-for-ios7</id>
+    <id>http://www.ifun.cc/blog/2014/02/09/amr-for-ios7</id>
     <content type="html"><![CDATA[<p>前不久重新编译了opencore amr. 环境是Xcode4.6.3+iOS6+opencore amr 0.1.3。</p>
 
 <p>Xcode5+iOS7已出来有一段时间了</p>
@@ -32,9 +32,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS7新知识汇总]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/"/>
     <updated>2014-02-09T10:24:48+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/09/ios7xin-zhi-shi-hui-zong</id>
+    <id>http://www.ifun.cc/blog/2014/02/09/ios7xin-zhi-shi-hui-zong</id>
     <content type="html"><![CDATA[<p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</p>
 
 <p>iOS7 CoreBluetooth</p>
@@ -75,9 +75,9 @@
   
   <entry>
     <title type="html"><![CDATA[iOS7隐藏status Bar]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/09/ios7yin-cang-status-bar/"/>
     <updated>2014-02-09T00:49:11+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/09/ios7yin-cang-status-bar</id>
+    <id>http://www.ifun.cc/blog/2014/02/09/ios7yin-cang-status-bar</id>
     <content type="html"><![CDATA[<p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
 
 <p>```
@@ -137,9 +137,9 @@
   
   <entry>
     <title type="html"><![CDATA[适配iOS7开发2]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/09/gua-pei-ios7kai-fa-2/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/09/gua-pei-ios7kai-fa-2/"/>
     <updated>2014-02-09T00:34:13+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/09/gua-pei-ios7kai-fa-2</id>
+    <id>http://www.ifun.cc/blog/2014/02/09/gua-pei-ios7kai-fa-2</id>
     <content type="html"><![CDATA[<p>在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。 今天来介绍一下autolayout下的适配工作。<br></p>
 
 <p>首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard.<br>
@@ -182,9 +182,9 @@
   
   <entry>
     <title type="html"><![CDATA[适配iOS7开发1]]></title>
-    <link href="http://ondev.github.com/blog/2014/02/08/gua-pei-ios7kai-fa-1/"/>
+    <link href="http://www.ifun.cc/blog/2014/02/08/gua-pei-ios7kai-fa-1/"/>
     <updated>2014-02-08T23:02:24+08:00</updated>
-    <id>http://ondev.github.com/blog/2014/02/08/gua-pei-ios7kai-fa-1</id>
+    <id>http://www.ifun.cc/blog/2014/02/08/gua-pei-ios7kai-fa-1</id>
     <content type="html"><![CDATA[<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。 本文所说的适配是指：用xcode5+iOS7sdk编译的程序能正常的运行在iOS6及以下的设备上。</p>
 
 <p>首先看一个例子，用xcode5创建一个Empty Application的工程， 然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController. 现在运行程序，将会看到一个空白页。 现在我们向里面加点东西。 在viewDidLoad中加入以下代码</p>

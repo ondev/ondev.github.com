@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://ondev.github.com/sitemap.xml 
+Sitemap: http://www.ifun.cc/sitemap.xml 
