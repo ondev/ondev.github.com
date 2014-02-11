@@ -1,3 +1,10 @@
+---
+layout: post
+title: "Mac下配置Mantis"
+date: 2014-02-11 11:24:19 +0800
+comments: true
+categories: [Mac]
+---
 
 安装我就不介绍了，与传统的php应用安装一样，放到对应的site目录下，然后在浏览器方问进行安装。
 安装成功后会有红色的warning,
