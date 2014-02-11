@@ -5,13 +5,14 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Mac下配置神器PhpStrom开发环境 - Haven's' Blog</title>
+  <title>Mac下配置Mantis - Haven's' Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。 安装我就不用多说了嘛。
-安装成功后，接下来就运行。
-运行后当然是创建一个了新工程，简单一点 &hellip;">
+  <meta name="description" content="安装我就不介绍了，与传统的php应用安装一样，放到对应的site目录下，然后在浏览器方问进行安装。
+安装成功后会有红色的warning, 去掉Warning 然后修改phi.ini 1
+sudo vim /etc/php.ini 中的值 1
+date.timezone = Asia/ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,7 +21,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/11/mac-xia-pei-zi-mantis">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
@@ -71,7 +72,7 @@
   
   <header>
     
-      <h1 class="entry-title">Mac下配置神器PhpStrom开发环境</h1>
+      <h1 class="entry-title">Mac下配置Mantis</h1>
     
     
       <p class="meta">
@@ -87,7 +88,7 @@
   
 
 
-<time datetime="2014-02-09T11:00:05+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-11T11:24:19+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2014</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -97,76 +98,51 @@
   </header>
 
 
-<div class="entry-content"><p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
+<div class="entry-content"><p>安装我就不介绍了，与传统的php应用安装一样，放到对应的site目录下，然后在浏览器方问进行安装。
+安装成功后会有红色的warning,</p>
 
-<p>安装我就不用多说了嘛。<br>
-安装成功后，接下来就运行。<br>
-运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。 刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
+<h3>去掉Warning</h3>
 
-<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;head&gt;
-</span><span class='line'>    &lt;title&gt;PHP 测试&lt;/title&gt;
-</span><span class='line'>&lt;/head&gt;
-</span><span class='line'>&lt;body&gt;
-</span><span class='line'>&lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着我们点击运行
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcxz9otroj20qf0ji413.jpg" alt="" /></p>
-
-<p>会出现一个对话框
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy003c4xj20iw0ikwgi.jpg" alt="" /></p>
-
-<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy0tu5m7j20dk0i1dgj.jpg" alt="" /></p>
-
-<p>看到了吧，解释器设置。 mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy1eg18oj20mx0ir3zn.jpg" alt="" /></p>
-
-<p>配置好后点击ok。</p>
-
-<p>配置好后，就有解释器了。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy2630cbj20d80htjrz.jpg" alt="" /></p>
-
-<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy319hyfj20ws0jcgns.jpg" alt="" /></p>
-
-<p>你将会看502错误，<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy3qaz2mj20qu07r0sv.jpg" alt="" /></p>
-
-<p>回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy4ae661j20lc07wdga.jpg" alt="" /></p>
-
-<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。 安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。<br></p>
+<p>然后修改phi.ini</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo vim /etc/php.ini</span></code></pre></td></tr></table></div></figure>
 
 
-<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器： PhpStorm->Preferences->PHP 会来到解释器设置页<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy5cwpgaj20y40mvtbk.jpg" alt="" /></p>
+<p>中的值</p>
 
-<p>设置我们安装的php解释器：/usr/local/php5/bin<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy5zj6k8j20mx0iqgmv.jpg" alt="" /></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date.timezone = Asia/Shanghai</span></code></pre></td></tr></table></div></figure>
 
-<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy6kpunej206r04imwy.jpg" alt="" /></p>
 
-<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
+<p>然后重启apache</p>
 
-<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>中文支持</h3>
+
+<p>修改config_defaults_inc.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$g_default_language      = 'chinese_simplified';</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想方便，你可以下载一键安装包
+<a href="https://bitnami.com/stack/mantis/installer">https://bitnami.com/stack/mantis/installer</a></p>
+
+<p>与svn的整合，我没有配置成功，还是介绍一下我所做的：
+用到了mantis的<a href="https://github.com/mantisbt-plugins/source-integration">插件</a>
+Mac自带的svn server，见参考。</p>
+
+<p>有成功配置的朋友，希望能分享一下。</p>
+
+<p>参考：
+<a href="http://xiayong.blog.51cto.com/6292420/1088790">Mac下配置svn server</a>
+<a href="https://github.com/mantisbt-plugins/source-integration">VCS plugs</a></p>
+
+<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
 </div>
 
 
@@ -189,12 +165,12 @@
   
 
 
-<time datetime="2014-02-09T11:00:05+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-11T11:24:19+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/mac/'>Mac</a>, <a class='category' href='/blog/categories/php/'>PHP</a>
+    <a class='category' href='/blog/categories/mac/'>Mac</a>
   
 </span>
 
@@ -203,7 +179,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/11/mac-xia-pei-zi-mantis/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/11/mac-xia-pei-zi-mantis/" >Tweet</a>
   
   
   
@@ -212,10 +188,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/09/an-zhuang-xiunolun-tan/" title="Previous Post: 安装xiuno论坛">&laquo; 安装xiuno论坛</a>
+        <a class="basic-alignment left" href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" title="Previous Post: xcconfig文件的用法">&laquo; xcconfig文件的用法</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/09/amr-for-ios7/" title="Next Post: AMR for iOS7">AMR for iOS7 &raquo;</a>
       
     </p>
   </footer>
