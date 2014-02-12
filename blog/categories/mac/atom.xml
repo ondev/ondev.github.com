@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Mac | Haven's' Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/mac/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-11T21:22:22+08:00</updated>
+  <updated>2014-02-12T20:05:53+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -53,13 +53,13 @@ $g_default_language     = 'chinese_simplified';
 用到了mantis的<a href="https://github.com/mantisbt-plugins/source-integration">插件</a>
 Mac自带的svn server，见参考。</p>
 
-<p>有成功配置的朋友，希望能分享一下。</p>
+<p>有成功配置的朋友，希望能分享一下。<br></p>
 
 <p>参考：
 <a href="http://xiayong.blog.51cto.com/6292420/1088790">Mac下配置svn server</a>
 <a href="https://github.com/mantisbt-plugins/source-integration">VCS plugs</a></p>
 
-<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
 ]]></content>
   </entry>
   
@@ -177,7 +177,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <p>Omnigraffle</p>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
-name:<a href="&#109;&#x61;&#105;&#108;&#116;&#111;&#58;&#x70;&#114;&#x61;&#x74;&#101;&#122;&#x40;&#114;&#x75;&#108;&#101;&#46;&#110;&#101;&#x74;">&#112;&#x72;&#x61;&#x74;&#101;&#x7a;&#x40;&#114;&#117;&#x6c;&#101;&#46;&#x6e;&#101;&#x74;</a> <br>
+name:<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#112;&#114;&#x61;&#116;&#x65;&#x7a;&#64;&#x72;&#x75;&#108;&#101;&#46;&#110;&#101;&#x74;">&#112;&#114;&#97;&#116;&#101;&#122;&#64;&#x72;&#x75;&#x6c;&#101;&#46;&#110;&#101;&#116;</a> <br>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <p>Charles</p>

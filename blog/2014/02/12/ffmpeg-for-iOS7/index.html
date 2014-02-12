@@ -5,16 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS Http URL Cache清除 - Haven's' Blog</title>
+  <title>FFmpeg for iOS7 - Haven's' Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="三行代码 1
-2
-3
-[[NSURLCache sharedURLCache] removeAllCachedResponses];
-[[NSURLCache sharedURLCache] setDiskCapacity:0];
-[[NSURLCache sharedURLCache] &hellip;">
+  <meta name="description" content="最近花了点时间来学习ffmpeg for iOS.
+首先是编译，在github上已有人写了编译脚本，我试了，能成功编译。 接着是使用ffmpeg, 在github上找到一个工程，不过没有更新了（需要ruby环境），它的rake在xcode5环境下是编译不过的。不过我已修改了它的编译脚本， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -23,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/09/ios-http-url-cacheqing-chu">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's' Blog" type="application/atom+xml">
@@ -74,7 +70,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS Http URL Cache清除</h1>
+      <h1 class="entry-title">FFmpeg for iOS7</h1>
     
     
       <p class="meta">
@@ -90,7 +86,7 @@
   
 
 
-<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-12T11:24:19+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -100,19 +96,17 @@
   </header>
 
 
-<div class="entry-content"><p>三行代码</p>
+<div class="entry-content"><p>最近花了点时间来学习ffmpeg for iOS.
+首先是编译，在<a href="https://github.com/kewlbear/FFmpeg-iOS-build-script">github</a>上已有人写了编译脚本，我试了，能成功编译。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
-</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
-</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
+<p>接着是使用ffmpeg, 在<a href="https://github.com/kolyvan/kxmovie">github</a>上找到一个工程，不过没有更新了（需要ruby环境），它的rake在xcode5环境下是编译不过的。不过我已修改了它的编译脚本，并支持xcode5+iOS7，rake可以直接使用, 大家可以在我的<a href="https://github.com/ondev/kxmovie">github</a>上下载， 我已向原作者提交了pull request。库没有加x86_64，需要的参考arm64自己加吧，这样也明白脚本编译的原理。 <br>
+这个工程比较不错用opengles+coreaudio的方式播放视频，值得大家研究研究。</p>
 
+<p>ffmpeg编译通过了，接下来就是ffmpeg的世界。</p>
 
-<p>其实只需要第一行即可。</p>
+<p>大家有问题可以给我留言交流也可以加我的qq群交流(疯狂IT人):93916004</p>
 
-<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
 </div>
 
 
@@ -135,12 +129,12 @@
   
 
 
-<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-12T11:24:19+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>iOS</a>
+    <a class='category' href='/blog/categories/ffmpeg/'>FFmpeg</a>, <a class='category' href='/blog/categories/ios7/'>iOS7</a>
   
 </span>
 
@@ -149,7 +143,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/09/ios-http-url-cacheqing-chu/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/09/ios-http-url-cacheqing-chu/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7/" >Tweet</a>
   
   
   
@@ -158,10 +152,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/09/leveldb-for-ios/" title="Previous Post: LevelDB for iOS">&laquo; LevelDB for iOS</a>
+        <a class="basic-alignment left" href="/blog/2014/02/11/mac-xia-pei-zi-mantis/" title="Previous Post: Mac下配置Mantis">&laquo; Mac下配置Mantis</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" title="Next Post: xcconfig文件的用法">xcconfig文件的用法 &raquo;</a>
       
     </p>
   </footer>

@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's' Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-11T21:22:22+08:00</updated>
+  <updated>2014-02-12T20:05:53+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[FFmpeg for iOS7]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7/"/>
+    <updated>2014-02-12T11:24:19+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7</id>
+    <content type="html"><![CDATA[<p>最近花了点时间来学习ffmpeg for iOS.
+首先是编译，在<a href="https://github.com/kewlbear/FFmpeg-iOS-build-script">github</a>上已有人写了编译脚本，我试了，能成功编译。</p>
+
+<p>接着是使用ffmpeg, 在<a href="https://github.com/kolyvan/kxmovie">github</a>上找到一个工程，不过没有更新了（需要ruby环境），它的rake在xcode5环境下是编译不过的。不过我已修改了它的编译脚本，并支持xcode5+iOS7，rake可以直接使用, 大家可以在我的<a href="https://github.com/ondev/kxmovie">github</a>上下载， 我已向原作者提交了pull request。库没有加x86_64，需要的参考arm64自己加吧，这样也明白脚本编译的原理。 <br>
+这个工程比较不错用opengles+coreaudio的方式播放视频，值得大家研究研究。</p>
+
+<p>ffmpeg编译通过了，接下来就是ffmpeg的世界。</p>
+
+<p>大家有问题可以给我留言交流也可以加我的qq群交流(疯狂IT人):93916004</p>
+
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac下配置Mantis]]></title>
@@ -56,13 +75,13 @@
 用到了mantis的<a href="https://github.com/mantisbt-plugins/source-integration">插件</a>
 Mac自带的svn server，见参考。</p>
 
-<p>有成功配置的朋友，希望能分享一下。</p>
+<p>有成功配置的朋友，希望能分享一下。<br></p>
 
 <p>参考：
 <a href="http://xiayong.blog.51cto.com/6292420/1088790">Mac下配置svn server</a>
 <a href="https://github.com/mantisbt-plugins/source-integration">VCS plugs</a></p>
 
-<blockquote><p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p></blockquote>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
 ]]></content>
   </entry>
   
@@ -950,7 +969,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <p>Omnigraffle</p>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
-name:<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#112;&#114;&#97;&#116;&#x65;&#122;&#64;&#x72;&#117;&#x6c;&#x65;&#x2e;&#110;&#x65;&#x74;">&#x70;&#114;&#x61;&#x74;&#101;&#122;&#64;&#114;&#x75;&#108;&#101;&#46;&#110;&#101;&#116;</a> <br>
+name:<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#114;&#x75;&#x6c;&#x65;&#46;&#110;&#x65;&#116;">&#112;&#x72;&#x61;&#x74;&#x65;&#122;&#x40;&#114;&#117;&#x6c;&#101;&#x2e;&#x6e;&#x65;&#x74;</a> <br>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <p>Charles</p>
@@ -971,29 +990,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 <p>用这门语言可以快速开发demo产品，特别是对于移动应用的开发。</p>
 
 <p>下一步就要经常用用python来处理生活中的问题。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Make iOS Framework]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/08/make-ios-framework/"/>
-    <updated>2014-02-08T22:42:06+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/08/make-ios-framework</id>
-    <content type="html"><![CDATA[<p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
-
-<h3>1.用模板</h3>
-
-<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
-
-<h3>2.用static library生成</h3>
-
-<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。 脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。 但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
-
-<h3>3.用bundle模拟</h3>
-
-<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
-
-<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
 ]]></content>
   </entry>
   

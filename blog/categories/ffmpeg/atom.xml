@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: FFmpeg | Haven's' Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/ffmpeg/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-02-12T20:05:53+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[FFmpeg for iOS7]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7/"/>
+    <updated>2014-02-12T11:24:19+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/12/ffmpeg-for-iOS7</id>
+    <content type="html"><![CDATA[<p>最近花了点时间来学习ffmpeg for iOS.
+首先是编译，在<a href="https://github.com/kewlbear/FFmpeg-iOS-build-script">github</a>上已有人写了编译脚本，我试了，能成功编译。</p>
+
+<p>接着是使用ffmpeg, 在<a href="https://github.com/kolyvan/kxmovie">github</a>上找到一个工程，不过没有更新了（需要ruby环境），它的rake在xcode5环境下是编译不过的。不过我已修改了它的编译脚本，并支持xcode5+iOS7，rake可以直接使用, 大家可以在我的<a href="https://github.com/ondev/kxmovie">github</a>上下载， 我已向原作者提交了pull request。库没有加x86_64，需要的参考arm64自己加吧，这样也明白脚本编译的原理。 <br>
+这个工程比较不错用opengles+coreaudio的方式播放视频，值得大家研究研究。</p>
+
+<p>ffmpeg编译通过了，接下来就是ffmpeg的世界。</p>
+
+<p>大家有问题可以给我留言交流也可以加我的qq群交流(疯狂IT人):93916004</p>
+
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
