@@ -40,10 +40,10 @@ $g_default_language		= 'chinese_simplified';
 用到了mantis的[插件](https://github.com/mantisbt-plugins/source-integration)
 Mac自带的svn server，见参考。
 
-有成功配置的朋友，希望能分享一下。
+有成功配置的朋友，希望能分享一下。<br>
 
 参考：
 [Mac下配置svn server](http://xiayong.blog.51cto.com/6292420/1088790)
 [VCS plugs](https://github.com/mantisbt-plugins/source-integration)
 
-> Written with [StackEdit](https://stackedit.io/).
+Written with [StackEdit](https://stackedit.io/).
