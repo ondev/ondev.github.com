@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's' Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-12T20:05:53+08:00</updated>
+  <updated>2014-02-17T21:44:32+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS7计算字符串所占空间大小]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/"/>
+    <updated>2014-02-17T21:42:20+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao</id>
+    <content type="html"><![CDATA[<p>iOS7以前计算NSString所占size的API是NSString的成员方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在iOS7中如果用这个方法计算，计算出来的值要比实际值小，所以可能出现显示不完全的效果。这是因为在iOS7中，上面这个方法已被新的API替代了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面的代码是一个示例，大家可以做为参考：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGSize expectedLabelSize = CGSizeZero;
+</span><span class='line'>    
+</span><span class='line'>    if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+</span><span class='line'>        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+</span><span class='line'>        NSDictionary *attributes = @{NSFontAttributeName:sideLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+</span><span class='line'>        
+</span><span class='line'>        expectedLabelSize = [sideLabel.text boundingRectWithSize:CGSizeMake(260, 999) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+</span><span class='line'>    }
+</span><span class='line'>    else {
+</span><span class='line'>        expectedLabelSize = [sideLabel.text sizeWithFont:sideLabel.font
+</span><span class='line'>                                       constrainedToSize:CGSizeMake(260, 999)
+</span><span class='line'>                                           lineBreakMode:sideLabel.lineBreakMode];
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就正确了。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[FFmpeg for iOS7]]></title>
@@ -969,27 +1022,12 @@ cp php.ini.default php.ini sudo vim php.ini
 <p>Omnigraffle</p>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
-name:<a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#58;&#x70;&#x72;&#97;&#x74;&#101;&#122;&#x40;&#114;&#x75;&#x6c;&#x65;&#46;&#110;&#x65;&#116;">&#112;&#x72;&#x61;&#x74;&#x65;&#122;&#x40;&#114;&#117;&#x6c;&#101;&#x2e;&#x6e;&#x65;&#x74;</a> <br>
+name:<a href="&#109;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#112;&#114;&#97;&#x74;&#101;&#122;&#x40;&#114;&#117;&#108;&#x65;&#x2e;&#110;&#x65;&#x74;">&#x70;&#x72;&#x61;&#x74;&#x65;&#x7a;&#64;&#114;&#117;&#108;&#101;&#x2e;&#x6e;&#101;&#x74;</a> <br>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <p>Charles</p>
 
 <p>支持Mac与Windows,通过代理的方式可以抓取http/https包。这样可以用来分析iOS上运行的程序的通信包。还可以修改通信的response包。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Python语法快速学习]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/08/pythonyu-fa-kuai-su-xue-xi/"/>
-    <updated>2014-02-08T22:45:10+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/08/pythonyu-fa-kuai-su-xue-xi</id>
-    <content type="html"><![CDATA[<p>最近学习了一下，python，算是如门了吧。 看的是：<a href="http://woodpecker.org.cn/abyteofpython_cn/chinese/">简明python教程</a>。 这个教程主要讲的是python的语法，由于我比较熟悉c/c++，所以python的语法很轻松。 看了python，才知道python这语言的语法是如此的简单。我用过java,javascript, erlang, lua, php, python是最好用的一门语言了，有一种相见恨晚的感觉。</p>
-
-<p>最爽的就是不需要{}来说明作用域 其它的都与c/c++差不多了。</p>
-
-<p>用这门语言可以快速开发demo产品，特别是对于移动应用的开发。</p>
-
-<p>下一步就要经常用用python来处理生活中的问题。</p>
 ]]></content>
   </entry>
   
