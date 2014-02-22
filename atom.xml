@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T15:10:07+08:00</updated>
+  <updated>2014-02-22T15:58:33+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -18,9 +18,14 @@
     <link href="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/"/>
     <updated>2014-02-22T14:38:26+08:00</updated>
     <id>http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao</id>
-    <content type="html"><![CDATA[<p>今天要给大家介绍两种app重新签名的方法。<br></p>
+    <content type="html"><![CDATA[<p>今天要给大家介绍两种app重新签名的方法, 做一下记录方便需要的朋友。<br>
+1. <a href="#md-1">通过Xcode重答名</a> <br>
+2. <a href="#md-2">直接修改已签名的iPA文件</a></p>
 
-<p>1.通过Xcode重答名</p>
+<!-- more -->
+
+
+<h3>1.<a name="md-1" id="md-1">通过Xcode重答名</a></h3>
 
 <p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
 
@@ -29,7 +34,7 @@
 
 <p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
 
-<p>2.直接修改已签名的iPA文件。 <br></p>
+<h3>2.<a name="md-2" id="md-2">直接修改已签名的iPA文件</a></h3>
 
 <p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
 
@@ -151,6 +156,9 @@ f.重新zip为iPA文件<br></p>
 
 
 <blockquote><p>由于只是一个demo，所以命名这些都是随意从简。</p></blockquote>
+
+<!-- more -->
+
 
 <p>首先创建一个Single Page的工程，我命名为CellHeightDemo</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T15:10:07+08:00</updated>
+  <updated>2014-02-22T15:58:33+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,102 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App重新签名方法介绍]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/"/>
+    <updated>2014-02-22T14:38:26+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao</id>
+    <content type="html"><![CDATA[<p>今天要给大家介绍两种app重新签名的方法, 做一下记录方便需要的朋友。<br>
+1. <a href="#md-1">通过Xcode重答名</a> <br>
+2. <a href="#md-2">直接修改已签名的iPA文件</a></p>
+
+<!-- more -->
+
+
+<h3>1.<a name="md-1" id="md-1">通过Xcode重答名</a></h3>
+
+<p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
+
+<p>在Xcode中archive成功后，点击Distribute后,我们选择第三个选项：Export as Xcode Archive:<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eds5kjya4pj20o30h4767.jpg" alt="" /><br></p>
+
+<p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
+
+<h3>2.<a name="md-2" id="md-2">直接修改已签名的iPA文件</a></h3>
+
+<p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
+
+<p>下面直接说步骤：<br>
+a.解压iPA文件<br>
+b.删掉旧的签名文件<br>
+c.拷贝新的provision profile替换旧的embedded.mobileprovision<br>
+d.用codesign命令重签名<br>
+f.重新zip为iPA文件<br></p>
+
+<p>下面有一个脚本，它完成了上面5步骤：<br></p>
+
+<p>```</p>
+
+<h1>!/bin/sh</h1>
+
+<p>if ! ([ -f &ldquo;$1&rdquo; ]); then
+echo \&ldquo;${1}\"文件不存在
+exit
+fi
+ipaName=${1%.ipa}
+if [ &rdquo;$ipaName" = &ldquo;$1&rdquo; ]; then
+echo \&ldquo;${1}\"不是ipa文件
+exit
+fi</p>
+
+<h2>step 1, unzip ipa file</h2>
+
+<p>unzip ${ipaName}.ipa</p>
+
+<h2>step 2, remove old codesign</h2>
+
+<p>rm -rf Payload/*.app/_CodeSignature/</p>
+
+<h2>step 3, copy new provision profile</h2>
+
+<p>cp 123.mobileprovision Payload/*.app/embedded.mobileprovision</p>
+
+<h2>step 4, codesign with new certificate and provision</h2>
+
+<p>(/usr/bin/codesign -f -s &ldquo;iPhone Developer: XXXXX (XXX)&rdquo; &mdash;resource-rules Payload/<em>.app/ResourceRules.plist Payload/</em>.app/) || {</p>
+
+<h2>if code sign error, will to here</h2>
+
+<p>echo failed
+rm -rf Payload/
+exit
+}</p>
+
+<h2>step 5, zip it</h2>
+
+<p>zip -r ${ipaName}abc.ipa Payload/
+rm -rf Payload/</p>
+
+<p>```</p>
+
+<p>需要注意脚本中有两处需要你们手动修改，第一处是123.mobileprovision，这个文件需要与脚本放同一目录，第二处是XXXXX (XXX), 这儿XXX改为你keychian里有的证书，只需要改XXX, 括号保留。<br></p>
+
+<h3>用法</h3>
+
+<p>保存并修改上面的脚本为resign.sh，再将需要重签名的xxx.ipa与123.mobileprovision文件置于同一目录。然后运行命令：<br></p>
+
+<p><code>
+chmod 777 resign.sh
+./resign.sh xxx.ipa
+</code>
+成功后，在目录里会多一个重签名的abc.ipa<br></p>
+
+<hr />
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[动态计算UITableViewCell高度详解]]></title>
@@ -35,6 +131,9 @@
 
 
 <blockquote><p>由于只是一个demo，所以命名这些都是随意从简。</p></blockquote>
+
+<!-- more -->
+
 
 <p>首先创建一个Single Page的工程，我命名为CellHeightDemo</p>
 
@@ -472,62 +571,6 @@ NSLog(@"对象:%@",[db objectForKey:@"object"]);
     <content type="html"><![CDATA[<p>最近整理了一下代码，发现iOS下开发用过不少宏。在此汇总一下，大部份来自网络，方便大家使用。</p>
 
 <p><a href="https://gist.github.com/ondev/6714742#file-gistfile1-txt">传送门</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS获取ISO Country Code]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/08/ioshuo-qu-iso-country-code/"/>
-    <updated>2014-02-08T22:54:47+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/08/ioshuo-qu-iso-country-code</id>
-    <content type="html"><![CDATA[<p>通过SIM卡获取country code,下面是代码片段</p>
-
-<p>```
-NSString <em>(^CountryNameByISO)(NSString </em>) = ^(NSString *iso) {</p>
-
-<pre><code>NSLocale *locale = [NSLocale currentLocale];
-return [locale displayNameForKey:NSLocaleCountryCode value:iso];
-</code></pre>
-
-<p>};</p>
-
-<p>NSString *(^ISOCountryCodeByCarrier)() = ^() {</p>
-
-<pre><code>CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-return [carrier isoCountryCode];
-</code></pre>
-
-<p>};</p>
-
-<h1>define SIMISO                  ISOCountryCodeByCarrier()</h1>
-
-<h1>define CountryNameFromISO(iso) CountryNameByISO(iso)</h1>
-
-<p>```</p>
-
-<p>这样就可以通过两个宏进行调用了</p>
-
-<p><code>
-NSString *iso  ＝ ISOCountryCodeByCarrier();
-NSString *name ＝ CountryNameFromISO(iso);
-</code></p>
-
-<p>还有一种，是获取Device本地设置的地区。</p>
-
-<p>```</p>
-
-<h1>define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</h1>
-
-<p>```</p>
-
-<p>下面是获取本地设置的语言</p>
-
-<p>```</p>
-
-<h1>define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</h1>
-
-<p>```</p>
 ]]></content>
   </entry>
   

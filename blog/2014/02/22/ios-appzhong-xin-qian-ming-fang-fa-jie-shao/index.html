@@ -9,8 +9,8 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="今天要给大家介绍两种app重新签名的方法。 1.通过Xcode重答名 用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive. 在Xcode中archive成功后， &hellip;">
-  
+  <meta name="description" content="教大家如何重签名APP">
+  <meta name="keywords" content="iOS,App签名,重签名,resign,codesign">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -95,9 +95,14 @@
   </header>
 
 
-<div class="entry-content"><p>今天要给大家介绍两种app重新签名的方法。<br></p>
+<div class="entry-content"><p>今天要给大家介绍两种app重新签名的方法, 做一下记录方便需要的朋友。<br>
+1. <a href="#md-1">通过Xcode重答名</a> <br>
+2. <a href="#md-2">直接修改已签名的iPA文件</a></p>
 
-<p>1.通过Xcode重答名</p>
+<!-- more -->
+
+
+<h3>1.<a name="md-1" id="md-1">通过Xcode重答名</a></h3>
 
 <p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
 
@@ -106,7 +111,7 @@
 
 <p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
 
-<p>2.直接修改已签名的iPA文件。 <br></p>
+<h3>2.<a name="md-2" id="md-2">直接修改已签名的iPA文件</a></h3>
 
 <p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
 
@@ -228,6 +233,12 @@ f.重新zip为iPA文件<br></p>
 <time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
       
 
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
+  
+</span>
+
 
     </p>
     
@@ -297,7 +308,7 @@ var duoshuoQuery = {short_name:"ifun"};
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (6)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (7)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
