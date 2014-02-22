@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T21:03:35+08:00</updated>
+  <updated>2014-02-22T21:18:36+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -18,13 +18,17 @@
     <link href="http://www.ifun.cc/blog/2014/02/08/pythonyu-fa-kuai-su-xue-xi/"/>
     <updated>2014-02-08T22:45:10+08:00</updated>
     <id>http://www.ifun.cc/blog/2014/02/08/pythonyu-fa-kuai-su-xue-xi</id>
-    <content type="html"><![CDATA[<p>最近学习了一下，python，算是如门了吧。 看的是：<a href="http://woodpecker.org.cn/abyteofpython_cn/chinese/">简明python教程</a>。 这个教程主要讲的是python的语法，由于我比较熟悉c/c++，所以python的语法很轻松。 看了python，才知道python这语言的语法是如此的简单。我用过java,javascript, erlang, lua, php, python是最好用的一门语言了，有一种相见恨晚的感觉。</p>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>最近学习了一下，python，算是如门了吧。 看的是：<a href="http://woodpecker.org.cn/abyteofpython_cn/chinese/">简明python教程</a>。 这个教程主要讲的是python的语法，由于我比较熟悉c/c++，所以python的语法很轻松。 看了python，才知道python这语言的语法是如此的简单。我用过java,javascript, erlang, lua, php, python是最好用的一门语言了，有一种相见恨晚的感觉。</p>
 
 <p>最爽的就是不需要{}来说明作用域 其它的都与c/c++差不多了。</p>
 
 <p>用这门语言可以快速开发demo产品，特别是对于移动应用的开发。</p>
 
 <p>下一步就要经常用用python来处理生活中的问题。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>
   </entry>
   
