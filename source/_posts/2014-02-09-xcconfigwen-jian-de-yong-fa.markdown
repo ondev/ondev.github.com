@@ -6,6 +6,8 @@ comments: true
 categories: [Xcode]
 ---
 
+>本站QQ技术群:<疯狂IT人>93916004
+
 xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。
 
 ![](http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg)<br>
@@ -43,3 +45,5 @@ IPHONEOS_DEPLOYMENT_TARGET = 6.0
 
 参考：
 [http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file](http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file)
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

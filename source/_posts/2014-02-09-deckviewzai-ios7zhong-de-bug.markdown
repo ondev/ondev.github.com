@@ -5,6 +5,7 @@ date: 2014-02-09 00:52:32 +0800
 comments: true
 categories: 
 ---
+>本站QQ技术群:<疯狂IT人>93916004
 
 前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
 我iOS开发的朋友可能用过[ViewDeck](https://github.com/Inferis/ViewDeck)这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。
@@ -25,3 +26,5 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
 我也把我做的测试工程放到了[GitHub](https://github.com/ondev/TestViewDeck), 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。 我的开发环境是:Version 5.0 (5A1413) + iOS7
 
 如果你的测试结果与我不一样，请告诉我
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

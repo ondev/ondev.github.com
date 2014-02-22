@@ -5,6 +5,7 @@ date: 2014-02-12 11:24:19 +0800
 comments: true
 categories: [iOS7, FFmpeg]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
 
 最近花了点时间来学习ffmpeg for iOS.
 首先是编译，在[github](https://github.com/kewlbear/FFmpeg-iOS-build-script)上已有人写了编译脚本，我试了，能成功编译。
@@ -17,4 +18,4 @@ ffmpeg编译通过了，接下来就是ffmpeg的世界。
 大家有问题可以给我留言交流也可以加我的qq群交流(疯狂IT人):93916004
 
 
-Written with [StackEdit](https://stackedit.io/).
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

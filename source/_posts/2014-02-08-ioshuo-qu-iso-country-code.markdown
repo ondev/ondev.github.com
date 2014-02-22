@@ -5,6 +5,8 @@ date: 2014-02-08 22:54:47 +0800
 comments: true
 categories: [iOS]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
+
 通过SIM卡获取country code,下面是代码片段
 
 ```
@@ -42,3 +44,5 @@ NSString *name ＝ CountryNameFromISO(iso);
 ```
 #define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]
 ```
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

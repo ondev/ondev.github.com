@@ -5,7 +5,7 @@ date: 2014-02-08 22:42:06 +0800
 comments: true
 categories: [Mac]
 ---
-
+>本站QQ技术群:<疯狂IT人>93916004
 
 制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。
 
@@ -22,3 +22,5 @@ categories: [Mac]
 这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看[教程](http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html)
 
 这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

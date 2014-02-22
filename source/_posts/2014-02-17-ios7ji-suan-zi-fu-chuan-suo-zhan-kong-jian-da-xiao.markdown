@@ -6,6 +6,8 @@ comments: true
 categories: [iOS7]
 ---
 
+>本站QQ技术群:<疯狂IT人>93916004
+
 iOS7以前计算NSString所占size的API是NSString的成员方法
 
 ```
@@ -38,3 +40,5 @@ CGSize expectedLabelSize = CGSizeZero;
 ```
 
 这样就正确了。
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

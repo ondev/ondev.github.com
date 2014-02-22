@@ -5,7 +5,7 @@ date: 2014-02-09 10:24:48 +0800
 comments: true
 categories: [iOS7]
 ---
-
+>本站QQ技术群:<疯狂IT人>93916004
 
 iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。
 
@@ -42,3 +42,5 @@ Other iOS7 Tutorial
 [iOS7 Tutorial Series](http://www.captechconsulting.com/blog-tags/ios)
 
 如果你有更好的教程请补充。
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

@@ -5,6 +5,7 @@ date: 2014-02-09 00:34:13 +0800
 comments: true
 categories: [iOS7]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
 
 在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。 今天来介绍一下autolayout下的适配工作。<br>
 
@@ -43,3 +44,5 @@ categories: [iOS7]
 最后： auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。
 
 参考：[https://developer.apple.com/library/ios/qa/qa1797/_index.html](https://developer.apple.com/library/ios/qa/qa1797/_index.html)
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

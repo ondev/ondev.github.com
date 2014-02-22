@@ -5,6 +5,8 @@ date: 2014-02-09 11:00:05 +0800
 comments: true
 categories: [Mac, PHP]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
+
 php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。
 
 安装我就不用多说了嘛。<br>
@@ -68,3 +70,5 @@ curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5
 如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装[Xdebug helper](https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc)
 
 到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

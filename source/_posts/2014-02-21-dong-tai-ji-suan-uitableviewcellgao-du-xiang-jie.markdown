@@ -6,6 +6,8 @@ comments: true
 categories: [iOS]
 ---
 
+>本站QQ技术群:<疯狂IT人>93916004
+
 不知道大家有没有发现，在iOS APP开发过程中，UITableView是我们显示内容常见的控件，本人觉得它是UIKit中最复杂的一个控件。今天要向大家介绍的就是如何动态计算UITableViewCell高度的一经验与技巧，在此做一些总结方便朋友们查阅。<br>
 
 >同时也欢迎广大iOS技术人员加入技术开发群：<疯狂IT人>93916004，众人拾柴火焰高，大家一起讨论研究。<br>
@@ -21,10 +23,12 @@ categories: [iOS]
 
 >由于只是一个demo，所以命名这些都是随意从简。
 
+<!-- more -->
+
 首先创建一个Single Page的工程，我命名为CellHeightDemo
 
 
-###<a name="md-1" id="md-1">Auto Layout with UILabel in UITableViewCell</a>
+###<a name="md-1" id="md-1">1. Auto Layout with UILabel in UITableViewCell</a>
 创建一个空的xib,命名为C1.xib, 然后拖入一个UITableViewCell控件。接着创建一个UITableViewCell的子类，命名为C1类。然后在C1.xib中，将与C1类进行关联。别给我说你不会关联，如果不会那看下图你就明白了。^V^<br>
 ![](http://ww1.sinaimg.cn/large/6bf526ffgw1edryoxqtp4j207806v0sx.jpg)<br>
 只需要在Class那里写入关联的类名C1即可。<br><br>
@@ -106,7 +110,7 @@ self.prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"C1"];
 ![](http://ww2.sinaimg.cn/large/6bf526ffgw1eds2k4ighsj208y0ejdgc.jpg)
 
 
-###<a name="md-2" id="md-2">Auto Layout with UITextView in UITableViewCell</a>
+###<a name="md-2" id="md-2">2. Auto Layout with UITextView in UITableViewCell</a>
 本小段教程将介绍UITextView在cell中计算高度需要注意的地方。同样参考上面我们创建一个C2.xib, UITableViewCell的子类C2,并关联C2.xib与C2类。并在C2.xib中对其布局，同样使用了auto layout. 布局如下图：<br>
 ![](http://ww4.sinaimg.cn/large/6bf526ffgw1eds2o28t18j20vp0ej41f.jpg)
 
@@ -136,7 +140,7 @@ self.prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"C1"];
 ![](http://ww3.sinaimg.cn/large/6bf526ffgw1eds36rqilej208w0cpt94.jpg)
 
 
-###<a name="md-3" id="md-3">Manual Layout with UILabel in UITableViewCell</a>
+###<a name="md-3" id="md-3">3. Manual Layout with UILabel in UITableViewCell</a>
 本小段教程将介绍UILabel在Manual layout cell中计算高度， 原理是根据字体与字符串长度来计算长度与宽度。
 按照前面介绍的，我们需要创建C3.xib, C3类, T3ViewController类,Main.storyboard中拖入UITableViewController，并分别建立关联。 为了简单，C3.xib中我就不加padding之类的了，如图<br>
 >记得关闭C3.xib的auto layout
@@ -195,9 +199,9 @@ self.prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"C1"];
 ![](http://ww1.sinaimg.cn/large/6bf526ffgw1eds3jmducyj208u0ekjrq.jpg)
 
 
-###<a name="md-4" id="md-4">Manual Layout with UITextView in UITableViewCell</a>
+###<a name="md-4" id="md-4">4. Manual Layout with UITextView in UITableViewCell</a>
 
-本小段教程将介绍UITextView在Manual layout cell中计算高度， 原理是与第二小节里的原因，用sizeThatFits:的方法计算UITextView的长度与高度。然后加上padding就是Cell的高度。
+本小段教程将介绍UITextView在Manual layout cell中计算高度， 原理是与第二小节里的相同，用sizeThatFits:的方法计算UITextView的长度与高度。然后加上padding就是Cell的高度。
 按照前面介绍的，我们需要创建C4.xib, C4类, T4ViewController类,Main.storyboard中拖入UITableViewController，并分别建立关联。 为了简单，C4.xib中我就不加padding之类的了，如图<br>
 >计得关闭C4.xib的auto layout
 
@@ -228,7 +232,7 @@ self.prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"C1"];
 运行效果：<br>
 ![](http://ww4.sinaimg.cn/large/6bf526ffgw1eds3q86ryyj208y0ei0t5.jpg) <br>
 
-###<a name="md-5" id="md-5">随UITextView高度动态改变Cell高度</a>
+###<a name="md-5" id="md-5">5.随UITextView高度动态改变Cell高度</a>
 本小节要介绍的一个功能是，UITextView中UITableViewCell中，当输入UITextView中的字变多/变少时，高度变化，Cell高度与随之变化的功能。<br>
 按照前面介绍的，我们需要创建C5.xib, C5类, T5ViewController类,Main.storyboard中拖入UITableViewController，并分别建立关联。 为了简单，C5.xib中我就不加padding之类的了，如图<br>
 >记得开启C5.xib的auto layout
@@ -277,7 +281,7 @@ self.prototypeCell  = [self.tableView dequeueReusableCellWithIdentifier:@"C1"];
 ---
 本文只是简单的介绍了一些原理与技巧，细节之处还请参看[源码](https://github.com/ondev/CellHeightDemo) <br>
 
->如果你有什么问题，请留言或加入QQ技术群:<疯狂IT人>93916004
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004
 
 
 参考：<br>

@@ -25,4 +25,6 @@ footer: true
 
 
 QQ交流群(疯狂IT人):93916004<br>
-Email:topgifts@163.com
+Email:topgifts@163.com<br>
+Old blog:<http://blog.csdn.net/devday><br>
+New blog:<http://www.ifun.cc><br>

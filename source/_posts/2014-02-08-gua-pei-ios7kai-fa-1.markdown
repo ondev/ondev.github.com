@@ -5,6 +5,8 @@ date: 2014-02-08 23:02:24 +0800
 comments: true
 categories: [iOS7]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
+
 iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。 本文所说的适配是指：用xcode5+iOS7sdk编译的程序能正常的运行在iOS6及以下的设备上。
 
 首先看一个例子，用xcode5创建一个Empty Application的工程， 然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController. 现在运行程序，将会看到一个空白页。 现在我们向里面加点东西。 在viewDidLoad中加入以下代码
@@ -175,3 +177,5 @@ if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
 2.xib中用调整frame的y值+20，并设置Delats中y为-20. 如果是代码生成的view,则需要手动处理subview的frame的y值，所以都在原来基础上+20
 
 最后我们要记住一点：iOS7默认是全屏的。 所以得有两套值。
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004

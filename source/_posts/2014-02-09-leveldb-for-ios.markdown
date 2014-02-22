@@ -5,6 +5,7 @@ date: 2014-02-09 11:20:55 +0800
 comments: true
 categories: [iOS]
 ---
+>本站QQ技术群:<疯狂IT人>93916004
 
 最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。
 
@@ -86,7 +87,9 @@ CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS
 
 测试工程[传送门](https://github.com/ondev/LevelDBiOSDemo)。
 
-参考：
+参考：<br>
 [http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/](http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/)
 [http://www.tanhao.me/pieces/1397.html](http://www.tanhao.me/pieces/1397.html)
 [http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/](http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/)
+
+>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004
