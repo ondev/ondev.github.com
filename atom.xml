@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T14:09:44+08:00</updated>
+  <updated>2014-02-22T15:10:07+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,122 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOS App重新签名方法介绍]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/"/>
+    <updated>2014-02-22T14:38:26+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao</id>
+    <content type="html"><![CDATA[<p>今天要给大家介绍两种app重新签名的方法。<br></p>
+
+<p>1.通过Xcode重答名</p>
+
+<p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
+
+<p>在Xcode中archive成功后，点击Distribute后,我们选择第三个选项：Export as Xcode Archive:<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eds5kjya4pj20o30h4767.jpg" alt="" /><br></p>
+
+<p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
+
+<p>2.直接修改已签名的iPA文件。 <br></p>
+
+<p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
+
+<p>下面直接说步骤：<br>
+a.解压iPA文件<br>
+b.删掉旧的签名文件<br>
+c.拷贝新的provision profile替换旧的embedded.mobileprovision<br>
+d.用codesign命令重签名<br>
+f.重新zip为iPA文件<br></p>
+
+<p>下面有一个脚本，它完成了上面5步骤：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
+</span><span class='line'>
+</span><span class='line'>if ! ([ -f "$1" ]); then
+</span><span class='line'>echo \"${1}\"文件不存在
+</span><span class='line'>exit
+</span><span class='line'>fi
+</span><span class='line'>ipaName=${1%.ipa}
+</span><span class='line'>if [ "$ipaName" = "$1" ]; then
+</span><span class='line'>echo \"${1}\"不是ipa文件
+</span><span class='line'>exit
+</span><span class='line'>fi
+</span><span class='line'>
+</span><span class='line'>## step 1, unzip ipa file
+</span><span class='line'>unzip ${ipaName}.ipa
+</span><span class='line'>
+</span><span class='line'>## step 2, remove old codesign
+</span><span class='line'>rm -rf Payload/*.app/_CodeSignature/
+</span><span class='line'>
+</span><span class='line'>## step 3, copy new provision profile
+</span><span class='line'>cp 123.mobileprovision Payload/*.app/embedded.mobileprovision
+</span><span class='line'>
+</span><span class='line'>## step 4, codesign with new certificate and provision
+</span><span class='line'>(/usr/bin/codesign -f -s "iPhone Developer: XXXXX (XXX)" --resource-rules Payload/*.app/ResourceRules.plist Payload/*.app/) || {
+</span><span class='line'>## if code sign error, will to here
+</span><span class='line'>echo failed
+</span><span class='line'>rm -rf Payload/
+</span><span class='line'>exit
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>## step 5, zip it
+</span><span class='line'>zip -r ${ipaName}abc.ipa Payload/
+</span><span class='line'>rm -rf Payload/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>需要注意脚本中有两处需要你们手动修改，第一处是123.mobileprovision，这个文件需要与脚本放同一目录，第二处是XXXXX (XXX), 这儿XXX改为你keychian里有的证书，只需要改XXX, 括号保留。<br></p>
+
+<h3>用法</h3>
+
+<p>保存并修改上面的脚本为resign.sh，再将需要重签名的xxx.ipa与123.mobileprovision文件置于同一目录。然后运行命令：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 resign.sh
+</span><span class='line'>./resign.sh xxx.ipa</span></code></pre></td></tr></table></div></figure>
+
+
+<p>成功后，在目录里会多一个重签名的abc.ipa<br></p>
+
+<hr />
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[动态计算UITableViewCell高度详解]]></title>
@@ -1395,23 +1511,6 @@ cp php.ini.default php.ini sudo vim php.ini
     <content type="html"><![CDATA[<p>三年前（2011），我编译了opencore-amr，由于版本与iOS sdk的更新，可能大家用的时候有些麻烦了。今天我又重新编译了一下opencore-amr for iOS,然后将Demo放到了<a href="https://github.com/ondev/AMRDemoForiOS">Github</a></p>
 
 <p>加入了一些新内容，具体请看DEMO,有不明白的可以留言。</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Parse Json to Objective_C Model]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/08/parse-json-to-objective-c-model/"/>
-    <updated>2014-02-08T22:51:42+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/08/parse-json-to-objective-c-model</id>
-    <content type="html"><![CDATA[<p>在开发server/client的移动应用程序时候，往往用json来转输数据。 最近用空闲时间写了一个根据json自动生成Objectiv_c的源码程序。原理是借鉴WSDL2Objc的源码，用到了STSTemplateEngine. 源码托管在Github:<a href="https://github.com/ondev/Json2Objc">Json2Objc</a></p>
-
-<p>运行程序，然后有三个需要指定的东西：需要指定json文件，生成的文件的存放路径，生成文件的名字。</p>
-
-<p>然后parse，如果没有错误发生，就会在Finder中打开生成的目录。</p>
-
-<p>如何用生成的文件，可以参看参看TestCase。</p>
-
-<p>有任何不明白的地方请留言。</p>
 ]]></content>
   </entry>
   

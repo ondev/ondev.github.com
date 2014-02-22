@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Xcconfig文件的用法 - Haven's Blog</title>
+  <title>iOS App重新签名方法介绍 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置， &hellip;">
+  <meta name="description" content="今天要给大家介绍两种app重新签名的方法。 1.通过Xcode重答名 用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive. 在Xcode中archive成功后， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -69,7 +69,7 @@
   
   <header>
     
-      <h1 class="entry-title">Xcconfig文件的用法</h1>
+      <h1 class="entry-title">iOS App重新签名方法介绍</h1>
     
     
       <p class="meta">
@@ -85,7 +85,7 @@
   
 
 
-<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -95,47 +95,114 @@
   </header>
 
 
-<div class="entry-content"><p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
+<div class="entry-content"><p>今天要给大家介绍两种app重新签名的方法。<br></p>
 
-<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
-图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
-当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
+<p>1.通过Xcode重答名</p>
 
-<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
+<p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
 
-<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
-首先在xcode中选中要进行配置的一行，如图<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
-然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
-粘贴的内容类似：</p>
+<p>在Xcode中archive成功后，点击Distribute后,我们选择第三个选项：Export as Xcode Archive:<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eds5kjya4pj20o30h4767.jpg" alt="" /><br></p>
+
+<p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
+
+<p>2.直接修改已签名的iPA文件。 <br></p>
+
+<p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
+
+<p>下面直接说步骤：<br>
+a.解压iPA文件<br>
+b.删掉旧的签名文件<br>
+c.拷贝新的provision profile替换旧的embedded.mobileprovision<br>
+d.用codesign命令重签名<br>
+f.重新zip为iPA文件<br></p>
+
+<p>下面有一个脚本，它完成了上面5步骤：<br></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
-</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
 </span><span class='line'>
-</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>if ! ([ -f "$1" ]); then
+</span><span class='line'>echo \"${1}\"文件不存在
+</span><span class='line'>exit
+</span><span class='line'>fi
+</span><span class='line'>ipaName=${1%.ipa}
+</span><span class='line'>if [ "$ipaName" = "$1" ]; then
+</span><span class='line'>echo \"${1}\"不是ipa文件
+</span><span class='line'>exit
+</span><span class='line'>fi
+</span><span class='line'>
+</span><span class='line'>## step 1, unzip ipa file
+</span><span class='line'>unzip ${ipaName}.ipa
+</span><span class='line'>
+</span><span class='line'>## step 2, remove old codesign
+</span><span class='line'>rm -rf Payload/*.app/_CodeSignature/
+</span><span class='line'>
+</span><span class='line'>## step 3, copy new provision profile
+</span><span class='line'>cp 123.mobileprovision Payload/*.app/embedded.mobileprovision
+</span><span class='line'>
+</span><span class='line'>## step 4, codesign with new certificate and provision
+</span><span class='line'>(/usr/bin/codesign -f -s "iPhone Developer: XXXXX (XXX)" --resource-rules Payload/*.app/ResourceRules.plist Payload/*.app/) || {
+</span><span class='line'>## if code sign error, will to here
+</span><span class='line'>echo failed
+</span><span class='line'>rm -rf Payload/
+</span><span class='line'>exit
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>## step 5, zip it
+</span><span class='line'>zip -r ${ipaName}abc.ipa Payload/
+</span><span class='line'>rm -rf Payload/
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
+<p>需要注意脚本中有两处需要你们手动修改，第一处是123.mobileprovision，这个文件需要与脚本放同一目录，第二处是XXXXX (XXX), 这儿XXX改为你keychian里有的证书，只需要改XXX, 括号保留。<br></p>
 
-<p>按照这个方法配置所有你想要配置的。</p>
+<h3>用法</h3>
 
-<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
-注意图中选中项。</p>
+<p>保存并修改上面的脚本为resign.sh，再将需要重签名的xxx.ipa与123.mobileprovision文件置于同一目录。然后运行命令：<br></p>
 
-<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 resign.sh
+</span><span class='line'>./resign.sh xxx.ipa</span></code></pre></td></tr></table></div></figure>
 
-<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
-可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
 
-<p>参考：
-<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
+<p>成功后，在目录里会多一个重签名的abc.ipa<br></p>
+
+<hr />
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 </div>
 
 
@@ -158,21 +225,15 @@
   
 
 
-<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/xcode/'>Xcode</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/" >Tweet</a>
   
   
   
@@ -181,10 +242,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/09/ios-http-url-cacheqing-chu/" title="Previous Post: iOS Http URL Cache清除">&laquo; iOS Http URL Cache清除</a>
+        <a class="basic-alignment left" href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/" title="Previous Post: 动态计算UITableViewCell高度详解">&laquo; 动态计算UITableViewCell高度详解</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/11/mac-xia-pei-zi-mantis/" title="Next Post: Mac下配置Mantis">Mac下配置Mantis &raquo;</a>
       
     </p>
   </footer>
