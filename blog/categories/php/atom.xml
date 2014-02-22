@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: PHP | Haven's' Blog]]></title>
+  <title><![CDATA[Category: PHP | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/php/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-17T21:44:32+08:00</updated>
+  <updated>2014-02-22T14:04:23+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
