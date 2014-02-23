@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T21:43:46+08:00</updated>
+  <updated>2014-02-23T11:44:06+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,68 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[结队开发之多storyboard]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/"/>
+    <updated>2014-02-23T10:38:15+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
+
+<!-- more -->
+
+
+<p>本人提供两种解决方案：<br>
+1.<a href="#md-1">Xib link Xib</a><br>
+2.<a href="#md-2">Storyboard link Storyboard</a></p>
+
+<p>其实它们之间可以两两组合，这样就可以延伸出另外两种方法:
+3.Xib link Storyboard <br>
+4.Storyboard link Xib <br></p>
+
+<h3><a id="md-1">Xib link Xib</a></h3>
+
+<p>这种方法其实我以<a href="http://www.ifun.cc/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">上一篇</a>文章已经介绍过了，大家自行阅读，在些也不多述。</p>
+
+<h3><a id="md-2">Storyboard link Storyboard</a></h3>
+
+<p>这种方法与上面方法原理是一样的，利用加载storyboard时，实例化对应自定义UIViewController类，然后手动addSubview到对link view上，以达到链接的目录。 用言语表达是有点抽象，还是用代码表达吧，容易理解。<br></p>
+
+<p>在这儿用到了Github上一个人写的link代码:<a href="https://github.com/rob-brown/RBStoryboardLink">RBStoryboardLink</a>。它的用法也在README中说得很清楚了。</p>
+
+<p>大家将源码下载下来，里面有一个sample:LinkedTabs. 由于原作者用到了cocoapods,所以需要到源码LinkedTabs目录下， 运行一个命令行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我还是简单说一下sample的结构。<br>
+里面有三个storyboard,分别是MainStoryboard，FirstTabStoryboard， SecondTabStoryboard， 现在需要将MainStoryboard中的两个UIViewController分别与FirstTabStoryboard,SecondTabStoryboard建立连接，以达到程序运行后，这三个storyboard像是在一起的目的。<br></p>
+
+<p>打开MainStoryboard，定位到Tab1的UIViewController<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edt58mgnxij20vp0g6mzp.jpg" alt="" /><br></p>
+
+<p>注意图中两个箭头，上面一个一定要填这个自定义类RBStoryboardLink， 就是个类完成了连接的任务。<br>
+下面一个箭头处，是传递的属性与对应的值，在实例化RBStoryboardLink的时候传送递给实例化对象。storyboardName这个属性表示要link到哪儿去，这儿我们要link到FirstTabStoryboard，所以值为FirstTabStoryboard。还有一个可选属性sceneIdentifier, 表示要link到Storyboard中的哪一个UIViewController. 如果不传这个属性，那就link到FirstTabStoryboard中的initial View Controller.<br></p>
+
+<p>如果我们想link到FirstTabStoryboard中的第二个UIViewController那如何办呢，很简单:<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edt5kfj27gj20vp0haju2.jpg" alt="" /><br>
+如上图，我们先找到这个被linke的View Controller，然后在Storyboard ID那输入该View Controller的标识，如在此输入:NavController.</p>
+
+<p>接着在需要link的地方加入sceneIdentifier:NavController, 见下图箭头处。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edt5nd36iwj20vl0fktb6.jpg" alt="" /><br></p>
+
+<p>这样就link成功了。</p>
+
+<p>方法3与方法4只是组合出来的方法，也不在此多述了。</p>
+
+<hr />
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之xib技巧介绍]]></title>
@@ -1906,69 +1968,6 @@ cp php.ini.default php.ini sudo vim php.ini
 <p>最近整理了一下代码，发现iOS下开发用过不少宏。在此汇总一下，大部份来自网络，方便大家使用。</p>
 
 <p><a href="https://gist.github.com/ondev/6714742#file-gistfile1-txt">传送门</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS获取ISO Country Code]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/08/ioshuo-qu-iso-country-code/"/>
-    <updated>2014-02-08T22:54:47+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/08/ioshuo-qu-iso-country-code</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>通过SIM卡获取country code,下面是代码片段</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
-</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
-</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
-</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-</span><span class='line'>    return [carrier isoCountryCode];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
-</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就可以通过两个宏进行调用了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
-</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>还有一种，是获取Device本地设置的地区。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是获取本地设置的语言</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
-
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

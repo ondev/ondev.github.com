@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-02-22T21:43:46+08:00</updated>
+  <updated>2014-02-23T11:44:06+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,67 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[结队开发之多storyboard]]></title>
+    <link href="http://www.ifun.cc/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/"/>
+    <updated>2014-02-23T10:38:15+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
+
+<!-- more -->
+
+
+<p>本人提供两种解决方案：<br>
+1.<a href="#md-1">Xib link Xib</a><br>
+2.<a href="#md-2">Storyboard link Storyboard</a></p>
+
+<p>其实它们之间可以两两组合，这样就可以延伸出另外两种方法:
+3.Xib link Storyboard <br>
+4.Storyboard link Xib <br></p>
+
+<h3><a id="md-1">Xib link Xib</a></h3>
+
+<p>这种方法其实我以<a href="http://www.ifun.cc/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">上一篇</a>文章已经介绍过了，大家自行阅读，在些也不多述。</p>
+
+<h3><a id="md-2">Storyboard link Storyboard</a></h3>
+
+<p>这种方法与上面方法原理是一样的，利用加载storyboard时，实例化对应自定义UIViewController类，然后手动addSubview到对link view上，以达到链接的目录。 用言语表达是有点抽象，还是用代码表达吧，容易理解。<br></p>
+
+<p>在这儿用到了Github上一个人写的link代码:<a href="https://github.com/rob-brown/RBStoryboardLink">RBStoryboardLink</a>。它的用法也在README中说得很清楚了。</p>
+
+<p>大家将源码下载下来，里面有一个sample:LinkedTabs. 由于原作者用到了cocoapods,所以需要到源码LinkedTabs目录下， 运行一个命令行:</p>
+
+<p><code>
+pod update
+</code>
+我还是简单说一下sample的结构。<br>
+里面有三个storyboard,分别是MainStoryboard，FirstTabStoryboard， SecondTabStoryboard， 现在需要将MainStoryboard中的两个UIViewController分别与FirstTabStoryboard,SecondTabStoryboard建立连接，以达到程序运行后，这三个storyboard像是在一起的目的。<br></p>
+
+<p>打开MainStoryboard，定位到Tab1的UIViewController<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edt58mgnxij20vp0g6mzp.jpg" alt="" /><br></p>
+
+<p>注意图中两个箭头，上面一个一定要填这个自定义类RBStoryboardLink， 就是个类完成了连接的任务。<br>
+下面一个箭头处，是传递的属性与对应的值，在实例化RBStoryboardLink的时候传送递给实例化对象。storyboardName这个属性表示要link到哪儿去，这儿我们要link到FirstTabStoryboard，所以值为FirstTabStoryboard。还有一个可选属性sceneIdentifier, 表示要link到Storyboard中的哪一个UIViewController. 如果不传这个属性，那就link到FirstTabStoryboard中的initial View Controller.<br></p>
+
+<p>如果我们想link到FirstTabStoryboard中的第二个UIViewController那如何办呢，很简单:<br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edt5kfj27gj20vp0haju2.jpg" alt="" /><br>
+如上图，我们先找到这个被linke的View Controller，然后在Storyboard ID那输入该View Controller的标识，如在此输入:NavController.</p>
+
+<p>接着在需要link的地方加入sceneIdentifier:NavController, 见下图箭头处。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edt5nd36iwj20vl0fktb6.jpg" alt="" /><br></p>
+
+<p>这样就link成功了。</p>
+
+<p>方法3与方法4只是组合出来的方法，也不在此多述了。</p>
+
+<hr />
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS开发之xib技巧介绍]]></title>
@@ -778,112 +839,6 @@ return cell;
 <p>其实只需要第一行即可。</p>
 
 <p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LevelDB for iOS]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios/"/>
-    <updated>2014-02-09T11:20:55+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
-
-<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
-首先就是下载源码</p>
-
-<p><code>
-clone levelDB repo https://code.google.com/p/leveldb/
-</code>
-这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
-现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
-
-<p>定位到.cc.o的198行与.c.o的205行
-修改为：</p>
-
-<p>```
-.cc.o:</p>
-
-<pre><code>mkdir -p ios-x86/$(dir $@)
-$(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-mkdir -p ios-arm/$(dir $@)
-xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</code></pre>
-
-<p>.c.o:</p>
-
-<pre><code>mkdir -p ios-x86/$(dir $@)
-$(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-mkdir -p ios-arm/$(dir $@)
-xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</code></pre>
-
-<p>```
-保存，</p>
-
-<p>然后用命令进行编译
-<code>
-CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS
-</code>
-或
-<code>
-CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS
-</code>
-都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
-
-<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
-创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
-<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
-
-<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
-
-<p>```</p>
-
-<h1>import &ldquo;THLevelDB.h&rdquo;</h1>
-
-<p>```
-接着在didFinishLaunchingWithOptions中写测试代码。</p>
-
-<p>```</p>
-
-<pre><code>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
-THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
-
-//存储字符串
-[db setString:@"成都" forKey:@"city"];
-
-//存储基本类型
-[db setInt:13579 forKey:@"count"];
-[db setFloat:30.2 forKey:@"temperature"];
-
-//存储Data数据
-NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
-[db setData:data forKey:@"data"];
-
-//存储任意对象(实现了NSCoding协议的对象)
-[db setObject:[NSDate date] forKey:@"object"];
-
-
-NSLog(@"城市:%@",[db stringForKey:@"city"]);
-NSLog(@"数量:%d",[db intForKey:@"count"]);
-NSLog(@"Data:%@",[db dataForKey:@"data"]);
-NSLog(@"对象:%@",[db objectForKey:@"object"]);
-</code></pre>
-
-<p>```</p>
-
-<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
-
-<p>参考：<br>
-<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
-<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
-<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

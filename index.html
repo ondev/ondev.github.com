@@ -84,6 +84,52 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-23T10:38:15+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a></h1>
     
     
@@ -763,87 +809,6 @@ Mac自带的svn server，见参考。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:13:37+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
-
-<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
-
-<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
-
-<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcyawfkcmj20m00gfdh1.jpg" alt="" /></p>
-
-<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcybhsqt7j20ob0hrjtm.jpg" alt="" /></p>
-
-<p>接下来设置local http server. <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcybzki5cj20od0hy3zw.jpg" alt="" /></p>
-
-<p>接下来设置http server的path<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyck053nj20oi0htta2.jpg" alt="" /></p>
-
-<p>接下来设置运行环境<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyd25tprj20tf0dl0u8.jpg" alt="" /></p>
-
-<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcydh8g8rj20te0io0u6.jpg" alt="" /> <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcye01oj7j20t80do3zi.jpg" alt="" /></p>
-
-<p>名字任意，但是目前server后面是红色的，点击它后面的button进行设置 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyelh5jaj20l20ett9l.jpg" alt="" /></p>
-
-<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcyf2vhrsj20f109gt9o.jpg" alt="" /></p>
-
-<p>接着是http目录设置，如图 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyfkbk74j20tg0igdha.jpg" alt="" /></p>
-
-<p>这样你就可以通过PhoStorm运行或调试源码了。 <br>
-xiuno的调试宏记得打开哟。 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcygccolzj21250d541f.jpg" alt="" /></p>
-
-<p>我也开始学习PHP写程序了. ^v^</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -876,7 +841,7 @@ xiuno的调试宏记得打开哟。 <br>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (8)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (9)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -884,6 +849,10 @@ xiuno的调试宏记得打开哟。 <br>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a>
@@ -899,10 +868,6 @@ xiuno的调试宏记得打开哟。 <br>
     
       <li class="post">
         <a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/ffmpeg-for-iOS7/">FFmpeg for iOS7</a>
       </li>
     
   </ul>

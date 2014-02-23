@@ -84,6 +84,87 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:13:37+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
+
+<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
+
+<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
+
+<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files <br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcyawfkcmj20m00gfdh1.jpg" alt="" /></p>
+
+<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcybhsqt7j20ob0hrjtm.jpg" alt="" /></p>
+
+<p>接下来设置local http server. <br>
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcybzki5cj20od0hy3zw.jpg" alt="" /></p>
+
+<p>接下来设置http server的path<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyck053nj20oi0htta2.jpg" alt="" /></p>
+
+<p>接下来设置运行环境<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyd25tprj20tf0dl0u8.jpg" alt="" /></p>
+
+<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcydh8g8rj20te0io0u6.jpg" alt="" /> <br>
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcye01oj7j20t80do3zi.jpg" alt="" /></p>
+
+<p>名字任意，但是目前server后面是红色的，点击它后面的button进行设置 <br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyelh5jaj20l20ett9l.jpg" alt="" /></p>
+
+<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcyf2vhrsj20f109gt9o.jpg" alt="" /></p>
+
+<p>接着是http目录设置，如图 <br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyfkbk74j20tg0igdha.jpg" alt="" /></p>
+
+<p>这样你就可以通过PhoStorm运行或调试源码了。 <br>
+xiuno的调试宏记得打开哟。 <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcygccolzj21250d541f.jpg" alt="" /></p>
+
+<p>我也开始学习PHP写程序了. ^v^</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/09/amr-for-ios7/">AMR for iOS7</a></h1>
     
     
@@ -922,99 +1003,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/08/ioshuo-qu-iso-country-code/">iOS获取ISO Country Code</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-08T22:54:47+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/08/ioshuo-qu-iso-country-code/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>通过SIM卡获取country code,下面是代码片段</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *(^CountryNameByISO)(NSString *) = ^(NSString *iso) {
-</span><span class='line'>    NSLocale *locale = [NSLocale currentLocale];
-</span><span class='line'>    return [locale displayNameForKey:NSLocaleCountryCode value:iso];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>NSString *(^ISOCountryCodeByCarrier)() = ^() {
-</span><span class='line'>    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
-</span><span class='line'>    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
-</span><span class='line'>    return [carrier isoCountryCode];
-</span><span class='line'>};
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>#define SIMISO                  ISOCountryCodeByCarrier()
-</span><span class='line'>#define CountryNameFromISO(iso) CountryNameByISO(iso)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就可以通过两个宏进行调用了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSString *iso  ＝ ISOCountryCodeByCarrier();
-</span><span class='line'>NSString *name ＝ CountryNameFromISO(iso);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>还有一种，是获取Device本地设置的地区。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define countryISO  [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode]</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是获取本地设置的语言</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#define languageISO [[NSLocale currentLocale] objectForKey: NSLocaleLanguageCode]</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1049,7 +1037,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (8)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (9)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -1057,6 +1045,10 @@ cp php.ini.default php.ini sudo vim php.ini
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a>
@@ -1072,10 +1064,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/12/ffmpeg-for-iOS7/">FFmpeg for iOS7</a>
       </li>
     
   </ul>
