@@ -9,8 +9,8 @@
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="iOS开发教程,iOS Tutorial,加入QQ群:93916004更多精彩">
-  <meta name="keywords" content="iOS教程,iOS Tutorial,iOS7,编程,Mac,C/C++,PHP,UITableView,UIKit,Socket">
+  <meta name="description" content="加入QQ群:93916004更多精彩">
+  <meta name="keywords" content="iOS,C/C++,PHP,UITableView,UIKit,Socket,iOS7">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -78,6 +78,55 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-14T12:42:37+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时候在Mac App Store下载或更新应用的，会出现一些错误，造成这原因可能是由于cookie造成的。所以我们可以重设appstore的cookie。方法如下：<br>
+1.打开Terminal, 运行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>defaults write com.apple.appstore ShowDebugMenu -bool true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.重启Mac App Store， 大家就可以发现菜单栏多了一个Debug菜单。<br>
+快选择清除cookie试试。</p>
+
+<p><img src="http://iosman.qiniudn.com/2014-04-14PM.png" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -642,173 +691,6 @@ Mac自带的svn server，见参考。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:20:55+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/leveldb-for-ios/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
-
-<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
-首先就是下载源码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
-现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
-
-<p>定位到.cc.o的198行与.c.o的205行
-修改为：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</span><span class='line'>
-</span><span class='line'>.c.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
-
-
-<p>保存，</p>
-
-<p>然后用命令进行编译</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
-
-<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
-创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
-<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
-
-<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-</span><span class='line'>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
-</span><span class='line'>THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
-</span><span class='line'>
-</span><span class='line'>//存储字符串
-</span><span class='line'>[db setString:@"成都" forKey:@"city"];
-</span><span class='line'>
-</span><span class='line'>//存储基本类型
-</span><span class='line'>[db setInt:13579 forKey:@"count"];
-</span><span class='line'>[db setFloat:30.2 forKey:@"temperature"];
-</span><span class='line'>
-</span><span class='line'>//存储Data数据
-</span><span class='line'>NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
-</span><span class='line'>[db setData:data forKey:@"data"];
-</span><span class='line'>
-</span><span class='line'>//存储任意对象(实现了NSCoding协议的对象)
-</span><span class='line'>[db setObject:[NSDate date] forKey:@"object"];
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>NSLog(@"城市:%@",[db stringForKey:@"city"]);
-</span><span class='line'>NSLog(@"数量:%d",[db intForKey:@"count"]);
-</span><span class='line'>NSLog(@"Data:%@",[db dataForKey:@"data"]);
-</span><span class='line'>NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
-
-<p>参考：<br>
-<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
-<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
-<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -821,7 +703,7 @@ Mac自带的svn server，见参考。</p>
   
     <section>
   <h1>About Me</h1>
-  <p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcc939r71j205k045weg.jpg"></p>
+  <p><img src="/images/profile.png"></p>
   <p>擅长C/C++, Objective_C, 熟悉java/erlang/php/python/javascript/lua</p>
   <p>研究软件安全技术</p> 
   <p>爱好音乐，喜欢安静思考，喜欢挑战</p>
@@ -851,6 +733,10 @@ Mac自带的svn server，见参考。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a>
       </li>
     
@@ -864,10 +750,6 @@ Mac自带的svn server，见参考。</p>
     
       <li class="post">
         <a href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">动态计算UITableViewCell高度详解</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a>
       </li>
     
   </ul>
