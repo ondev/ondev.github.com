@@ -84,6 +84,61 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>三行代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
+</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
+</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其实只需要第一行即可。</p>
+
+<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a></h1>
     
     
@@ -876,255 +931,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/08/gua-pei-ios7kai-fa-1/">适配iOS7开发1</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-08T23:02:24+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/08/gua-pei-ios7kai-fa-1/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7可以说是苹果一次革命性的变化，这样做为一个开发者需要做的事也不少。首先苹果的view布局有所变化，现在view默认是全屏模式，而所有的bar(navigation bar, tool bar, search bars 与scope bars都是半透明)，status bar则是全透明。有了这样的改变，写代码的时候就有我们折腾的了。 本文所说的适配是指：用xcode5+iOS7sdk编译的程序能正常的运行在iOS6及以下的设备上。</p>
-
-<p>首先看一个例子，用xcode5创建一个Empty Application的工程， 然后新建一个继承UIViewController的类，并将这个类的一个实例做为window的rootViewController. 现在运行程序，将会看到一个空白页。 现在我们向里面加点东西。 在viewDidLoad中加入以下代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>self.view.backgroundColor = [UIColor grayColor];
-</span><span class='line'>UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-</span><span class='line'>btn.frame = CGRectMake(0, 0, 100, 44);
-</span><span class='line'>btn.layer.cornerRadius = 0;
-</span><span class='line'>btn.layer.borderColor = [UIColor blackColor].CGColor;
-</span><span class='line'>btn.layer.borderWidth = 1;
-</span><span class='line'>[btn setTitle:@"Test" forState:UIControlStateNormal];
-</span><span class='line'>[self.view addSubview:btn];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在运行，你将会看到在屏幕最顶处有一个黑色边框的button.
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcdvo2yn4j20hs0vkgls.jpg" alt="" /></p>
-
-<p>注意没，是与statusBar重叠了。
-下面我们做一些修改，修改AppDelegate中的window的rootViewController值：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ViewController *vc = [[ViewController alloc] init];
-</span><span class='line'>UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-</span><span class='line'>self.window.rootViewController = nav;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再运行，程序，你将看到
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcdwv6tt7j20hs0vkq34.jpg" alt="" /></p>
-
-<p>我们的button到哪儿去了，其实它是被Navigation Bar档住了。细心的读者可能会问，你刚才不是说了Navigation Bar是半透明的吗？即然是半透明的为何我看不到button呢？ 的确Navigation Bar是半透明的，不过透明度不高，然后看不清后成的button.如果你不相信，你可以再一个黑色的view看看效果。将下面代码放入viewDidLoad</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>UIView *v = [[UIView alloc] initWithFrame:CGRectMake(100, 0, 100, 70)];
-</span><span class='line'>v.backgroundColor = [UIColor blackColor];
-</span><span class='line'>[self.view addSubview:v];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后运行，看看效果：
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcdyrmfs4j20hs0vkdg1.jpg" alt="" /></p>
-
-<p>现在可以清楚的看到Navigation Bar后面的view， 可以看到，UIViewController的view是全屏的坐标系了。<br>
-这样与我们iOS6与以前的坐标不一样了，以前是从Navigation Bar底部开始计算y值的，现在却是从Status Bar开始计算y值。<br>
-不要着急，苹果公司有解决方案：将下面代码放在viewDidLoad中</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>self.edgesForExtendedLayout = UIRectEdgeNone;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再运行，看看效果：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcebwcwusj20hs0vkmxe.jpg" alt="" /></p>
-
-<p>现在坐标就是开始从Navigation Bar开始计算了。然而这种情况只适合在Navigation Bar的情况，如果没有Navigation Bar, 坐标仍然是从Status Bar顶部开始计算的。<br>
-如果底部有Tab Bar的情况呢，如果要兼容以前的frame设置，那么就需要设置UIViewController的edgesForExtendedLayout为UIRectEdgeNone。<br></p>
-
-<h3>代码如何适配iOS7</h3>
-
-<p>如果我们的代码没有用storyboard, 没有用xib,纯代码的情况，如果要适配iOS7，那么上面只是介绍了有Navigation Bar, Tool Bar的情况，如果只是单纯的View,那么我们的代码运行在iOS7上，会有向上20px偏移，这需要手动修改：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这种方法需要对所有的UIViewController进行设置，比较麻烦，还有一种较为简单的方法，就是设置window，这样可以影响所有的subview, 参考自<a href="http://stackoverflow.com/questions/18294872/ios-7-status-bar-back-to-ios-6-style/18855464#18855464">stackoverflow</a></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        [application setStatusBarStyle:UIStatusBarStyleLightContent];
-</span><span class='line'>        self.window.clipsToBounds =YES;
-</span><span class='line'>        self.window.frame =  CGRectMake(0,20,self.window.frame.size.width,self.window.frame.size.height-20);
-</span><span class='line'>        
-</span><span class='line'>        //Added on 19th Sep 2013
-</span><span class='line'>        self.window.bounds = CGRectMake(0, 20, self.window.frame.size.width, self.window.frame.size.height);
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面是第二方法的运行效果：
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edceixx3bmj20hs0vkaab.jpg" alt="" /></p>
-
-<p>不过第二种方法有问题，当你Rotate Simulator的时候你将会看到问题，Status Bar位置将不动。所以我不推荐用第二种方法，可以写一个UIViewController的category方法，然后调用方法一中的代码。这样对全工程进行修改以适配iOS7.</p>
-
-<h3>下面介绍一下xib的方法</h3>
-
-<p>新建一个UIViewController的子类，叫TestViewController，选中创建xib文件 然后，在在AppDelegate中将window的rootViewController换成我们新建的TestViewController实例，代码如下：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>TestViewController *vc2 = [[TestViewController alloc] init];
-</span><span class='line'>self.window.rootViewController = vc2;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>用xcode4.6.3+ios6运行程序，
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edceozre4oj20hs0vkjrg.jpg" alt="" /></p>
-
-<p>现在我们在xib中拖入一个button，frame为(177, 0, 73, 44)
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edces84tk0j20ny0bhwg9.jpg" alt="" />
-由于iOS7中扁平化设计了，button没有了边框，等一下我们会用xcode5+ios7来运行本程序，为了更清楚的看清frame，在此我将button的边框显示出来，前面代码生成的button也是显示了边框的，我们关系一个UIButton的变量textBtn到代码中,并用代码再生成一个button</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>_testBtn.layer.borderWidth = 1;
-</span><span class='line'>UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-</span><span class='line'>btn.frame = CGRectMake(0, 0, 100, 44);
-</span><span class='line'>btn.layer.cornerRadius = 0;
-</span><span class='line'>btn.layer.borderColor = [UIColor blackColor].CGColor;
-</span><span class='line'>btn.layer.borderWidth = 1;
-</span><span class='line'>[btn setTitle:@"Test" forState:UIControlStateNormal];
-</span><span class='line'>[self.view addSubview:btn];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>运行程序，效果如下：
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcf3ld7s9j20hs0vkjrp.jpg" alt="" /></p>
-
-<p>关闭xocde4.5与Simulator,然后用xcode5打开用iOS7的效果：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcf5nev3lj20hs0vk74i.jpg" alt="" /></p>
-
-<p>对比可以看出，iOS7是全屏的模式。 这样一来，从iOS6中升级过来的程序，布局就不正确了，有20px的偏移，上面介绍了用代码解决的方法，在这儿我们先用代码的方法来试试，在viewWillAppear中加入以下代码：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>再运行程序，效果如下：
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcf8ajwtmj20hs0vkglu.jpg" alt="" /></p>
-
-<p>其中代码加入的button，下移了20px, 可是xib中拖入的button还是以status bar顶为y＝0开始计算frame.这可能是由于我们用到了auto layout, 所以xib有自己的frame计算方式. 代码生成的没有用auto layout约束，则受到了上面代码的影响。 我们在xocde5中选择xib，如果是xcode4.6创建的xib, xcode5会提示你升级，我们选择升级，如果你选择了忽略也没关系，可以在右边的open in下拉列表中选择xcode5. xcode5对xib做了很多优化，相比以前的xib，xcode5的xib文件不但小，而且功能更强大。 我们禁用xib的autolayout试试，再运行：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcf93kryej20hs0vkdg2.jpg" alt="" /></p>
-
-<p>这下由于没有auto layout的作用，都开始从status bar下面开始计算frame了。</p>
-
-<p>如果你的程序view全是xib，没有用代码生成，那么这儿还有一种解决方法，原因是xib中没有开启autolayout)不用代码控制self.view.bounds,所以我们先将viewWillAppear中的</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>删掉。</p>
-
-<p>然后在在xcode5中选择我们的xib，并选择view中拖入的button，选择它的Size inspector,如图：
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcffnqm5uj20vo0cygmt.jpg" alt="" /></p>
-
-<p>细心的你可能发现了，右边较之前的版本多一些内容。多了一个ios6/ios7 Deltas.它就是用来做iOS6的xib适配到iOS7用的东西。 由于iOS7中，全屏的模式，所以我们需要设置我们的＋20,这样才从status bar底部开始显示。现在我们将我们的button的y值设为20.如图：<br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcfgu9hj7j208909tq3e.jpg" alt="" /></p>
-
-<p>xcode5+ios7运行效果：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcfj5xunjj20hs0vkgls.jpg" alt="" /></p>
-
-<p>由于它的frame是从20开始的，细心的读者可能会有疑问了，如果我们运行在iOS7以前的设备上，由于frame是从20开始的，不是我们想要的效果。的确是这样的，下面是iOS6上运行的效果：
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfll9kvjj20hs0vk74d.jpg" alt="" /></p>
-
-<p>是从status bar下面20px.
-也就是说适配工作不成功。 等等，刚才我们说的ios6/ios7 Deltas,现在是时候出场了。 现在我们在将Deltas中y值设为-20.<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfmtk3swj20780a3jrv.jpg" alt="" /></p>
-
-<p>再运行到iOS6的设备上，效果如下：
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcfnfg3qmj20hs0vkaaa.jpg" alt="" /></p>
-
-<p>小结： 从iOS7以前的工程适配到iOS7，且没有用autolayout,<br>
-1.在viewDidLoad中加入以下代码完成短配工作</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        self.view.bounds = CGRectMake(0, -20, self.view.frame.size.width, self.view.frame.size.height );
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.xib中用调整frame的y值+20，并设置Delats中y为-20. 如果是代码生成的view,则需要手动处理subview的frame的y值，所以都在原来基础上+20</p>
-
-<p>最后我们要记住一点：iOS7默认是全屏的。 所以得有两套值。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1169,6 +975,10 @@ cp php.ini.default php.ini sudo vim php.ini
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a>
       </li>
     
@@ -1182,10 +992,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/">iOS App重新签名方法介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">动态计算UITableViewCell高度详解</a>
       </li>
     
   </ul>
