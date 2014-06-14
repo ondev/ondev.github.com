@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-06-07T21:45:06+08:00</updated>
+  <updated>2014-06-14T10:18:55+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,224 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Cocoa触发方法调用的几种方法]]></title>
+    <link href="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/"/>
+    <updated>2014-06-14T09:38:40+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+
+<h3>1.SEL触发</h3>
+
+<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
+有了SEL这样就可以触发方法调用了,<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
+</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面两句代码是同一个道理。<br></p>
+
+<h3>2. IMP触发</h3>
+
+<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
+有了这个函数指针后，我们就可以触发方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
+
+<h3>3. objc_msgSend方法</h3>
+
+<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
+
+
+<p>这行代码等价于<br></p>
+
+<p>[self fly];</p>
+
+<h3>4. NSInvocation</h3>
+
+<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
+说得有点抽像，看代码更清楚:<br></p>
+
+<p>假如我们实现了一个两个数相加的方法，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
+</span><span class='line'>  NSNumber *retval;
+</span><span class='line'> 
+</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
+</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
+</span><span class='line'> 
+</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
+</span><span class='line'> 
+</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:self];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
+</span><span class='line'>  [invocation invoke];
+</span><span class='line'> 
+</span><span class='line'>  if ([sig methodReturnLength]) {
+</span><span class='line'>      [invocation getReturnValue:&retval];
+</span><span class='line'>      return retval;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  return nil;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
+
+<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
+</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
+</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:target];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  if(arg1) {
+</span><span class='line'>      va_list args;
+</span><span class='line'>      va_start(args, arg1);
+</span><span class='line'> 
+</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'> 
+</span><span class='line'>      id obj;
+</span><span class='line'>      int ct = 3;
+</span><span class='line'> 
+</span><span class='line'>      while( obj = va_arg(args, id) ) {
+</span><span class='line'>          NSLog(@"%@", obj);
+</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
+</span><span class='line'> 
+</span><span class='line'>          ct++;
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      va_end(args);
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  return invocation;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
+</span><span class='line'> 
+</span><span class='line'>[invocation invoke];
+</span><span class='line'>[invocation getReturnValue:&retval];
+</span><span class='line'> 
+</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS8 APP国际化]]></title>
@@ -1740,55 +1958,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
 
 <p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[适配iOS7开发2]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/gua-pei-ios7kai-fa-2/"/>
-    <updated>2014-02-09T00:34:13+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/gua-pei-ios7kai-fa-2</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。 今天来介绍一下autolayout下的适配工作。<br></p>
-
-<p>首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard.<br>
-拖一个UIButton到view中。 由于开启了autoLayout， 在xcode4.6.3中，自动会有两个auto layout约束，分别是水平与垂直的约束：
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfz58ucgj20o00a40u0.jpg" alt="" /></p>
-
-<p>运行程序效果：
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcfzva8w4j20hs0vkjrm.jpg" alt="" /></p>
-
-<p>可以看到是垂直方向上距status bar底部是45px，距右边是186px.<br>
-现在我们用xcode5打开这个工程。会提示Upgrade storyboard，我们点击Upgrade. Upgrade后，你会发现，垂直方向上有变化了，约束是从顶部开始，不是从status bar底部开始计算。这也我们想要的结果不一样，我们还是希望约束是从status bar底部开始计算。<br>
-仔细看看storyboard中的View Controller， 你会发现，这儿多了两个东东，分别是Top Layout Guide，Bottom Layout Guide. <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg16hbatj20ny0adaal.jpg" alt="" /></p>
-
-<p>选在我们的button,按住control键，然后拖到Top Layout Guide上，在弹出的对话框选择Vertical spacing
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcg1x4fjij204n03bmx3.jpg" alt="" /></p>
-
-<p>这样又建立了一个垂直约束，你会发现这个约束是从Status bar底部开始计算的。这个约束有点像是我们需要的，
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg2i341lj20mt0a7wf4.jpg" alt="" /></p>
-
-<p>但是这个约束距status bar是25px,我们想要的是45px. 那只需要修改一下，将25px改为45px
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg36ji0xj20vk09fmy3.jpg" alt="" /></p>
-
-<p>你会发现有storyboard中有红色提示，这说明约束条件发生了冲突，因为垂直约束的值都为45，显示冲突了。由于我们只需要status bar底部开始计算的那个约束，所以我们将旧的那个删掉即可。
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg3vzbylj20nj0akt97.jpg" alt="" /></p>
-
-<p>现在分别选择iOS6/iOS7来运行。都是距status bar下面45px显示button. 适配工程完成。<br>
-顺便介绍一下xcode5中，用xib或storyboard布局的时候，preview iOS7与iOS7以前版本的效果。 快捷键：option+command+enter 打开Assistant editor,然后选择右边的automatic->preview->xxxxx(preview)
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg4xvwgnj20fi0fcabq.jpg" alt="" /></p>
-
-<p>然后在出现的画面下面有一个切换iOS7与以前版本的切换开关
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg5lktzgj20ca0l6t9c.jpg" alt="" /></p>
-
-<p>这样可以方例你实时的查看布局效果以适配不同版本的iOS.<br>
-最后： auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。</p>
-
-<p>参考：<a href="https://developer.apple.com/library/ios/qa/qa1797/_index.html">https://developer.apple.com/library/ios/qa/qa1797/_index.html</a></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

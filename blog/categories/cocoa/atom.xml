@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cocoa | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/cocoa/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-06-14T10:18:55+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cocoa触发方法调用的几种方法]]></title>
+    <link href="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/"/>
+    <updated>2014-06-14T09:38:40+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+
+<h3>1.SEL触发</h3>
+
+<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
+
+<p><code>
+SEL theSelector = @selector(methodWithInt:andInt:);
+</code>
+看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
+有了SEL这样就可以触发方法调用了,<br></p>
+
+<p><code>
+[self performSelector:theSelector]
+[self performSelector:@selector(methodWithInt:andInt:)];
+</code>
+上面两句代码是同一个道理。<br></p>
+
+<h3>2. IMP触发</h3>
+
+<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+
+<p><code>
+IMP theImplementation = [self methodForSelector:theSelector];
+</code>
+上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
+有了这个函数指针后，我们就可以触发方法：</p>
+
+<p><code>
+theImplementation(self, theSelector, 30, 5);
+</code>
+第一个是对象，第二个SEL， 后面的传入的参数。</p>
+
+<h3>3. objc_msgSend方法</h3>
+
+<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+
+<p><code>
+objc_msgSend(self, @selector(fly));
+</code>
+这行代码等价于<br></p>
+
+<p>[self fly];</p>
+
+<h3>4. NSInvocation</h3>
+
+<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
+说得有点抽像，看代码更清楚:<br></p>
+
+<p>假如我们实现了一个两个数相加的方法，</p>
+
+<p><code>
+-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second
+</code>
+我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+
+<p>```
+&ndash; (NSNumber *)testAdd {</p>
+
+<pre><code>NSNumber *retval;
+
+NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
+NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
+
+SEL selector = @selector(addNSNumber:withNumber:);
+
+NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
+NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+
+[invocation setTarget:self];
+[invocation setSelector:selector];
+[invocation setArgument:(void *)&amp;arg1 atIndex:2];
+[invocation setArgument:(void *)&amp;arg2 atIndex:3];
+[invocation invoke];
+
+if ([sig methodReturnLength]) {
+    [invocation getReturnValue:&amp;retval];
+    return retval;
+}
+
+return nil;
+</code></pre>
+
+<p>}
+```
+代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
+
+<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
+
+<p>```
++ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {</p>
+
+<pre><code>return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</code></pre>
+
+<p>}</p>
+
+<ul>
+<li><p>(NSInvocation <em>)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, &hellip; {
+  NSMethodSignature </em>sig = [target methodSignatureForSelector:selector];
+  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];</p>
+
+<p>  [invocation setTarget:target];
+  [invocation setSelector:selector];</p>
+
+<p>  if(arg1) {
+      va_list args;
+      va_start(args, arg1);</p>
+
+<pre><code>  [invocation setArgument:(void *)&amp;arg1 atIndex:2];
+
+  id obj;
+  int ct = 3;
+
+  while( obj = va_arg(args, id) ) {
+      NSLog(@"%@", obj);
+      [invocation setArgument:(void *)&amp;obj atIndex:ct];
+
+      ct++;
+  }
+
+  va_end(args);
+</code></pre>
+
+<p>  }</p>
+
+<p>  return invocation;
+}
+```</p></li>
+</ul>
+
+
+<p>调用方法:</p>
+
+<p>```
+NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil];</p>
+
+<p>[invocation invoke];
+[invocation getReturnValue:&amp;retval];</p>
+
+<p>return retval;
+```</p>
+
+<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

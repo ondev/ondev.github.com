@@ -84,6 +84,254 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+
+<h3>1.SEL触发</h3>
+
+<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
+有了SEL这样就可以触发方法调用了,<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
+</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面两句代码是同一个道理。<br></p>
+
+<h3>2. IMP触发</h3>
+
+<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
+有了这个函数指针后，我们就可以触发方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
+
+<h3>3. objc_msgSend方法</h3>
+
+<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
+
+
+<p>这行代码等价于<br></p>
+
+<p>[self fly];</p>
+
+<h3>4. NSInvocation</h3>
+
+<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
+说得有点抽像，看代码更清楚:<br></p>
+
+<p>假如我们实现了一个两个数相加的方法，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
+</span><span class='line'>  NSNumber *retval;
+</span><span class='line'> 
+</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
+</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
+</span><span class='line'> 
+</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
+</span><span class='line'> 
+</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:self];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
+</span><span class='line'>  [invocation invoke];
+</span><span class='line'> 
+</span><span class='line'>  if ([sig methodReturnLength]) {
+</span><span class='line'>      [invocation getReturnValue:&retval];
+</span><span class='line'>      return retval;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  return nil;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
+
+<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
+</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
+</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:target];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  if(arg1) {
+</span><span class='line'>      va_list args;
+</span><span class='line'>      va_start(args, arg1);
+</span><span class='line'> 
+</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'> 
+</span><span class='line'>      id obj;
+</span><span class='line'>      int ct = 3;
+</span><span class='line'> 
+</span><span class='line'>      while( obj = va_arg(args, id) ) {
+</span><span class='line'>          NSLog(@"%@", obj);
+</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
+</span><span class='line'> 
+</span><span class='line'>          ct++;
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      va_end(args);
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  return invocation;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
+</span><span class='line'> 
+</span><span class='line'>[invocation invoke];
+</span><span class='line'>[invocation getReturnValue:&retval];
+</span><span class='line'> 
+</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a></h1>
     
     
@@ -619,89 +867,6 @@ Mac自带的svn server，见参考。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
-
-<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
-图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
-当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
-
-<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
-
-<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
-首先在xcode中选中要进行配置的一行，如图<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
-然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
-粘贴的内容类似：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
-</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
-</span><span class='line'>
-</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
-
-<p>按照这个方法配置所有你想要配置的。</p>
-
-<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
-注意图中选中项。</p>
-
-<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
-
-<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
-可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
-
-<p>参考：
-<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -728,13 +893,14 @@ Mac自带的svn server，见参考。</p>
 <section>
   <h1>Categories</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
+    <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
+<li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (9)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (10)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -742,6 +908,10 @@ Mac自带的svn server，见参考。</p>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a>
@@ -757,10 +927,6 @@ Mac自带的svn server，见参考。</p>
     
       <li class="post">
         <a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/">iOS App重新签名方法介绍</a>
       </li>
     
   </ul>
