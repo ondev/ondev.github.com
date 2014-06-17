@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Server | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/server/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-06-17T18:24:59+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Apache的一些配置]]></title>
+    <link href="http://www.ifun.cc/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/"/>
+    <updated>2014-06-17T17:35:10+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/06/17/ubuntu-apachede-[?]-xie-pei-zhi</id>
+    <content type="html"><![CDATA[<p>开发过程中需要解决的问题，然后记录解决方法。</p>
+
+<h3>1.ubuntu配置虚拟主机</h3>
+
+<p>apache2虚拟主机的好处是可以在一台服务器上，一个端口上建立多个站点<br></p>
+
+<p><code>
+cd /etc/apache2/sites-available
+cp default test.com
+</code>
+然后vim打开test.com
+主要有三处修改</p>
+
+<p>```
+DocumentRoot /var/www/test.com
+ServerName www.test.com
+<Directory /var/www/test.com></p>
+
+<pre><code>            Options Indexes FollowSymLinks MultiViews
+            AllowOverride None
+            Order allow,deny
+            allow from all
+</code></pre>
+
+<p></Directory>
+```
+然后保存修改<br></p>
+
+<p>下面命令就enable这个虚拟主机<BR></p>
+
+<p><code>
+sudo a2ensite test.com
+</code></p>
+
+<p>接下来重启我们的apache2<BR></p>
+
+<p><code>
+sudo /etc/init.d/apache2 restart
+</code>
+这下就可以通过www.test.com（你自己的域名）访问/var/www/test.com下的站点内容了。</p>
+
+<p>disable这个虚拟主机的命令是:<br></p>
+
+<p><code>
+sudo a2dissite test.com
+</code></p>
+
+<h3>2.ubuntu apache启用SSL</h3>
+
+<p>在上面我们介绍了配置虚拟主机，接着，如果我想对这个虚拟主机加入ssl功能如何办呢，其实方法很简单。假设你已经有了证书与私钥，分别是server.crt与server.key.</p>
+
+<p>那么，我们只需要修改/etc/apache2/sites-available/test.com这个文件。<br></p>
+
+<p>加入以下代码</p>
+
+<p>```</p>
+
+<h1>SSL</h1>
+
+<p>SSLEngine On
+SSLCertificateFile /etc/apache2/ssl/server.crt
+SSLCertificateKeyFile /etc/apache2/ssl/server.key
+```</p>
+
+<p>就是你服务器上对应的两个文件路径<br></p>
+
+<p>接着重启apache2生效：<br></p>
+
+<p><code>
+sudo /etc/init.d/apache2 restart
+</code></p>
+
+<p>这下就需要<a href="https://www.test.com%E6%9D%A5%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%AB%99%E7%82%B9%E4%BA%86%E3%80%82">https://www.test.com%E6%9D%A5%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%AB%99%E7%82%B9%E4%BA%86%E3%80%82</a></p>
+
+<h3>3.ubuntu apache与nodejs共享80端口</h3>
+
+<p>首先我们要开启proxy模块<br></p>
+
+<p><code>
+sudo a2enmod proxy_http
+sudo a2enmod proxy
+</code></p>
+
+<p>如果想关闭则用a2dismod命令,如：</p>
+
+<p><code>
+sudo a2dismod proxy
+</code></p>
+
+<p>配置一个虚拟主机：<br>
+假如nodejs的源码放在/home/weixin目录下<br>
+那下面是一个简单的示例配置:</p>
+
+<p>```
+<VirtualHost *:80>
+  ServerAdmin <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x61;&#100;&#109;&#105;&#x6e;&#64;&#x67;&#x6d;&#97;&#x69;&#x6c;&#x2e;&#x63;&#111;&#x6d;">&#x61;&#100;&#x6d;&#105;&#x6e;&#x40;&#x67;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#111;&#x6d;</a>
+  ServerName www.test.com</p>
+
+<p>  ProxyRequests off</p>
+
+<p>  <Proxy *></p>
+
+<pre><code>Order deny,allow
+Allow from all
+</code></pre>
+
+<p>  </Proxy></p>
+
+<p>  <Location /></p>
+
+<pre><code>ProxyPass http://localhost:8001/
+ProxyPassReverse http://localhost:8001/
+</code></pre>
+
+<p>  </Location></p>
+
+<p>  DocumentRoot /home/weixin
+  <Directory "/home/weixin"></p>
+
+<pre><code>AllowOverride All
+</code></pre>
+
+<p>  </Directory></p>
+
+<p>  ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+  <Directory "/usr/lib/cgi-bin"></p>
+
+<pre><code>AllowOverride None
+Options ExecCGI -MultiViews +SymLinksIfOwnerMatch
+Allow from all
+</code></pre>
+
+<p>  </Directory></p>
+
+<p>  ErrorLog /var/log/apache2/error.log
+  # Possible values include: debug, info, notice, warn, error, crit,
+  # alert, emerg.
+  LogLevel warn
+  CustomLog /var/log/apache2/access.log combined
+  ServerSignature On
+</VirtualHost>
+```</p>
+
+<p>接着重启apache2生效：<br></p>
+
+<p><code>
+sudo /etc/init.d/apache2 restart
+</code></p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-06-14T13:23:53+08:00</updated>
+  <updated>2014-06-17T18:24:59+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,194 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Ubuntu Apache的一些配置]]></title>
+    <link href="http://www.ifun.cc/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/"/>
+    <updated>2014-06-17T17:35:10+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/06/17/ubuntu-apachede-[?]-xie-pei-zhi</id>
+    <content type="html"><![CDATA[<p>开发过程中需要解决的问题，然后记录解决方法。</p>
+
+<h3>1.ubuntu配置虚拟主机</h3>
+
+<p>apache2虚拟主机的好处是可以在一台服务器上，一个端口上建立多个站点<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/apache2/sites-available
+</span><span class='line'>cp default test.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后vim打开test.com
+主要有三处修改</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DocumentRoot /var/www/test.com
+</span><span class='line'>ServerName www.test.com
+</span><span class='line'>&lt;Directory /var/www/test.com&gt;
+</span><span class='line'>                Options Indexes FollowSymLinks MultiViews
+</span><span class='line'>                AllowOverride None
+</span><span class='line'>                Order allow,deny
+</span><span class='line'>                allow from all
+</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后保存修改<br></p>
+
+<p>下面命令就enable这个虚拟主机<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2ensite test.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接下来重启我们的apache2<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下就可以通过www.test.com（你自己的域名）访问/var/www/test.com下的站点内容了。</p>
+
+<p>disable这个虚拟主机的命令是:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2dissite test.com</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2.ubuntu apache启用SSL</h3>
+
+<p>在上面我们介绍了配置虚拟主机，接着，如果我想对这个虚拟主机加入ssl功能如何办呢，其实方法很简单。假设你已经有了证书与私钥，分别是server.crt与server.key.</p>
+
+<p>那么，我们只需要修改/etc/apache2/sites-available/test.com这个文件。<br></p>
+
+<p>加入以下代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># SSL
+</span><span class='line'>SSLEngine On
+</span><span class='line'>SSLCertificateFile /etc/apache2/ssl/server.crt
+</span><span class='line'>SSLCertificateKeyFile /etc/apache2/ssl/server.key</span></code></pre></td></tr></table></div></figure>
+
+
+<p>就是你服务器上对应的两个文件路径<br></p>
+
+<p>接着重启apache2生效：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下就需要<a href="https://www.test.com%E6%9D%A5%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%AB%99%E7%82%B9%E4%BA%86%E3%80%82">https://www.test.com%E6%9D%A5%E8%AE%BF%E9%97%AE%E4%BD%A0%E7%9A%84%E7%AB%99%E7%82%B9%E4%BA%86%E3%80%82</a></p>
+
+<h3>3.ubuntu apache与nodejs共享80端口</h3>
+
+<p>首先我们要开启proxy模块<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2enmod proxy_http
+</span><span class='line'>sudo a2enmod proxy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想关闭则用a2dismod命令,如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2dismod proxy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>配置一个虚拟主机：<br>
+假如nodejs的源码放在/home/weixin目录下<br>
+那下面是一个简单的示例配置:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;VirtualHost *:80&gt;
+</span><span class='line'>  ServerAdmin admin@gmail.com
+</span><span class='line'>  ServerName www.test.com
+</span><span class='line'> 
+</span><span class='line'>  ProxyRequests off
+</span><span class='line'> 
+</span><span class='line'>  &lt;Proxy *&gt;
+</span><span class='line'>    Order deny,allow
+</span><span class='line'>    Allow from all
+</span><span class='line'>  &lt;/Proxy&gt;
+</span><span class='line'> 
+</span><span class='line'>  &lt;Location /&gt;
+</span><span class='line'>    ProxyPass http://localhost:8001/
+</span><span class='line'>    ProxyPassReverse http://localhost:8001/
+</span><span class='line'>  &lt;/Location&gt;
+</span><span class='line'> 
+</span><span class='line'>  DocumentRoot /home/weixin
+</span><span class='line'>  &lt;Directory "/home/weixin"&gt;
+</span><span class='line'>    AllowOverride All
+</span><span class='line'>  &lt;/Directory&gt;
+</span><span class='line'> 
+</span><span class='line'>  ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+</span><span class='line'>  &lt;Directory "/usr/lib/cgi-bin"&gt;
+</span><span class='line'>    AllowOverride None
+</span><span class='line'>    Options ExecCGI -MultiViews +SymLinksIfOwnerMatch
+</span><span class='line'>    Allow from all
+</span><span class='line'>  &lt;/Directory&gt;
+</span><span class='line'>
+</span><span class='line'>  ErrorLog /var/log/apache2/error.log
+</span><span class='line'>  # Possible values include: debug, info, notice, warn, error, crit,
+</span><span class='line'>  # alert, emerg.
+</span><span class='line'>  LogLevel warn
+</span><span class='line'>  CustomLog /var/log/apache2/access.log combined
+</span><span class='line'>  ServerSignature On
+</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着重启apache2生效：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Cocoa触发方法调用的几种方法]]></title>
@@ -1888,76 +2076,6 @@ cp php.ini.default php.ini sudo vim php.ini
 <p>我也把我做的测试工程放到了<a href="https://github.com/ondev/TestViewDeck">GitHub</a>, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。 我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
 
 <p>如果你的测试结果与我不一样，请告诉我</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS7隐藏status Bar]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/ios7yin-cang-status-bar/"/>
-    <updated>2014-02-09T00:49:11+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/ios7yin-cang-status-bar</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释： // Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system. 现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
-
-<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController. 这样就可以通过上面的方法来hiden status bar.</p>
-
-<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
-
-<p>只需要实现两个新方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
-</span><span class='line'>{
-</span><span class='line'>    return UIStatusBarStyleLightContent;
-</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
-</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>- (BOOL)prefersStatusBarHidden
-</span><span class='line'>{
-</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
-
-<p>调用下面的一行代码将会触发上面的回调</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
-</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
-</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

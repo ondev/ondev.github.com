@@ -85,6 +85,91 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/11/mac-xia-pei-zi-mantis/">Mac下配置Mantis</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-11T11:24:19+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/11/mac-xia-pei-zi-mantis/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>安装我就不介绍了，与传统的php应用安装一样，放到对应的site目录下，然后在浏览器方问进行安装。
+安装成功后会有红色的warning,</p>
+
+<h3>去掉Warning</h3>
+
+<p>然后修改phi.ini</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo vim /etc/php.ini</span></code></pre></td></tr></table></div></figure>
+
+
+<p>中的值</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>date.timezone = Asia/Shanghai</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后重启apache</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo apachectl restart</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>中文支持</h3>
+
+<p>修改config_defaults_inc.php</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$g_default_language      = 'chinese_simplified';</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想方便，你可以下载一键安装包
+<a href="https://bitnami.com/stack/mantis/installer">https://bitnami.com/stack/mantis/installer</a></p>
+
+<p>与svn的整合，我没有配置成功，还是介绍一下我所做的：
+用到了mantis的<a href="https://github.com/mantisbt-plugins/source-integration">插件</a>
+Mac自带的svn server，见参考。</p>
+
+<p>有成功配置的朋友，希望能分享一下。<br></p>
+
+<p>参考：
+<a href="http://xiayong.blog.51cto.com/6292420/1088790">Mac下配置svn server</a>
+<a href="https://github.com/mantisbt-plugins/source-integration">VCS plugs</a></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a></h1>
     
     
@@ -836,106 +921,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T00:49:11+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/ios7yin-cang-status-bar/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7中，状态栏变化比较大，hide/show状态的方法也不一样了。 在iOS7以前的版本，hide是通过以下代码实现</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在iOS7中默认情况下，这个方法不成功了。到setStatusBarHidden:withAnimation:声明的头文件去看看，多了一句注释： // Setting statusBarHidden does nothing if your application is using the default UIViewController-based status bar system. 现在在iOS7中，status bar的外观默认依赖UIViewController, 也就是说status bar随UIViewController的不同而不同。在这种默认的方式下，用全局的方法setStatusBarHidden:withAnimation:是行不通的。</p>
-
-<p>解决方法是在infor.plist中加入key:UIViewControllerBasedStatusBarAppearance 并设置其值为NO，这样就告诉系统，status bar不依赖于UIViewController. 这样就可以通过上面的方法来hiden status bar.</p>
-
-<p>如果是在默认情况下，如果我们要hiden如何办呢。</p>
-
-<p>只需要实现两个新方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (UIStatusBarStyle)preferredStatusBarStyle
-</span><span class='line'>{
-</span><span class='line'>    return UIStatusBarStyleLightContent;
-</span><span class='line'>    //UIStatusBarStyleDefault = 0 黑色文字，浅色背景时使用
-</span><span class='line'>  //UIStatusBarStyleLightContent = 1 白色文字，深色背景时使用
-</span><span class='line'>}
-</span><span class='line'>
-</span><span class='line'>- (BOOL)prefersStatusBarHidden
-</span><span class='line'>{
-</span><span class='line'>    return NO; //返回NO表示要显示，返回YES将hiden
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面一个回调方法返回status bar显示时候的样式，下面一个回调控制是否显示status bar.</p>
-
-<p>调用下面的一行代码将会触发上面的回调</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self setNeedsStatusBarAppearanceUpdate];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想在hiden/show之间有点动画效果，用下面的代码即可：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[UIView animateWithDuration:0.5 animations:^{
-</span><span class='line'>        [self setNeedsStatusBarAppearanceUpdate];
-</span><span class='line'>    }];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在介绍完毕在iOS7下操作status bar.如有问题，欢迎大家指正。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -969,6 +954,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
+<li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>iOS (10)</a></li>
@@ -979,6 +965,10 @@ cp php.ini.default php.ini sudo vim php.ini
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/">Ubuntu Apache的一些配置</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a>
@@ -994,10 +984,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a>
       </li>
     
   </ul>
