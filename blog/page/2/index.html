@@ -85,6 +85,57 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/12/ffmpeg-for-iOS7/">FFmpeg for iOS7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-12T11:24:19+08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/12/ffmpeg-for-iOS7/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>最近花了点时间来学习ffmpeg for iOS.
+首先是编译，在<a href="https://github.com/kewlbear/FFmpeg-iOS-build-script">github</a>上已有人写了编译脚本，我试了，能成功编译。</p>
+
+<p>接着是使用ffmpeg, 在<a href="https://github.com/kolyvan/kxmovie">github</a>上找到一个工程，不过没有更新了（需要ruby环境），它的rake在xcode5环境下是编译不过的。不过我已修改了它的编译脚本，并支持xcode5+iOS7，rake可以直接使用, 大家可以在我的<a href="https://github.com/ondev/kxmovie">github</a>上下载， 我已向原作者提交了pull request。库没有加x86_64，需要的参考arm64自己加吧，这样也明白脚本编译的原理。 <br>
+这个工程比较不错用opengles+coreaudio的方式播放视频，值得大家研究研究。</p>
+
+<p>ffmpeg编译通过了，接下来就是ffmpeg的世界。</p>
+
+<p>大家有问题可以给我留言交流也可以加我的qq群交流(疯狂IT人):93916004</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/11/mac-xia-pei-zi-mantis/">Mac下配置Mantis</a></h1>
     
     
@@ -859,68 +910,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T00:52:32+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
-我iOS开发的朋友可能用过<a href="https://github.com/Inferis/ViewDeck">ViewDeck</a>这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。</p>
-
-<p>首先，我说说我用viewdeck的ui布局， window的rooterViewController是一个UITabBarViewController, 然后IIViewDeckController是UITabBarViewController的子view. 然后每一个IIViewDeckController的left,center是UINavigationController. 还有一点需要说明， UITabBar的background Image是自定义的一张图片。</p>
-
-<p>这样的布局在iOS6上显示正常的，在iOS7 3.5 retina的Simulator上显示也是正常的，但是在iPhone4s上显示不正确了，IIViewDeckController的left与center的view高度刚好少44。也就是说这个问题只会在设备上出现。我debug了一下，发现造成这个问题的原因是UITabBar自定义了背景图片，如果不自定义则ok.但是我们的程序是需要自定义UITabBar的背景的。由于我看到刚好少了44px,所以我就试着在IIViewDeckController的viewDidLoad中加了一句代码：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        self.extendedLayoutIncludesOpaqueBars = YES;
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就可以成功运行了。 这句话的意思就是，是否延升到Tabbar区域。默认是NO的，由于Tabbar是44px,这样修改刚好可以fix这个问 但是最让我费解的就是在Simulator上没有这个问题，在Device上有问题，不过问题总算解决了。</p>
-
-<p>我也把我做的测试工程放到了<a href="https://github.com/ondev/TestViewDeck">GitHub</a>, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。 我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
-
-<p>如果你的测试结果与我不一样，请告诉我</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -951,13 +940,15 @@ cp php.ini.default php.ini sudo vim php.ini
   <ul id="categories">
     <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
+<li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
+<li class='category'><a href='/blog/categories/nodejs/'>Nodejs (1)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (10)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (11)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -965,6 +956,10 @@ cp php.ini.default php.ini sudo vim php.ini
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/">一个基于Nodejs的简单iOS MDM服务</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/">Ubuntu Apache的一些配置</a>
@@ -980,10 +975,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a>
       </li>
     
   </ul>
