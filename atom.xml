@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-07-08T19:11:42+08:00</updated>
+  <updated>2014-07-10T16:51:20+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,77 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自定义iOS上双击Home键App切屏]]></title>
+    <link href="http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/"/>
+    <updated>2014-07-10T16:34:06+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>在iOS7上，如果双击Home，会来到iOS App的switcher页面，在这儿列出了当前系统挂起的App, 上面有每个App的切屏，相信大家都熟悉这个东东了。它其实是每个App在挂起前，对App后个载屏。</p>
+
+<p>那么我们如何自定义它在App Switcher上的展示呢，明白了它其实是对App的载屏，那么在它快进入后台的时候，我们改变其外观，那么载下来的图片，不就改变了吗？</p>
+
+<p>明白这个原理后，那我们就试一试。</p>
+
+<p>新建一个工程，准备三张图片，Defautl.png, Defautl@2x.png, Default-568h@2x.png,  将其放进工程。</p>
+
+<p>我们在AppDelegate.h中声明一个UIImageView变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt; {
+</span><span class='line'>    UIImageView *screenShotView;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@property (strong, nonatomic) UIWindow *window;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着在AppDelegate中加入以下代码:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)applicationWillResignActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    if (!screenShotView) {
+</span><span class='line'>        screenShotView = [[UIImageView alloc]initWithFrame:[self.window frame]];
+</span><span class='line'>        [screenShotView setImage:[UIImage imageNamed:@"Default-568h"]];
+</span><span class='line'>        [self.window addSubview:screenShotView];
+</span><span class='line'>    }
+</span><span class='line'>    screenShotView.alpha = 1;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)applicationDidBecomeActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    screenShotView.alpha = 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先在模拟器上删除以app,然后再点xcode run.  双击Home, 这下你是不是在App Switcher中看到了你的Default的图片，将上面的代码中Default-568h改为其它图片, 这样达到了自定义目的, 是不是太简单了呀？</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[一个基于Nodejs的简单iOS MDM服务]]></title>
@@ -2023,53 +2094,6 @@ cp php.ini.default php.ini sudo vim php.ini
 &#8220;`</p>
 
 <p>一个vps如果要想建多个站，那么需要设置virtual host. 请先配置好virtual host，然后再进行站点安装，否则会出错，大家一定注意。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS7新知识汇总]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/"/>
-    <updated>2014-02-09T10:24:48+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/ios7xin-zhi-shi-hui-zong</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</p>
-
-<p>iOS7 CoreBluetooth</p>
-
-<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a><br>
-<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
-
-<p>iOS7 Feature</p>
-
-<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> <br>
-<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a><br>
-<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> <br>
-<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a><br>
-<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a><br>
-<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></p>
-
-<p>iBeacon</p>
-
-<p><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a> <br>
-<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a> <br>
-<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></p>
-
-<p>iOS7 Multipeer Connectivity</p>
-
-<p><a href="http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/">http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/</a></p>
-
-<p>Other iOS7 Tutorial</p>
-
-<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a><br>
-<a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a><br>
-<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a><br>
-<a href="http://www.objc.io/issue-5/">http://www.objc.io/issue-5/</a><br>
-<a href="http://www.captechconsulting.com/blog-tags/ios">iOS7 Tutorial Series</a></p>
-
-<p>如果你有更好的教程请补充。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

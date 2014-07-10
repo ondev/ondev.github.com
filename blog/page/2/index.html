@@ -85,6 +85,93 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-17T21:42:20+08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>iOS7以前计算NSString所占size的API是NSString的成员方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode</span></code></pre></td></tr></table></div></figure>
+
+
+<p>现在iOS7中如果用这个方法计算，计算出来的值要比实际值小，所以可能出现显示不完全的效果。这是因为在iOS7中，上面这个方法已被新的API替代了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面的代码是一个示例，大家可以做为参考：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGSize expectedLabelSize = CGSizeZero;
+</span><span class='line'>    
+</span><span class='line'>    if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+</span><span class='line'>        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
+</span><span class='line'>        NSDictionary *attributes = @{NSFontAttributeName:sideLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
+</span><span class='line'>        
+</span><span class='line'>        expectedLabelSize = [sideLabel.text boundingRectWithSize:CGSizeMake(260, 999) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
+</span><span class='line'>    }
+</span><span class='line'>    else {
+</span><span class='line'>        expectedLabelSize = [sideLabel.text sizeWithFont:sideLabel.font
+</span><span class='line'>                                       constrainedToSize:CGSizeMake(260, 999)
+</span><span class='line'>                                           lineBreakMode:sideLabel.lineBreakMode];
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就正确了。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/12/ffmpeg-for-iOS7/">FFmpeg for iOS7</a></h1>
     
     
@@ -833,83 +920,6 @@ cp php.ini.default php.ini sudo vim php.ini
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/">iOS7新知识汇总</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T10:24:48+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/ios7xin-zhi-shi-hui-zong/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7给我们带来了好多东西，表示我们将有新东西要学习了，在此记录一些网上的教程，方便自己与大家学习。</p>
-
-<p>iOS7 CoreBluetooth</p>
-
-<p><a href="http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/">http://www.doubleencore.com/2013/09/whats-new-in-bluetooth-le-ios-7/</a><br>
-<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/CoreBluetooth_concepts/AboutCoreBluetooth/Introduction.html">CoreBluetooth</a></p>
-
-<p>iOS7 Feature</p>
-
-<p><a href="http://blog.bignerdranch.com/3899-uikit-dynamics-and-ios-7-building-uikit-pong/">iOS7 UIKit Dynamics 1</a> <br>
-<a href="http://www.raywenderlich.com/50197/uikit-dynamics-tutorial">iOS7 UIKit Dynamics 2</a><br>
-<a href="http://www.raywenderlich.com/42699/spritekit-tutorial-for-beginners">iOS7 Sprint Kit</a> <br>
-<a href="http://blog.bignerdranch.com/3784-javascriptcore-and-ios-7/">iOS7 JavascriptCore</a><br>
-<a href="http://www.raywenderlich.com/51127/nsurlsession-tutorial">iOS7 NSURLSession</a><br>
-<a href="http://www.raywenderlich.com/50151/text-kit-tutorial">iOS7 Text Kit</a></p>
-
-<p>iBeacon</p>
-
-<p><a href="http://redbearlab.com/ibeacon/">http://redbearlab.com/ibeacon/</a> <br>
-<a href="http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/">http://www.devfright.com/ibeacons-tutorial-ios-7-clbeaconregion-clbeacon/</a> <br>
-<a href="http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api">http://maniacdev.com/2013/10/example-an-app-using-the-new-ios-7-ibeacon-api</a></p>
-
-<p>iOS7 Multipeer Connectivity</p>
-
-<p><a href="http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/">http://techmaster.vn/2013/09/multipeer-connectivity-quick-tutorial/</a></p>
-
-<p>Other iOS7 Tutorial</p>
-
-<p><a href="http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/">http://www.shinobicontrols.com/blog/posts/2013/09/19/introducing-ios7-day-by-day/</a><br>
-<a href="https://github.com/shu223/iOS7-Sampler">https://github.com/shu223/iOS7-Sampler</a><br>
-<a href="http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/">http://www.doubleencore.com/2013/09/essential-ios-7-developers-guide/</a><br>
-<a href="http://www.objc.io/issue-5/">http://www.objc.io/issue-5/</a><br>
-<a href="http://www.captechconsulting.com/blog-tags/ios">iOS7 Tutorial Series</a></p>
-
-<p>如果你有更好的教程请补充。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -948,7 +958,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (11)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (12)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -956,6 +966,10 @@ cp php.ini.default php.ini sudo vim php.ini
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/">自定义iOS上双击Home键App切屏</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/">一个基于Nodejs的简单iOS MDM服务</a>
@@ -971,10 +985,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a>
       </li>
     
   </ul>

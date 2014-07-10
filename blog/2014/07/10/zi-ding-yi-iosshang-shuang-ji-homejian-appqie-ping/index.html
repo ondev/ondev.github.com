@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: UI - Haven's Blog</title>
+  <title>自定义iOS上双击Home键App切屏 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="Category: UI">
-  <meta name="keywords" content="iOS,C/C++,PHP,UITableView,UIKit,Socket,iOS7">
+  <meta name="description" content="加入QQ群:93916004更多精彩">
+  <meta name="keywords" content="screenshotdouble click homeApp switcher screenshotiOS App screenshotiOS 切屏iOS 双击Home">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.ccblog/categories/ui">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -78,36 +78,173 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: UI</h1>
+    
+      <h1 class="entry-title">自定义iOS上双击Home键App切屏</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-10T16:34:06+08:00" pubdate data-updated="true">Jul 10<span>th</span>, 2014</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 
-  
-  <h2>2014</h2>
+<p>在iOS7上，如果双击Home，会来到iOS App的switcher页面，在这儿列出了当前系统挂起的App, 上面有每个App的切屏，相信大家都熟悉这个东东了。它其实是每个App在挂起前，对App后个载屏。</p>
 
-<article>
-  
-<h1><a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a></h1>
-<time datetime="2014-02-22T16:16:29+08:00" pubdate><span class='month'>Feb</span> <span class='day'>22</span> <span class='year'>2014</span></time>
+<p>那么我们如何自定义它在App Switcher上的展示呢，明白了它其实是对App的载屏，那么在它快进入后台的时候，我们改变其外观，那么载下来的图片，不就改变了吗？</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ui/'>UI</a>, <a class='category' href='/blog/categories/ios/'>iOS</a></span>
-</footer>
+<p>明白这个原理后，那我们就试一试。</p>
+
+<p>新建一个工程，准备三张图片，Defautl.png, Defautl@2x.png, Default-568h@2x.png,  将其放进工程。</p>
+
+<p>我们在AppDelegate.h中声明一个UIImageView变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt; {
+</span><span class='line'>    UIImageView *screenShotView;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@property (strong, nonatomic) UIWindow *window;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>接着在AppDelegate中加入以下代码:</p>
 
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)applicationWillResignActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    if (!screenShotView) {
+</span><span class='line'>        screenShotView = [[UIImageView alloc]initWithFrame:[self.window frame]];
+</span><span class='line'>        [screenShotView setImage:[UIImage imageNamed:@"Default-568h"]];
+</span><span class='line'>        [self.window addSubview:screenShotView];
+</span><span class='line'>    }
+</span><span class='line'>    screenShotView.alpha = 1;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)applicationDidBecomeActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    screenShotView.alpha = 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先在模拟器上删除以app,然后再点xcode run.  双击Home, 这下你是不是在App Switcher中看到了你的Default的图片，将上面的代码中Default-568h改为其它图片, 这样达到了自定义目的, 是不是太简单了呀？</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-10T16:34:06+08:00" pubdate data-updated="true">Jul 10<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ios/'>iOS</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/" title="Previous Post: 一个基于Nodejs的简单iOS MDM服务">&laquo; 一个基于Nodejs的简单iOS MDM服务</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
 
 </div>
 
