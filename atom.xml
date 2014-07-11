@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-07-10T16:51:20+08:00</updated>
+  <updated>2014-07-11T17:15:40+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -14,15 +14,69 @@
 
   
   <entry>
+    <title type="html"><![CDATA[iOS Jailbreak Dev准备工作]]></title>
+    <link href="http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/"/>
+    <updated>2014-07-11T16:58:09+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>安全越来越重要了，所以我也在开始着手研究iOS安全。iOS的安全很大一部份是在iOS越狱的基础上进行的，所以对基设备进行越狱，并准备向安全领域进军。</p>
+
+<p>1.iOS越狱设备，这我就不多说了,(有风险，自行承担)
+2.在iOS越狱设备上安装openssh, SBSettings, BigBoss Recommended tools, MobileTerminal,这些可以通过Cydia安装</p>
+
+<p>下面安装clutch,class-dump-z</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh root@you ios device ip
+</span><span class='line'>apt-get upgrade
+</span><span class='line'>wget http://networkpx.googlecode.com/files/class-dump-z_0.2a.tar.gz
+</span><span class='line'>tar -xvzf class-dump-z_0.2a.tar.gz
+</span><span class='line'>cd iphone_armv6
+</span><span class='line'>cp class-dump-z /usr/bin
+</span><span class='line'>chmod 777 /usr/bin/class-dump-z</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以用sftp将clutch上传到iOS设备里。Clutch在<a href="https://github.com/KJCracks/Clutch">这儿</a>哦</p>
+
+<p>从appstore上下载的app是加了密的，加了密的app，class-dump-z就无能为力了，所以需要clutch将基解密。</p>
+
+<p>以2048为例</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>clutch 2048
+</span><span class='line'>cd /User/Documents/Cracked
+</span><span class='line'>unzip /User/Documents/Cracked/2048.ipa -d 2048
+</span><span class='line'>class-dump-z 2048/Payload/2048.app/2048 &gt; class-info-2048</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.在Mac上安装theOS,iOSOpenDev,Cycript</p>
+
+<p>就这些了，以后再加用到的。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[自定义iOS上双击Home键App切屏]]></title>
     <link href="http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/"/>
     <updated>2014-07-10T16:34:06+08:00</updated>
     <id>http://www.ifun.cc/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping</id>
     <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 
-<p>在iOS7上，如果双击Home，会来到iOS App的switcher页面，在这儿列出了当前系统挂起的App, 上面有每个App的切屏，相信大家都熟悉这个东东了。它其实是每个App在挂起前，对App后个载屏。</p>
+<p>在iOS7上，如果双击Home，会来到iOS App的switcher页面，在这儿列出了当前系统挂起的App, 上面有每个App的切屏，相信大家都熟悉这个东东了。它其实是每个App在挂起前，对App截屏。</p>
 
-<p>那么我们如何自定义它在App Switcher上的展示呢，明白了它其实是对App的载屏，那么在它快进入后台的时候，我们改变其外观，那么载下来的图片，不就改变了吗？</p>
+<p>那么我们如何自定义它在App Switcher上的展示呢，明白了它其实是对App的截屏，那么在它快进入后台的时候，我们改变其外观，那么截下来的图片，不就改变了吗？</p>
 
 <p>明白这个原理后，那我们就试一试。</p>
 
@@ -2056,44 +2110,6 @@ xiuno的调试宏记得打开哟。 <br>
 <p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
 
 <p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[安装xiuno论坛]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/an-zhuang-xiunolun-tan/"/>
-    <updated>2014-02-09T10:33:51+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/an-zhuang-xiunolun-tan</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind… 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
-
-<p>首先是下载<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">程序</a>. 解压放到你的站点目录。 然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限 修改权限命令：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod -R 777 ./xiuno </span></code></pre></td></tr></table></div></figure>
-
-
-<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
-
-<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> sudo vim php.ini 
-</span><span class='line'> ``` 
-</span><span class='line'>如果是Mac系统，php.ini的目录是/etc, 下面有一个php.ini.default文件 
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-cp php.ini.default php.ini sudo vim php.ini
-&#8220;`</p>
-
-<p>一个vps如果要想建多个站，那么需要设置virtual host. 请先配置好virtual host，然后再进行站点安装，否则会出错，大家一定注意。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

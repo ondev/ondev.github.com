@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Jailbreak | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/jailbreak/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2014-07-11T17:15:40+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[iOS Jailbreak Dev准备工作]]></title>
+    <link href="http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/"/>
+    <updated>2014-07-11T16:58:09+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>安全越来越重要了，所以我也在开始着手研究iOS安全。iOS的安全很大一部份是在iOS越狱的基础上进行的，所以对基设备进行越狱，并准备向安全领域进军。</p>
+
+<p>1.iOS越狱设备，这我就不多说了,(有风险，自行承担)
+2.在iOS越狱设备上安装openssh, SBSettings, BigBoss Recommended tools, MobileTerminal,这些可以通过Cydia安装</p>
+
+<p>下面安装clutch,class-dump-z</p>
+
+<p><code>
+ssh root@you ios device ip
+apt-get upgrade
+wget http://networkpx.googlecode.com/files/class-dump-z_0.2a.tar.gz
+tar -xvzf class-dump-z_0.2a.tar.gz
+cd iphone_armv6
+cp class-dump-z /usr/bin
+chmod 777 /usr/bin/class-dump-z
+</code>
+可以用sftp将clutch上传到iOS设备里。Clutch在<a href="https://github.com/KJCracks/Clutch">这儿</a>哦</p>
+
+<p>从appstore上下载的app是加了密的，加了密的app，class-dump-z就无能为力了，所以需要clutch将基解密。</p>
+
+<p>以2048为例</p>
+
+<p><code>
+clutch 2048
+cd /User/Documents/Cracked
+unzip /User/Documents/Cracked/2048.ipa -d 2048
+class-dump-z 2048/Payload/2048.app/2048 &gt; class-info-2048
+</code></p>
+
+<p>3.在Mac上安装theOS,iOSOpenDev,Cycript</p>
+
+<p>就这些了，以后再加用到的。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

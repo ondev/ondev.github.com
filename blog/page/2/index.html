@@ -85,6 +85,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">动态计算UITableViewCell高度详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-21T21:49:56+08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>不知道大家有没有发现，在iOS APP开发过程中，UITableView是我们显示内容常见的控件，本人觉得它是UIKit中最复杂的一个控件。今天要向大家介绍的就是如何动态计算UITableViewCell高度的一经验与技巧，在此做一些总结方便朋友们查阅。<br></p>
+
+<blockquote><p>同时也欢迎广大iOS技术人员加入技术开发群：&lt;疯狂IT人>93916004，众人拾柴火焰高，大家一起讨论研究。<br></p></blockquote>
+
+<p>为了不让讲解空洞抽象，我还是用代码实例的方式进行讲解，这样更容易接收与学习。<br>
+本文将介绍四种情况下UITableViewCell的计算方式，分别是：<br></p>
+
+<ol>
+<li><a href="#md-1">Auto Layout with UILabel in UITableViewCell</a></li>
+<li><a href="#md-2">Auto Layout with UITextView in UITableViewCell</a></li>
+<li><a href="#md-3">Manual Layout with UILabel in UITableViewCell</a></li>
+<li><a href="#md-4">Manual Layout with UITextView in UITableViewCell</a></li>
+<li><a href="#md-5">随UITextView高度动态改变Cell高度</a></li>
+</ol>
+
+
+<blockquote><p>由于只是一个demo，所以命名这些都是随意从简。</p></blockquote>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a></h1>
     
     
@@ -852,74 +914,6 @@ xiuno的调试宏记得打开哟。 <br>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/an-zhuang-xiunolun-tan/">安装xiuno论坛</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T10:33:51+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/an-zhuang-xiunolun-tan/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近想开一个论坛，于是找了一些常用bbs开源框架，比较成熟的有Discuz, phpWind… 无意间看到有人推荐xiuno, 特点是小巧，速度快。由于我不想建一个大型的论坛，所以选择了速度与小巧的xiuno.</p>
-
-<p>首先是下载<a href="http://bbs.xiuno.com/thread-index-fid-2-tid-4159.htm">程序</a>. 解压放到你的站点目录。 然后在浏览器里定位到你的bbs目录，就会提示你进行安装，如果没有出现，则是因为你的文件目录没有写权限 修改权限命令：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod -R 777 ./xiuno </span></code></pre></td></tr></table></div></figure>
-
-
-<p>安装成功后，进入后台，看到有一个警告。php.ini 中未设置 upload_tmp_dir，可能会导致上传失败。</p>
-
-<p>我的vps是unbuntu的系统，所以到/etc/php5/apache2目录下修入php.ini, 将upload_tmp_dir前面的;号去掉，;号表示注释。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> sudo vim php.ini 
-</span><span class='line'> ``` 
-</span><span class='line'>如果是Mac系统，php.ini的目录是/etc, 下面有一个php.ini.default文件 
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-cp php.ini.default php.ini sudo vim php.ini
-&#8220;`</p>
-
-<p>一个vps如果要想建多个站，那么需要设置virtual host. 请先配置好virtual host，然后再进行站点安装，否则会出错，大家一定注意。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -950,6 +944,7 @@ cp php.ini.default php.ini sudo vim php.ini
   <ul id="categories">
     <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
+<li class='category'><a href='/blog/categories/jailbreak/'>Jailbreak (1)</a></li>
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (1)</a></li>
@@ -958,7 +953,7 @@ cp php.ini.default php.ini sudo vim php.ini
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (12)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (13)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -966,6 +961,10 @@ cp php.ini.default php.ini sudo vim php.ini
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/">iOS Jailbreak Dev准备工作</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/">自定义iOS上双击Home键App切屏</a>
@@ -981,10 +980,6 @@ cp php.ini.default php.ini sudo vim php.ini
     
       <li class="post">
         <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a>
       </li>
     
   </ul>
