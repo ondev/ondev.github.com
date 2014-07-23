@@ -85,6 +85,73 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/">使用Auto Layout的坑</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-23T17:40:05+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>最近在研究iOS8, 用beta版的xcode创建了一个swift项目，由于iOS8加入了size classes的概念，所以当然要用这先进东西了。</p>
+
+<p>创建了一个tabbar的工程，试着在storyboard中研究它，发于UITextView这个控件在w(Compact), h(Regular)iPhone竖屏的情况下，字符显示不完整（如下图所以，好像UITextView的frame比较小）。最开始以为是constraints的问题，仔细看了一下，没有发现constraints有问题。
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvr8u4eoj20v40zo75u.jpg" alt="" /><br></p>
+
+<p>由于强迫症严重，所以总感觉这样不太对。 最后终于找到了，原来是没有设置Editable属性。只需要在storyboard属性栏中将其勾中就ok了。</p>
+
+<p><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eimvucfa68j20eq0go767.jpg" alt="" /> <br></p>
+
+<p>下在是不是看着顺眼多了？ ^V^</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvvwb33aj20t20v0dhf.jpg" alt="" /> <br></p>
+
+<p>然后我试着运行工程，看结果，发现第二个tab中UITextView中的字符不见了。
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1eimvz0q0xwj20gw0vo0ta.jpg" alt="" /> <br>
+这是为什么呢？</p>
+
+<p>经研究发现是constraints的Placeholder属性勾中了。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1eimw0ph1taj20dy0ceab9.jpg" alt="" /> <br></p>
+
+<p>Placeholder就是占位的意思，在编译的时候就会去掉这个Constraint. 由于去掉了Constraint,那么就不无决定它的frame, 结果就显示不出来了。</p>
+
+<p>有了这个属性，那么就可以在storyboard或xib中先用了个constraints来占位，可以去掉警告， 方便代码加Constraints的朋友使用。</p>
+
+<p>虽然用Auto Layout有一段时间了，但是这些细节还不是很清楚，还得慢慢吸收。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/">iOS Jailbreak Dev准备工作</a></h1>
     
     
@@ -994,54 +1061,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/">iOS App重新签名方法介绍</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>今天要给大家介绍两种app重新签名的方法, 做一下记录方便需要的朋友。<br>
-1. <a href="#md-1">通过Xcode重答名</a> <br>
-2. <a href="#md-2">直接修改已签名的iPA文件</a></p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1079,7 +1098,7 @@
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (13)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (14)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 
   </ul>
@@ -1087,6 +1106,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/">使用Auto Layout的坑</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/">iOS Jailbreak Dev准备工作</a>
@@ -1102,10 +1125,6 @@
     
       <li class="post">
         <a href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/">Ubuntu Apache的一些配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a>
       </li>
     
   </ul>

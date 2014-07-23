@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-07-11T17:15:40+08:00</updated>
+  <updated>2014-07-23T18:10:55+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[使用Auto Layout的坑]]></title>
+    <link href="http://www.ifun.cc/blog/2014/07/23/shi-yong-auto-layoutde-keng/"/>
+    <updated>2014-07-23T17:40:05+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/07/23/shi-yong-auto-layoutde-keng</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>最近在研究iOS8, 用beta版的xcode创建了一个swift项目，由于iOS8加入了size classes的概念，所以当然要用这先进东西了。</p>
+
+<p>创建了一个tabbar的工程，试着在storyboard中研究它，发于UITextView这个控件在w(Compact), h(Regular)iPhone竖屏的情况下，字符显示不完整（如下图所以，好像UITextView的frame比较小）。最开始以为是constraints的问题，仔细看了一下，没有发现constraints有问题。
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvr8u4eoj20v40zo75u.jpg" alt="" /><br></p>
+
+<p>由于强迫症严重，所以总感觉这样不太对。 最后终于找到了，原来是没有设置Editable属性。只需要在storyboard属性栏中将其勾中就ok了。</p>
+
+<p><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eimvucfa68j20eq0go767.jpg" alt="" /> <br></p>
+
+<p>下在是不是看着顺眼多了？ ^V^</p>
+
+<p><img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvvwb33aj20t20v0dhf.jpg" alt="" /> <br></p>
+
+<p>然后我试着运行工程，看结果，发现第二个tab中UITextView中的字符不见了。
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1eimvz0q0xwj20gw0vo0ta.jpg" alt="" /> <br>
+这是为什么呢？</p>
+
+<p>经研究发现是constraints的Placeholder属性勾中了。<br>
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1eimw0ph1taj20dy0ceab9.jpg" alt="" /> <br></p>
+
+<p>Placeholder就是占位的意思，在编译的时候就会去掉这个Constraint. 由于去掉了Constraint,那么就不无决定它的frame, 结果就显示不出来了。</p>
+
+<p>有了这个属性，那么就可以在storyboard或xib中先用了个constraints来占位，可以去掉警告， 方便代码加Constraints的朋友使用。</p>
+
+<p>虽然用Auto Layout有一段时间了，但是这些细节还不是很清楚，还得慢慢吸收。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS Jailbreak Dev准备工作]]></title>
@@ -2028,88 +2065,6 @@ xiuno的调试宏记得打开哟。 <br>
 <p>还是以前的shell, 支持arm64平台。</p>
 
 <p>我编译了一份库，<a href="https://github.com/ondev/AMR-for-iOS7">传送门</a>。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Mac下配置神器PhpStrom开发环境]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing/"/>
-    <updated>2014-02-09T11:00:05+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/macxia-pei-zhi-shen-qi-phpstromkai-fa-huan-jing</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>php这么流行，不能不研究一下。首先得找到好用的工具，见网上大神们都推荐神器phpStorm，那我也追追风，下载了一个phpStorm 7.1。平时工作都是在mac系统，所以这儿只介绍mac系统神器的配置。</p>
-
-<p>安装我就不用多说了嘛。<br>
-安装成功后，接下来就运行。<br>
-运行后当然是创建一个了新工程，简单一点，我们创建一个空工程。 刚才都说了，是空工程，那接着我们给它加点料，新建一个php文件，暂且命名为index.</p>
-
-<p>接着我们给它点点内容，那是那样吧，最简单的，用helloworld.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;html&gt;
-</span><span class='line'>&lt;head&gt;
-</span><span class='line'>    &lt;title&gt;PHP 测试&lt;/title&gt;
-</span><span class='line'>&lt;/head&gt;
-</span><span class='line'>&lt;body&gt;
-</span><span class='line'>&lt;?php echo '&lt;p&gt;Hello World&lt;/p&gt;'; ?&gt;
-</span><span class='line'>&lt;/body&gt;
-</span><span class='line'>&lt;/html&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着我们点击运行
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcxz9otroj20qf0ji413.jpg" alt="" /></p>
-
-<p>会出现一个对话框
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy003c4xj20iw0ikwgi.jpg" alt="" /></p>
-
-<p>下面有一个error,是说没有找到php解释器。点击后面的Fix，会出现如下对话框：
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy0tu5m7j20dk0i1dgj.jpg" alt="" /></p>
-
-<p>看到了吧，解释器设置。 mac系统是默认安装了php的，目录是在/usr/bin,那么我们点击后面的button,然后指定php解释器目录。<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy1eg18oj20mx0ir3zn.jpg" alt="" /></p>
-
-<p>配置好后点击ok。</p>
-
-<p>配置好后，就有解释器了。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy2630cbj20d80htjrz.jpg" alt="" /></p>
-
-<p>理论上这样配置就已完成了，可是如果你点击下图右边中的chrome图标<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy319hyfj20ws0jcgns.jpg" alt="" /></p>
-
-<p>你将会看502错误，<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy3qaz2mj20qu07r0sv.jpg" alt="" /></p>
-
-<p>回到PhpStorm后，你会看到有一相警告，是说php-cgi没有找到<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy4ae661j20lc07wdga.jpg" alt="" /></p>
-
-<p>解决方法就是自己安装php，不用mac安装，这样就有php开发环境了。 安装很简单，直接运行一个命令, 需要几分钟，请慢慢等待。<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>curl -s http://php-osx.liip.ch/install.sh | bash -s 5.5</span></code></pre></td></tr></table></div></figure>
-
-
-<p>新安装的php目录是/usr/local/php5/bin，接下来在PhpStorm中设置新安装的php解释器： PhpStorm->Preferences->PHP 会来到解释器设置页<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcy5cwpgaj20y40mvtbk.jpg" alt="" /></p>
-
-<p>设置我们安装的php解释器：/usr/local/php5/bin<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcy5zj6k8j20mx0iqgmv.jpg" alt="" /></p>
-
-<p>这下配置完成，把鼠标放到PhpStorm右边区域，然后点击你电脑上安装了的浏览器，就会打开浏览器显示index.php的内容<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcy6kpunej206r04imwy.jpg" alt="" /></p>
-
-<p>如果想从网页中触发进行调试，需要安装插件。我用的是chrome, 需要安装<a href="https://chrome.google.com/webstore/detail/xdebug-helper/eadndfjplgieldjbigjakmdgkmoaaaoc">Xdebug helper</a></p>
-
-<p>到此，神器PhpStorm for Mac已配置完成，可以开始你的php之旅了。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>
