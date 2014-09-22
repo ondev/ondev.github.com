@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Cocoa触发方法调用的几种方法 - Haven's Blog</title>
+  <title>iOSOpenDev配置 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
   <meta name="description" content="加入QQ群:93916004更多精彩">
-  <meta name="keywords" content="cocoamethordios方法调用">
+  <meta name="keywords" content="iOS JailbreakiOS越狱开发programming越狱开发教程">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2014/09/22/iosopendevpei-zhi">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Cocoa触发方法调用的几种方法</h1>
+      <h1 class="entry-title">iOSOpenDev配置</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+<time datetime="2014-09-22T16:43:25+08:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2014</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -110,68 +110,40 @@
 
 <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 
-<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+<h3>配置</h3>
 
-<h3>1.SEL触发</h3>
+<p>首先我们安装iOSOpenDev, 直接下载最新的进行安装，如果有错，可以参看<a href="https://github.com/kokoabim/iOSOpenDev/wiki/Troubleshoot">这儿</a>。</p>
 
-<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
-有了SEL这样就可以触发方法调用了,<br></p>
+<p>越狱开发需要TheOS环境，而iOSOpenDev也是建立在TheOS的基础上的，只不过用iOSOpenDev我们就可以使用我们熟悉的Xcode进行开发了。所以我们还需要安装TheOS.打开命令行，直接运行下面命令进行安装</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
-</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>export THEOS=/opt/theos
+</span><span class='line'>git clone git://github.com/DHowett/theos.git $THEOS</span></code></pre></td></tr></table></div></figure>
 
 
-<p>上面两句代码是同一个道理。<br></p>
-
-<h3>2. IMP触发</h3>
-
-<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+<p>利用iOSOpenDev, 我们只需要简单command+shift+i就可以将程序布置到设备上了。这个过程需要ssh连接，所以我们还需要配置ssh钥匙对。只需要一条命令即可：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>iosod sshkey -h 192.168.1.1</span></code></pre></td></tr></table></div></figure>
 
 
-<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
-有了这个函数指针后，我们就可以触发方法：</p>
+<p>192.168.1.1是你设备的地址，记住，你设备上一定要开启ssh哦。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
+<p>iOSOpenDev的官方文档都在<a href="https://github.com/kokoabim/iOSOpenDev/wiki/_pages">这儿</a>，你可以再研究研究。</p>
 
+<p>接下来，我们需要dump出来的iOS header, 比如我们要hook SpringBoard. 大家可以自行dump出header，也可以到网上下载已经dump好了的。我就是直接<a href="https://github.com/MP0w/iOS-Headers">这儿</a>下载的。将下载好的头文件放到/opt/theos/include目录下。</p>
 
-<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
+<h3>Hello Word</h3>
 
-<h3>3. objc_msgSend方法</h3>
+<p>现在一切都准备好了，那我们来进行我们的Hello Word.
+创建一个logos Tweak工程。接着在Build Settings中iOSOpenDevDevice设置为自己设备的IP地址，设备与你的Mac要在一个局域网内。</p>
 
-<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+<p>由于我们需要引用头文件，所以还需要在Build Settings中将Header Search Paths中加一行/opt/theos/include</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
+<p>下面我们实现hook SpringBoard，当SPringBoard启动的时候，我们就弹出一个Alert.</p>
 
-
-<p>这行代码等价于<br></p>
-
-<p>[self fly];</p>
-
-<h3>4. NSInvocation</h3>
-
-<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
-说得有点抽像，看代码更清楚:<br></p>
-
-<p>假如我们实现了一个两个数相加的方法，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+<p>在.xm中加以下代码.</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -190,134 +162,38 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
-</span><span class='line'>  NSNumber *retval;
-</span><span class='line'> 
-</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
-</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
-</span><span class='line'> 
-</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
-</span><span class='line'> 
-</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
-</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-</span><span class='line'> 
-</span><span class='line'>  [invocation setTarget:self];
-</span><span class='line'>  [invocation setSelector:selector];
-</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
-</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
-</span><span class='line'>  [invocation invoke];
-</span><span class='line'> 
-</span><span class='line'>  if ([sig methodReturnLength]) {
-</span><span class='line'>      [invocation getReturnValue:&retval];
-</span><span class='line'>      return retval;
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  return nil;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
-
-<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
-</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;SpringBoard/SpringBoard.h&gt;
+</span><span class='line'>
+</span><span class='line'>%hook SpringBoard
+</span><span class='line'>
+</span><span class='line'>- (void)applicationDidFinishLaunching:(id)application {
+</span><span class='line'>    %orig;
+</span><span class='line'>    
+</span><span class='line'>    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Welcome"
+</span><span class='line'>                                                    message:@"Welcome to your iPhone!"
+</span><span class='line'>                                                   delegate:nil
+</span><span class='line'>                                          cancelButtonTitle:@"Thanks" 
+</span><span class='line'>                                          otherButtonTitles:nil];
+</span><span class='line'>    [alert show];
+</span><span class='line'>    [alert release];
 </span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
-</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
-</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-</span><span class='line'> 
-</span><span class='line'>  [invocation setTarget:target];
-</span><span class='line'>  [invocation setSelector:selector];
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>  if(arg1) {
-</span><span class='line'>      va_list args;
-</span><span class='line'>      va_start(args, arg1);
-</span><span class='line'> 
-</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
-</span><span class='line'> 
-</span><span class='line'>      id obj;
-</span><span class='line'>      int ct = 3;
-</span><span class='line'> 
-</span><span class='line'>      while( obj = va_arg(args, id) ) {
-</span><span class='line'>          NSLog(@"%@", obj);
-</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
-</span><span class='line'> 
-</span><span class='line'>          ct++;
-</span><span class='line'>      }
-</span><span class='line'> 
-</span><span class='line'>      va_end(args);
-</span><span class='line'>  }
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>  return invocation;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>
+</span><span class='line'>%end</span></code></pre></td></tr></table></div></figure>
 
 
-<p>调用方法:</p>
+<p>由于用到了UIAlertView属于UIKit的东西，所以我们要链接UIKit.framework, 还有hook的库文件libsubstrate.dylib(在opt/iOSOpenDev/lib目录下面)。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
-</span><span class='line'> 
-</span><span class='line'>[invocation invoke];
-</span><span class='line'>[invocation getReturnValue:&retval];
-</span><span class='line'> 
-</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
+<p>中以command+B进行编译，一定会报错，下面列出我遇到的错。</p>
 
+<p>1.找不到NSObject.h <br>
+将#import &ldquo;NSObject.h&rdquo; 改为#import &lt;NSFoundation/NSObject.h>
+2.一些不能识别的数据类型，我将期改为id类型。</p>
 
-<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+<p>进行一些修改，直到编译不报错为止。</p>
 
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+<p>Command+Shift+i  将程序布署到设备上，SpringBoard会重启，重启后是不是看到Alert？ 没看到？ 那你一定哪儿错了，重新再来一遍吧，如果还不行，那我也帮不了你，只有去求神了。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
 
 
@@ -340,12 +216,12 @@
   
 
 
-<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+<time datetime="2014-09-22T16:43:25+08:00" pubdate data-updated="true">Sep 22<span>nd</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/cocoa/'>Cocoa</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>
+    <a class='category' href='/blog/categories/jailbreak/'>Jailbreak</a>, <a class='category' href='/blog/categories/ios/'>iOS</a>
   
 </span>
 
@@ -354,7 +230,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/09/22/iosopendevpei-zhi/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/09/22/iosopendevpei-zhi/" >Tweet</a>
   
   
   
@@ -363,10 +239,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/06/07/ios8-appguo-ji-hua/" title="Previous Post: iOS8 APP国际化">&laquo; iOS8 APP国际化</a>
+        <a class="basic-alignment left" href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/" title="Previous Post: 使用Auto Layout的坑">&laquo; 使用Auto Layout的坑</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/" title="Next Post: Ubuntu Apache的一些配置">Ubuntu Apache的一些配置 &raquo;</a>
       
     </p>
   </footer>

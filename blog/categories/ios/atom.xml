@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-07-23T18:10:55+08:00</updated>
+  <updated>2014-09-22T19:46:26+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,86 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[iOSOpenDev配置]]></title>
+    <link href="http://www.ifun.cc/blog/2014/09/22/iosopendevpei-zhi/"/>
+    <updated>2014-09-22T16:43:25+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/09/22/iosopendevpei-zhi</id>
+    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<h3>配置</h3>
+
+<p>首先我们安装iOSOpenDev, 直接下载最新的进行安装，如果有错，可以参看<a href="https://github.com/kokoabim/iOSOpenDev/wiki/Troubleshoot">这儿</a>。</p>
+
+<p>越狱开发需要TheOS环境，而iOSOpenDev也是建立在TheOS的基础上的，只不过用iOSOpenDev我们就可以使用我们熟悉的Xcode进行开发了。所以我们还需要安装TheOS.打开命令行，直接运行下面命令进行安装</p>
+
+<p><code>
+export THEOS=/opt/theos
+git clone git://github.com/DHowett/theos.git $THEOS
+</code></p>
+
+<p>利用iOSOpenDev, 我们只需要简单command+shift+i就可以将程序布置到设备上了。这个过程需要ssh连接，所以我们还需要配置ssh钥匙对。只需要一条命令即可：</p>
+
+<p><code>
+iosod sshkey -h 192.168.1.1
+</code>
+192.168.1.1是你设备的地址，记住，你设备上一定要开启ssh哦。</p>
+
+<p>iOSOpenDev的官方文档都在<a href="https://github.com/kokoabim/iOSOpenDev/wiki/_pages">这儿</a>，你可以再研究研究。</p>
+
+<p>接下来，我们需要dump出来的iOS header, 比如我们要hook SpringBoard. 大家可以自行dump出header，也可以到网上下载已经dump好了的。我就是直接<a href="https://github.com/MP0w/iOS-Headers">这儿</a>下载的。将下载好的头文件放到/opt/theos/include目录下。</p>
+
+<h3>Hello Word</h3>
+
+<p>现在一切都准备好了，那我们来进行我们的Hello Word.
+创建一个logos Tweak工程。接着在Build Settings中iOSOpenDevDevice设置为自己设备的IP地址，设备与你的Mac要在一个局域网内。</p>
+
+<p>由于我们需要引用头文件，所以还需要在Build Settings中将Header Search Paths中加一行/opt/theos/include</p>
+
+<p>下面我们实现hook SpringBoard，当SPringBoard启动的时候，我们就弹出一个Alert.</p>
+
+<p>在.xm中加以下代码.</p>
+
+<p>```</p>
+
+<h1>import &lt;SpringBoard/SpringBoard.h></h1>
+
+<p>%hook SpringBoard</p>
+
+<ul>
+<li><p>(void)applicationDidFinishLaunching:(id)application {
+  %orig;</p>
+
+<p>  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@&ldquo;Welcome&rdquo;
+                                                  message:@&ldquo;Welcome to your iPhone!&rdquo;
+                                                 delegate:nil
+                                        cancelButtonTitle:@&ldquo;Thanks&rdquo;
+                                        otherButtonTitles:nil];
+  [alert show];
+  [alert release];
+}</p></li>
+</ul>
+
+
+<p>%end
+```</p>
+
+<p>由于用到了UIAlertView属于UIKit的东西，所以我们要链接UIKit.framework, 还有hook的库文件libsubstrate.dylib(在opt/iOSOpenDev/lib目录下面)。</p>
+
+<p>中以command+B进行编译，一定会报错，下面列出我遇到的错。</p>
+
+<p>1.找不到NSObject.h <br>
+将#import &ldquo;NSObject.h&rdquo; 改为#import &lt;NSFoundation/NSObject.h>
+2.一些不能识别的数据类型，我将期改为id类型。</p>
+
+<p>进行一些修改，直到编译不报错为止。</p>
+
+<p>Command+Shift+i  将程序布署到设备上，SpringBoard会重启，重启后是不是看到Alert？ 没看到？ 那你一定哪儿错了，重新再来一遍吧，如果还不行，那我也帮不了你，只有去求神了。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[使用Auto Layout的坑]]></title>
@@ -175,162 +255,6 @@ screenShotView.alpha = 1;
 <p>界在很丑呀，有空美化一下，换衣大家提意见。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Cocoa触发方法调用的几种方法]]></title>
-    <link href="http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/"/>
-    <updated>2014-06-14T09:38:40+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
-
-<h3>1.SEL触发</h3>
-
-<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
-
-<p><code>
-SEL theSelector = @selector(methodWithInt:andInt:);
-</code>
-看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
-有了SEL这样就可以触发方法调用了,<br></p>
-
-<p><code>
-[self performSelector:theSelector]
-[self performSelector:@selector(methodWithInt:andInt:)];
-</code>
-上面两句代码是同一个道理。<br></p>
-
-<h3>2. IMP触发</h3>
-
-<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
-
-<p><code>
-IMP theImplementation = [self methodForSelector:theSelector];
-</code>
-上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
-有了这个函数指针后，我们就可以触发方法：</p>
-
-<p><code>
-theImplementation(self, theSelector, 30, 5);
-</code>
-第一个是对象，第二个SEL， 后面的传入的参数。</p>
-
-<h3>3. objc_msgSend方法</h3>
-
-<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
-
-<p><code>
-objc_msgSend(self, @selector(fly));
-</code>
-这行代码等价于<br></p>
-
-<p>[self fly];</p>
-
-<h3>4. NSInvocation</h3>
-
-<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
-说得有点抽像，看代码更清楚:<br></p>
-
-<p>假如我们实现了一个两个数相加的方法，</p>
-
-<p><code>
--(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second
-</code>
-我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
-
-<p>```
-&ndash; (NSNumber *)testAdd {</p>
-
-<pre><code>NSNumber *retval;
-
-NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
-NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
-
-SEL selector = @selector(addNSNumber:withNumber:);
-
-NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
-NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-
-[invocation setTarget:self];
-[invocation setSelector:selector];
-[invocation setArgument:(void *)&amp;arg1 atIndex:2];
-[invocation setArgument:(void *)&amp;arg2 atIndex:3];
-[invocation invoke];
-
-if ([sig methodReturnLength]) {
-    [invocation getReturnValue:&amp;retval];
-    return retval;
-}
-
-return nil;
-</code></pre>
-
-<p>}
-```
-代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
-
-<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
-
-<p>```
-+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {</p>
-
-<pre><code>return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
-</code></pre>
-
-<p>}</p>
-
-<ul>
-<li><p>(NSInvocation <em>)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, &hellip; {
-  NSMethodSignature </em>sig = [target methodSignatureForSelector:selector];
-  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];</p>
-
-<p>  [invocation setTarget:target];
-  [invocation setSelector:selector];</p>
-
-<p>  if(arg1) {
-      va_list args;
-      va_start(args, arg1);</p>
-
-<pre><code>  [invocation setArgument:(void *)&amp;arg1 atIndex:2];
-
-  id obj;
-  int ct = 3;
-
-  while( obj = va_arg(args, id) ) {
-      NSLog(@"%@", obj);
-      [invocation setArgument:(void *)&amp;obj atIndex:ct];
-
-      ct++;
-  }
-
-  va_end(args);
-</code></pre>
-
-<p>  }</p>
-
-<p>  return invocation;
-}
-```</p></li>
-</ul>
-
-
-<p>调用方法:</p>
-
-<p>```
-NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil];</p>
-
-<p>[invocation invoke];
-[invocation getReturnValue:&amp;retval];</p>
-
-<p>return retval;
-```</p>
-
-<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>
   </entry>
   
