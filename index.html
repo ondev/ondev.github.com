@@ -85,6 +85,49 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/">V2EX for iOS源码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-11T17:01:26+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>业余时间开发的app, V2EX网站iOS原生态App. 感兴趣的可以下来玩玩<br>
+<a href="https://itunes.apple.com/cn/app/v2ex-club/id883141469?l=en&amp;mt=8">Appstore</a><br>
+<a href="https://bitbucket.org/xpisceo/v2ex">源码</a></p>
+
+<p>单枪匹马干了这么几年，希望结识各路高手。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a></h1>
     
     
@@ -1203,227 +1246,6 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/">Ubuntu Apache的一些配置</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-17T17:35:10+08:00" pubdate data-updated="true">Jun 17<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/06/17/ubuntu-apachede-%5B%3F%5D-xie-pei-zhi/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004
-开发过程中需要解决的问题，然后记录解决方法。</p></blockquote>
-
-<h3>1.ubuntu配置虚拟主机</h3>
-
-<p>apache2虚拟主机的好处是可以在一台服务器上，一个端口上建立多个站点<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd /etc/apache2/sites-available
-</span><span class='line'>cp default test.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后vim打开test.com
-主要有三处修改</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>DocumentRoot /var/www/test.com
-</span><span class='line'>ServerName www.test.com
-</span><span class='line'>&lt;Directory /var/www/test.com&gt;
-</span><span class='line'>                Options Indexes FollowSymLinks MultiViews
-</span><span class='line'>                AllowOverride None
-</span><span class='line'>                Order allow,deny
-</span><span class='line'>                allow from all
-</span><span class='line'>&lt;/Directory&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后保存修改<br></p>
-
-<p>下面命令就enable这个虚拟主机<BR></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2ensite test.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接下来重启我们的apache2<BR></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这下就可以通过www.test.com（你自己的域名）访问/var/www/test.com下的站点内容了。</p>
-
-<p>disable这个虚拟主机的命令是:<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2dissite test.com</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>2.ubuntu apache启用SSL</h3>
-
-<p>在上面我们介绍了配置虚拟主机，接着，如果我想对这个虚拟主机加入ssl功能如何办呢，其实方法很简单。假设你已经有了证书与私钥，分别是server.crt与server.key.</p>
-
-<p>那么，我们只需要修改/etc/apache2/sites-available/test.com这个文件。<br></p>
-
-<p>加入以下代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># SSL
-</span><span class='line'>SSLEngine On
-</span><span class='line'>SSLCertificateFile /etc/apache2/ssl/server.crt
-</span><span class='line'>SSLCertificateKeyFile /etc/apache2/ssl/server.key</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就是你服务器上对应的两个文件路径<br></p>
-
-<p>接着重启apache2生效：<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这下就需要 <a href="https://www.test.com">https://www.test.com</a><br>来访问你的站点了。</p>
-
-<h3>3.ubuntu apache与nodejs共享80端口</h3>
-
-<p>首先我们要开启proxy模块<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2enmod proxy_http
-</span><span class='line'>sudo a2enmod proxy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>如果想关闭则用a2dismod命令,如：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo a2dismod proxy</span></code></pre></td></tr></table></div></figure>
-
-
-<p>配置一个虚拟主机：<br>
-假如nodejs的源码放在/home/weixin目录下<br>
-那下面是一个简单的示例配置:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;VirtualHost *:80&gt;
-</span><span class='line'>  ServerAdmin admin@gmail.com
-</span><span class='line'>  ServerName www.test.com
-</span><span class='line'> 
-</span><span class='line'>  ProxyRequests off
-</span><span class='line'> 
-</span><span class='line'>  &lt;Proxy *&gt;
-</span><span class='line'>    Order deny,allow
-</span><span class='line'>    Allow from all
-</span><span class='line'>  &lt;/Proxy&gt;
-</span><span class='line'> 
-</span><span class='line'>  &lt;Location /&gt;
-</span><span class='line'>    ProxyPass http://localhost:8001/
-</span><span class='line'>    ProxyPassReverse http://localhost:8001/
-</span><span class='line'>  &lt;/Location&gt;
-</span><span class='line'> 
-</span><span class='line'>  DocumentRoot /home/weixin
-</span><span class='line'>  &lt;Directory "/home/weixin"&gt;
-</span><span class='line'>    AllowOverride All
-</span><span class='line'>  &lt;/Directory&gt;
-</span><span class='line'> 
-</span><span class='line'>  ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
-</span><span class='line'>  &lt;Directory "/usr/lib/cgi-bin"&gt;
-</span><span class='line'>    AllowOverride None
-</span><span class='line'>    Options ExecCGI -MultiViews +SymLinksIfOwnerMatch
-</span><span class='line'>    Allow from all
-</span><span class='line'>  &lt;/Directory&gt;
-</span><span class='line'>
-</span><span class='line'>  ErrorLog /var/log/apache2/error.log
-</span><span class='line'>  # Possible values include: debug, info, notice, warn, error, crit,
-</span><span class='line'>  # alert, emerg.
-</span><span class='line'>  LogLevel warn
-</span><span class='line'>  CustomLog /var/log/apache2/access.log combined
-</span><span class='line'>  ServerSignature On
-</span><span class='line'>&lt;/VirtualHost&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着重启apache2生效：<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /etc/init.d/apache2 restart</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1474,6 +1296,10 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/">V2EX for iOS源码</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a>
       </li>
     
@@ -1487,10 +1313,6 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
     
       <li class="post">
         <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/09/22/iosopendevpei-zhi/">iOSOpenDev配置</a>
       </li>
     
   </ul>

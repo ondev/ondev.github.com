@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>LevelDB for iOS - Haven's Blog</title>
+  <title>V2EX for iOS源码 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
   <meta name="description" content="加入QQ群:93916004更多精彩">
-  <meta name="keywords" content="iOS,C/C++,PHP,UITableView,UIKit,Socket,iOS7">
+  <meta name="keywords" content="V2EX,iOS,源码">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2015/02/11/v2ex-for-iosyuan-ma">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">LevelDB for iOS</h1>
+      <h1 class="entry-title">V2EX for iOS源码</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2014-02-09T11:20:55+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2015-02-11T17:01:26+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -108,135 +108,11 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+<div class="entry-content"><p>业余时间开发的app, V2EX网站iOS原生态App. 感兴趣的可以下来玩玩<br>
+<a href="https://itunes.apple.com/cn/app/v2ex-club/id883141469?l=en&amp;mt=8">Appstore</a><br>
+<a href="https://bitbucket.org/xpisceo/v2ex">源码</a></p>
 
-<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
-
-<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
-首先就是下载源码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
-现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
-
-<p>定位到.cc.o的198行与.c.o的205行
-修改为：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</span><span class='line'>
-</span><span class='line'>.c.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
-
-
-<p>保存，</p>
-
-<p>然后用命令进行编译</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
-
-<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
-创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
-<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
-
-<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-</span><span class='line'>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
-</span><span class='line'>THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
-</span><span class='line'>
-</span><span class='line'>//存储字符串
-</span><span class='line'>[db setString:@"成都" forKey:@"city"];
-</span><span class='line'>
-</span><span class='line'>//存储基本类型
-</span><span class='line'>[db setInt:13579 forKey:@"count"];
-</span><span class='line'>[db setFloat:30.2 forKey:@"temperature"];
-</span><span class='line'>
-</span><span class='line'>//存储Data数据
-</span><span class='line'>NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
-</span><span class='line'>[db setData:data forKey:@"data"];
-</span><span class='line'>
-</span><span class='line'>//存储任意对象(实现了NSCoding协议的对象)
-</span><span class='line'>[db setObject:[NSDate date] forKey:@"object"];
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>NSLog(@"城市:%@",[db stringForKey:@"city"]);
-</span><span class='line'>NSLog(@"数量:%d",[db intForKey:@"count"]);
-</span><span class='line'>NSLog(@"Data:%@",[db dataForKey:@"data"]);
-</span><span class='line'>NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
-
-<p>参考：<br>
-<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
-<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
-<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+<p>单枪匹马干了这么几年，希望结识各路高手。</p>
 </div>
 
 
@@ -259,21 +135,15 @@
   
 
 
-<time datetime="2014-02-09T11:20:55+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+<time datetime="2015-02-11T17:01:26+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/ios/'>iOS</a>
-  
-</span>
 
 
     </p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2015/02/11/v2ex-for-iosyuan-ma/" data-via="" data-counturl="http://www.ifun.cc/blog/2015/02/11/v2ex-for-iosyuan-ma/" >Tweet</a>
   
   
   
@@ -282,10 +152,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/" title="Previous Post: PhpStorm调试xiuno BBS">&laquo; PhpStorm调试xiuno BBS</a>
+        <a class="basic-alignment left" href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/" title="Previous Post: Octopress中的rake generate问题">&laquo; Octopress中的rake generate问题</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/09/ios-http-url-cacheqing-chu/" title="Next Post: iOS Http URL Cache清除">iOS Http URL Cache清除 &raquo;</a>
       
     </p>
   </footer>
