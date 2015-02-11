@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Cocoapods | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/cocoapods/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2015-02-11T14:37:36+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Cocoapods国内速度问题]]></title>
+    <link href="http://www.ifun.cc/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/"/>
+    <updated>2014-12-03T12:48:56+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti</id>
+    <content type="html"><![CDATA[<p>1.使用淘宝的gem镜像</p>
+
+<p><code>
+gem sources --remove https://rubygems.org/
+gem sources -a http://ruby.taobao.org/
+</code></p>
+
+<p>2.使用国内的Cocoapods镜像</p>
+
+<p><code>
+pod repo remove master
+pod repo add master https://gitcafe.com/lloydsheng/Specs.git
+pod repo update
+</code></p>
+
+<p>3.不用每次install/update更新Cocoapods Specs</p>
+
+<p><code>
+pod install --verbose --no-repo-update
+pod update --verbose --no-repo-update
+</code></p>
+
+<p>如果想自己搞一个镜像，<a href="http://lloydsheng.com/post/setup-cocoapods-mirror">这儿</a>有方法可以参考</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

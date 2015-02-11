@@ -85,6 +85,415 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+
+<h3>1.SEL触发</h3>
+
+<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
+有了SEL这样就可以触发方法调用了,<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
+</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面两句代码是同一个道理。<br></p>
+
+<h3>2. IMP触发</h3>
+
+<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
+有了这个函数指针后，我们就可以触发方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
+
+<h3>3. objc_msgSend方法</h3>
+
+<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
+
+
+<p>这行代码等价于<br></p>
+
+<p>[self fly];</p>
+
+<h3>4. NSInvocation</h3>
+
+<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
+说得有点抽像，看代码更清楚:<br></p>
+
+<p>假如我们实现了一个两个数相加的方法，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
+</span><span class='line'>  NSNumber *retval;
+</span><span class='line'> 
+</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
+</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
+</span><span class='line'> 
+</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
+</span><span class='line'> 
+</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:self];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
+</span><span class='line'>  [invocation invoke];
+</span><span class='line'> 
+</span><span class='line'>  if ([sig methodReturnLength]) {
+</span><span class='line'>      [invocation getReturnValue:&retval];
+</span><span class='line'>      return retval;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  return nil;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
+
+<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
+</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
+</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:target];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  if(arg1) {
+</span><span class='line'>      va_list args;
+</span><span class='line'>      va_start(args, arg1);
+</span><span class='line'> 
+</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'> 
+</span><span class='line'>      id obj;
+</span><span class='line'>      int ct = 3;
+</span><span class='line'> 
+</span><span class='line'>      while( obj = va_arg(args, id) ) {
+</span><span class='line'>          NSLog(@"%@", obj);
+</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
+</span><span class='line'> 
+</span><span class='line'>          ct++;
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      va_end(args);
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  return invocation;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
+</span><span class='line'> 
+</span><span class='line'>[invocation invoke];
+</span><span class='line'>[invocation getReturnValue:&retval];
+</span><span class='line'> 
+</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T21:31:53+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/06/07/ios8-appguo-ji-hua/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>1.创建一个Localizable.strings文件 <br>
+2.code中用字符串的地方使用NSLocalizedString，这与系统语言相关 <br>
+3.时间显示，数字，金融与地区相关，所以需要各类NSFormater, 如NSDateFormatter, NSNumberFormatter &hellip; <br>
+3.用命令将所有NSLocalizedString返回的字符串格式化到Localizable.strings里。命令行进入工程目录（我的工程名是LocalizationTest），运行下面命令：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find ./ -name "*.m" -print0 | xargs -0 genstrings -o LocalizationTest/en.lproj</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.这下就将Localizable.strings拿给翻译的人 <br></p>
+
+<p>上面是iOS7以下国际化的方法。</p>
+
+<p>在iOS8中加入了一种国际通用的xliff文件，全称是 Localisation Interchange File Format（本地化交换文件格式，是xml文件）， 里面就是需要翻译的东西。打开xliff文件，里面<source></source>标签中是表示要翻译的东西，对应Localizable.strings中=号左边的字符串，<target></target>中是每种语言的翻译，对应Localizable.strings中=号右边的字符串。没有一个source标签对应一个target标签。</p>
+
+<p>选中Editor &ndash;> Export For Localization就可以导出需要翻译的字符串，它会遍历整个工程，将xib，stroryboard, 代码中需要本地化字符串导出到.xliff文件中。小伙伴们再也不需要手动输入上面的命令将NSLocalizedString对应的需要翻译的字符串输出到Localizable.strings里了。 Import Localizations就是导入翻译的字符串，并自动刷新xib，.strings， storyboard中本地化文件 <br></p>
+
+<p>同时Xcode6加入了 语言Debug方式，以前测试国际化，都是修改系统的语言，然后运行程序，现在在xcode中的target的scheme中就可以修改该target运行时的语言。  这样就不需要到系统设置里去设置，更简单高效。<br></p>
+
+<p>同时xcode storyboard的预览功能更加强大了，可以实时修改预览的语言。<br></p>
+
+<p>开发越来越方便了。<br></p>
+
+<p>继续写代码，改变世界。<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-14T12:42:37+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>有时候在Mac App Store下载或更新应用的，会出现一些错误，造成这原因可能是由于cookie造成的。所以我们可以重设appstore的cookie。方法如下：<br>
+1.打开Terminal, 运行:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>defaults write com.apple.appstore ShowDebugMenu -bool true</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.重启Mac App Store， 大家就可以发现菜单栏多了一个Debug菜单。<br>
+快选择清除cookie试试。</p>
+
+<p><img src="http://iosman.qiniudn.com/2014-04-14PM.png" alt="" /></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-23T10:38:15+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/">iOS开发之xib技巧介绍</a></h1>
     
     
@@ -459,392 +868,6 @@ Mac自带的svn server，见参考。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/">Xcconfig文件的用法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:24:19+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
-
-<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
-图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
-当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
-
-<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
-
-<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
-首先在xcode中选中要进行配置的一行，如图<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
-然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
-粘贴的内容类似：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
-</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
-</span><span class='line'>
-</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
-
-<p>按照这个方法配置所有你想要配置的。</p>
-
-<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
-注意图中选中项。</p>
-
-<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
-
-<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
-可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
-
-<p>参考：
-<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>三行代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
-</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
-</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其实只需要第一行即可。</p>
-
-<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/leveldb-for-ios/">LevelDB for iOS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:20:55+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/leveldb-for-ios/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
-
-<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
-首先就是下载源码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
-现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
-
-<p>定位到.cc.o的198行与.c.o的205行
-修改为：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</span><span class='line'>
-</span><span class='line'>.c.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
-
-
-<p>保存，</p>
-
-<p>然后用命令进行编译</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
-
-<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
-创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
-<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
-
-<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-</span><span class='line'>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
-</span><span class='line'>THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
-</span><span class='line'>
-</span><span class='line'>//存储字符串
-</span><span class='line'>[db setString:@"成都" forKey:@"city"];
-</span><span class='line'>
-</span><span class='line'>//存储基本类型
-</span><span class='line'>[db setInt:13579 forKey:@"count"];
-</span><span class='line'>[db setFloat:30.2 forKey:@"temperature"];
-</span><span class='line'>
-</span><span class='line'>//存储Data数据
-</span><span class='line'>NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
-</span><span class='line'>[db setData:data forKey:@"data"];
-</span><span class='line'>
-</span><span class='line'>//存储任意对象(实现了NSCoding协议的对象)
-</span><span class='line'>[db setObject:[NSDate date] forKey:@"object"];
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>NSLog(@"城市:%@",[db stringForKey:@"city"]);
-</span><span class='line'>NSLog(@"数量:%d",[db intForKey:@"count"]);
-</span><span class='line'>NSLog(@"Data:%@",[db dataForKey:@"data"]);
-</span><span class='line'>NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
-
-<p>参考：<br>
-<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
-<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
-<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/">PhpStorm调试xiuno BBS</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:13:37+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
-
-<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
-
-<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
-
-<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcyawfkcmj20m00gfdh1.jpg" alt="" /></p>
-
-<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcybhsqt7j20ob0hrjtm.jpg" alt="" /></p>
-
-<p>接下来设置local http server. <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcybzki5cj20od0hy3zw.jpg" alt="" /></p>
-
-<p>接下来设置http server的path<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyck053nj20oi0htta2.jpg" alt="" /></p>
-
-<p>接下来设置运行环境<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyd25tprj20tf0dl0u8.jpg" alt="" /></p>
-
-<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcydh8g8rj20te0io0u6.jpg" alt="" /> <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcye01oj7j20t80do3zi.jpg" alt="" /></p>
-
-<p>名字任意，但是目前server后面是红色的，点击它后面的button进行设置 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyelh5jaj20l20ett9l.jpg" alt="" /></p>
-
-<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcyf2vhrsj20f109gt9o.jpg" alt="" /></p>
-
-<p>接着是http目录设置，如图 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyfkbk74j20tg0igdha.jpg" alt="" /></p>
-
-<p>这样你就可以通过PhoStorm运行或调试源码了。 <br>
-xiuno的调试宏记得打开哟。 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcygccolzj21250d541f.jpg" alt="" /></p>
-
-<p>我也开始学习PHP写程序了. ^v^</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -873,7 +896,8 @@ xiuno的调试宏记得打开哟。 <br>
 <section>
   <h1>Categories</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
+    <li class='category'><a href='/blog/categories/blog/'>Blog (1)</a></li>
+<li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
 <li class='category'><a href='/blog/categories/jailbreak/'>Jailbreak (2)</a></li>
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
@@ -884,8 +908,10 @@ xiuno的调试宏记得打开哟。 <br>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/cocoapods/'>cocoapods (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>iOS (15)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
+<li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
   </ul>
 </section>
@@ -894,23 +920,23 @@ xiuno的调试宏记得打开哟。 <br>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/22/iosopendevpei-zhi/">iOSOpenDev配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/">使用Auto Layout的坑</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/">iOS Jailbreak Dev准备工作</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/">自定义iOS上双击Home键App切屏</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/">一个基于Nodejs的简单iOS MDM服务</a>
       </li>
     
   </ul>
@@ -978,7 +1004,7 @@ var duoshuoQuery = {short_name:"ifun"};
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013-2014 - Haven -
+  Copyright &copy; 2013-2015 - Haven -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Blog | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/blog/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2015-02-11T14:37:36+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress中的rake Generate问题]]></title>
+    <link href="http://www.ifun.cc/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/"/>
+    <updated>2015-02-11T14:14:53+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti</id>
+    <content type="html"><![CDATA[<p>好久没有写博客了，今天想写突然发现rake generate出问题了，可能是系统升级造成的。在此记录一下。</p>
+
+<p>随便我就重新装了一下octopress环境。
+以前的环境我是用的rvm安装的ruby，这种方式安装不了最新的ruby,所以我将rvm删了,命令是</p>
+
+<p><code>
+rvm implode
+</code></p>
+
+<p>接着用brew来安装了最新的ruby</p>
+
+<p><code>
+sudo brew install ruby
+</code></p>
+
+<p>然后到Octopress中安装bundler</p>
+
+<p><code>
+sudo gem install bundler
+</code></p>
+
+<p>由于以前我使用的rake 版本是0.9.6,  现在我Mac上的rake版本却是10.4.2, 所以到Gemfile中修改rake版本</p>
+
+<p><code>
+gem 'rake', '~&gt; 10.4.2'
+</code>
+rake版本可以通过下面命令查看</p>
+
+<p><code>
+rake -V
+</code></p>
+
+<p>下面总结一下Octopress 2.0的rake命令</p>
+
+<p><code>
+rake new_post["XXX"]  //新建博文
+rake new_page["xxx"]  //新建页面
+rake install ["theme name"]   //.theme目录下的主题
+rake generate   //生成静态html文件
+rake preview    //本地浏览 http://127.0.0.1:4000
+rake watch    //没用过，不太清楚作用
+rake deploy   //发布
+</code></p>
+
+<p>Octopress 3.0将要发布了，到时候就不用rake命公了，<a href="http://octopress.org/">这儿</a>抢先了解。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

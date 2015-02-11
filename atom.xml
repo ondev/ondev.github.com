@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2014-11-25T15:41:44+08:00</updated>
+  <updated>2015-02-11T14:37:36+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,580 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Octopress中的rake Generate问题]]></title>
+    <link href="http://www.ifun.cc/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/"/>
+    <updated>2015-02-11T14:14:53+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti</id>
+    <content type="html"><![CDATA[<p>好久没有写博客了，今天想写突然发现rake generate出问题了，可能是系统升级造成的。在此记录一下。</p>
+
+<p>随便我就重新装了一下octopress环境。
+以前的环境我是用的rvm安装的ruby，这种方式安装不了最新的ruby,所以我将rvm删了,命令是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm implode</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着用brew来安装了最新的ruby</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo brew install ruby</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后到Octopress中安装bundler</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install bundler</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于以前我使用的rake 版本是0.9.6,  现在我Mac上的rake版本却是10.4.2, 所以到Gemfile中修改rake版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.4.2'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rake版本可以通过下面命令查看</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake -V</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面总结一下Octopress 2.0的rake命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["XXX"]  //新建博文
+</span><span class='line'>rake new_page["xxx"]  //新建页面
+</span><span class='line'>rake install ["theme name"]   //.theme目录下的主题
+</span><span class='line'>rake generate   //生成静态html文件
+</span><span class='line'>rake preview    //本地浏览 http://127.0.0.1:4000
+</span><span class='line'>rake watch    //没用过，不太清楚作用
+</span><span class='line'>rake deploy   //发布</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopress 3.0将要发布了，到时候就不用rake命公了，<a href="http://octopress.org/">这儿</a>抢先了解。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mac下安装GDB]]></title>
+    <link href="http://www.ifun.cc/blog/2015/02/10/macxia-an-zhuang-gdb/"/>
+    <updated>2015-02-10T16:04:35+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/02/10/macxia-an-zhuang-gdb</id>
+    <content type="html"><![CDATA[<ol>
+<li>安装<a href="http://brew.sh/">brew</a></li>
+<li>安装gdb</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew tap homebrew/dupes
+</span><span class='line'>brew install gdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将被安装到/usr/local/bin/gdb
+3. 由于Mac不允许随意进入进程空间，要经过许可才可以。如果要用gdb依附进程，那就要对gdb授权才可以。所以需要创建自签证书。下面命令进行授权</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>codesign -s gdb-cert $(which gdb)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下就可以使用GDB了</p>
+
+<p>参考:<a href="http://ntraft.com/installing-gdb-on-os-x-mavericks/">http://ntraft.com/installing-gdb-on-os-x-mavericks/</a></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Effective Objective-C 2.0学习笔记]]></title>
+    <link href="http://www.ifun.cc/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/"/>
+    <updated>2015-01-22T10:50:41+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji</id>
+    <content type="html"><![CDATA[<h3>Item 1</h3>
+
+<p>熟悉C/C++会提高你ObjC的能力 <br></p>
+
+<h3>Item 2</h3>
+
+<p>包括头文件要注意，尽量写到.m中，.h中尽量用预声明 <br></p>
+
+<h3>Item 3</h3>
+
+<p>尽量用ObjC的精简语法来创建NSFoundation</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSNumber *intNumber = @1;
+</span><span class='line'>NSNumber *floatNumber = @2.f;
+</span><span class='line'>NSNumber *doubleNumber = @3.14;
+</span><span class='line'>NSNumber *boolNumber = @YES;
+</span><span class='line'>NSNumber *charNumber = @'a'
+</span><span class='line'>NSArray *animals = @[@"cat", @"dog", @"mouse", @"badger"];
+</span><span class='line'>NSString *dog = animals[1];
+</span><span class='line'>NSDictionary *personData = @{@"firstName": @"Matt", @"lastName": @"Galloway", @"age": @28};
+</span><span class='line'>NSString *lastName = personData[@"lastName"];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 4 尽量用常量代替宏</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>static const NSTimeInterval kAnimationDuration = 0.3;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>//代替</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define ANIMATION_DURATION 0.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>static 是为了防止重名重定义，即本文件可见，其它文件不可见，const是为了防止改变其值</p>
+
+<p>.h中extern 定义全局变量，.m中赋值，这样引用.h后就对其变量可见，达到全局变量的效果</p>
+
+<h3>Item 5</h3>
+
+<p>正确使用枚举</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef enum ETest: NSInteger {
+</span><span class='line'>  ETest1,
+</span><span class='line'>  ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等同</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_ENUM(NSInteger, ETest) {
+</span><span class='line'>    ETest1,
+</span><span class='line'>    ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用or运算的optional</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_OPTIONS(NSInteger, ETest) {
+</span><span class='line'>    ETest1 = 1 &lt;&lt; 0,
+</span><span class='line'>    ETest2 = 1 &lt;&lt; 1
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 6</h3>
+
+<p>理解属性
+@public</p>
+
+<p>@private</p>
+
+<p>@property声明数据封装</p>
+
+<p>@synthesize 自动生成操作成员变量的方法</p>
+
+<p>@dynamic 手动生成操作成员变量的方法</p>
+
+<p>类属性的一些属性</p>
+
+<p>nonatomic, readwrite, readonly, assign, strong, weak, unsafe_unretained, copy, getter, setter</p>
+
+<h3>Item 7</h3>
+
+<p>类内部实现中最好直接操作类变量，不要用property的方法。</p>
+
+<p>@dynamic自己实现数据封装，能够实现延迟加载</p>
+
+<h3>Item 8 理解对象相等</h3>
+
+<p>比较相等要实现isEqual:与hash方法</p>
+
+<p>两个对象相等那么他们的hash返回的值一定相等，hash返回的值相等，两个对象不一定相等</p>
+
+<p>比较两个对象是否相等，根据需要来比较，并不一定要比较所有的属性</p>
+
+<p>自定义hash方法，一定要快速高效的方法</p>
+
+<h3>Item 9 用类簇隐藏子类的执行细节</h3>
+
+<p>类簇可以隐藏开放接口后的实现细节</p>
+
+<p>类簇常用在系统框架中</p>
+
+<h3>Item 10 给存在的实例依附数据</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void objc_setAssociatedObject(id object, void *key, id value, objc_AssociationPolicy policy);
+</span><span class='line'>id objc_getAssociatedObject(id object, void *key);
+</span><span class='line'>void objc_removeAssociatedObjects(id object);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该方法将两个实例关联起来</p>
+
+<p>内存管理一定要注意</p>
+
+<p>不到万不得已的时候不要用，因为出了问题很难找到原因</p>
+
+<h3>Item 11 理解objc_msgSend</h3>
+
+<p>Objc中方法调用叫发消息，消息是由消息接收者，selector(路由)与参数组成。发送一个消息给接收者同步对应调用一个方法。</p>
+
+<p>调用就是消息查询路由，然后找到执行入口，最好执行。</p>
+
+<h3>Item 12 理解消息走向</h3>
+
+<p>在Item 11中解释了正确情况下的消息走向，接着讲在非正常情况下(即selector不存在的情况下)消息的走向。</p>
+
+<p>如果发送的消息，实例没有对应的selector，那么就会crash并报unrecognized selector send to的错误。</p>
+
+<p>iOS XMPP Framework就运用了这个技巧实现了多代理类</p>
+
+<h3>Item 13 用方法移置来调试,达到hook效果</h3>
+
+<p>Method class_getInstanceMethod(Class aClass, SEL aSelector) 获取方法的method
+void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的IMP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(uppercaseString)); method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; NSLog(@"lowercaseString = %@", lowercaseString);
+</span><span class='line'>// Output: lowercaseString = THIS IS THE STRING
+</span><span class='line'>NSString *uppercaseString = [string uppercaseString]; NSLog(@"uppercaseString = %@", uppercaseString);
+</span><span class='line'>// Output: uppercaseString = this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>hook系统方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface NSString (EOCMyAdditions) 
+</span><span class='line'>- (NSString*)eoc_myLowercaseString; 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation NSString (EOCMyAdditions)
+</span><span class='line'>- (NSString*)eoc_myLowercaseString {
+</span><span class='line'>NSString *lowercase = [self eoc_myLowercaseString]; 
+</span><span class='line'>NSLog(@"%@ =&gt; %@", self, lowercase);
+</span><span class='line'>return lowercase;
+</span><span class='line'>} 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class], @selector(eoc_myLowercaseString)); 
+</span><span class='line'>method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; 
+</span><span class='line'>// Output: ThIs iS tHe StRiNg =&gt; this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>路由后的执行入口可以被添加，与可以被改变</p>
+
+<p>Swizzling可以用来丰富原来接口的内容</p>
+
+<p>尽量少用，用来调试不错。</p>
+
+<h3>Item 14 理解类对象</h3>
+
+<p>略</p>
+
+<h3>Item 15 类名前缀，防止重复定义</h3>
+
+<p>略</p>
+
+<h3>Item 16 初始化方法设计</h3>
+
+<p>根据需要设计实现初始化方法</p>
+
+<p>子类中根据需要重写super初始化方法</p>
+
+<p>子类中不需要的父类的初始化方法重写，并在实现中抛出异常</p>
+
+<h3>Item 17 重写description方法</h3>
+
+<p>debugDescription或description</p>
+
+<p>NSLog出来更有可读性，用NSDictionary来format</p>
+
+<h3>Item 18 少用可变类型的属性</h3>
+
+<p>属性对外只读，对内可读写，实现方式是在.h中readonly, 在.m中用readwrite重新声明一下属性</p>
+
+<p>提供方法来操作可变容器，不要直接声明为属性</p>
+
+<h3>Item 19 命名意图清晰</h3>
+
+<p>命名要更像objc</p>
+
+<p>命名要简明，优雅得像一句陈诉句</p>
+
+<p>命名避免缩写</p>
+
+<p>命名风格要一致</p>
+
+<h3>Item 20 私有方法用前缀表明</h3>
+
+<p>前缀私有方法用于区别公有方法</p>
+
+<p>不要用_来做私有方法前缀，因为苹果用了这规则</p>
+
+<h3>Item 21 理解Objc Error Model</h3>
+
+<p>异常是用来处理fatal error的</p>
+
+<p>非fatal error,要用代理或参数方式来自行处理</p>
+
+<h3>Item 22 理解NSCopying协议</h3>
+
+<p>如果想copy，那就一定要执行NSCopying协议</p>
+
+<p>如果有mutable的变量，那么还需要执行NSMutableCopying</p>
+
+<p>区分Shallow copy与Deep copy</p>
+
+<p>建意使用deep copy, 如果需要的话</p>
+
+<h3>Item 23 内部通信使用代理协议与数据协议</h3>
+
+<p>delegate在开发中运用得非常多，这儿不再多说</p>
+
+<h3>Item 24 用Category来拆分类，使其更容易维护</h3>
+
+<p>很容易明白，也不说了</p>
+
+<h3>Item 25 Category中要加前缀，防止出现bug,容易调试</h3>
+
+<p>Category中的类要加前缀</p>
+
+<p>category中方法名要加前缀</p>
+
+<h3>Item 26 Category中避免声明属性</h3>
+
+<p>属性是数据的封装，不能在category中声明属性，编译器会找不到的。</p>
+
+<p>有两种方法可以，一种是在Item 10中介绍的，一种是可以声明readonly的属性，然后手动实现其get方法。</p>
+
+<h3>Item 27 用class-continuation的Category隐藏类的执行(类似private方法)</h3>
+
+<p>class-continuation category与一般的category差不多，只是括号时用写名字。</p>
+
+<p>class-continuation category可以在里面声明属性与方法，也可以遵循protocol，其中的方法相当于私有方法。</p>
+
+<p>可以改变类属性的一些类型，如只读变成可读写</p>
+
+<h3>Item 28 用protocol提供匿名对象</h3>
+
+<p>id加protocol提供匿名类型</p>
+
+<p>如果想隐藏类则可以使用匿名对象</p>
+
+<p>只关心实现了方法，不关心实现细节的时候可以用匿名对象</p>
+
+<h2>5 内存管理</h2>
+
+<h3>Item 29 理解引用计数</h3>
+
+<p>每个对象使用的时候会对其引用次数进行计数。</p>
+
+<p>new出来的对象retainCount为1.</p>
+
+<p>retain对象retainCount加1.</p>
+
+<p>release对象retainCount减1.</p>
+
+<p>autorelease对象retainCount减1.</p>
+
+<p>当retainCount为0的时候，内存被回收。</p>
+
+<p>对象加到容器(如NSArray)中，会对其retain一次，及引用计数加1,记得要平衡retainCount.</p>
+
+<p>避免循环引用</p>
+
+<h3>Item 30 使用ARC管理引用计数</h3>
+
+<p>ARC中将不再手动调用retain,release,autorelease，dealloc等方法了。编译器会自动将这些加入到我们的程序当中。</p>
+
+<p>ARC解放了开发人员对内存的管理，还少写代码。</p>
+
+<p>ARC只能管理ObjC的对象，CoreFoundation object还是得用CFRetain/CFRelease来管理内存</p>
+
+<h3>Item 31 清理与删观察者只放在dealloc中执行</h3>
+
+<p>有dealloc中释放CoreFoundation并去掉观察者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc {
+</span><span class='line'>    CFRelease(coreFoundationObject);
+</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是MRC, 调用[super dealloc];应放到最后</p>
+
+<p>如果有文件操作，一定要记得close</p>
+
+<h3>Item 32 内存相关记得异常处理</h3>
+
+<p>MRC一定要处理异常处理，方式要正确，@try中需要将释放的工作放到@finally中</p>
+
+<p>ARC要使用-fobjc-arc-exceptions来开启异常处理，不过使用异常处理会降低运行效率</p>
+
+<p>如果有很多异常处理，建意使用NSError的方式来处理</p>
+
+<h3>Item 33 使用弱引用避免循环引用</h3>
+
+<p>循环引用就是A对象拥有B对象，B对象拥有A对象，当A想释放的时候，等待B释放，这时B却又要等待A释放完才释放完才释放，这样两个对象相互等待，却一直释放不了。</p>
+
+<p>用weak或unsafe_unretained声明属性就可以了。</p>
+
+<p>weak比unsafe_unretained更安全</p>
+
+<h3>Item 34 使用Autorelease Pool来管理地高内存分配</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *databaseRecords = /* ... */;
+</span><span class='line'>NSMutableArray *people = [NSMutableArray new]; for (NSDictionary *record in databaseRecords) {
+</span><span class='line'>@autoreleasepool { 
+</span><span class='line'>EOCPerson *person =
+</span><span class='line'>[[EOCPerson alloc] initWithRecord:record];
+</span><span class='line'>[people addObject:person];
+</span><span class='line'>} 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上面的代码，如果NSArray有10000个对象，那么就可以加一个autoreleasepool，这样可以实时的进行内存回收。</p>
+
+<h3>Item 35 使用Zombies来调试内存问题</h3>
+
+<p>内存分配给对象，然后对象被释放。如果该对象内存没有被重写，那么再次向该对象发送消息，也是可以成功执行的。如果被重写了，那么就会崩溃。</p>
+
+<p>所以会出现有时候crash,有时候正常运行，给程序调试与bug排除带来不便。所以我们可以开启Zombies（僵尸对象）。</p>
+
+<p>它将所有释放了的对象放到放到一个Zombies区，内存也不释放也不被重写，这样标记它是一个僵尸对象。如果程序再次向僵尸对象发送消息，那么就会在控制台打出消息提供开发人员，方向开发人员定位排除bug.</p>
+
+<h3>Item 36 避免使用retainCount</h3>
+
+<p>如果用MRC,开发过程中，中心有retainCount的概念平衡retainCount就可以。代码中一定不要用retainCount来做判断，因为是根据runtime autorelease等决定的。所以release一个对象retainCount不是马上改变。如下面的代码就是错误的，是一个死循环。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while([obj retainCount]) {
+</span><span class='line'>    [obj release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>6 块与GCD</h2>
+
+<h3>Item 37 理解块代码</h3>
+
+<p>待续</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Cocoapods国内速度问题]]></title>
+    <link href="http://www.ifun.cc/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/"/>
+    <updated>2014-12-03T12:48:56+08:00</updated>
+    <id>http://www.ifun.cc/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti</id>
+    <content type="html"><![CDATA[<p>1.使用淘宝的gem镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem sources --remove https://rubygems.org/
+</span><span class='line'>gem sources -a http://ruby.taobao.org/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.使用国内的Cocoapods镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod repo remove master
+</span><span class='line'>pod repo add master https://gitcafe.com/lloydsheng/Specs.git
+</span><span class='line'>pod repo update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.不用每次install/update更新Cocoapods Specs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod install --verbose --no-repo-update
+</span><span class='line'>pod update --verbose --no-repo-update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想自己搞一个镜像，<a href="http://lloydsheng.com/post/setup-cocoapods-mirror">这儿</a>有方法可以参考</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOSOpenDev配置]]></title>
@@ -1872,272 +2446,6 @@ Mac自带的svn server，见参考。</p>
 <p>参考：
 <a href="http://xiayong.blog.51cto.com/6292420/1088790">Mac下配置svn server</a>
 <a href="https://github.com/mantisbt-plugins/source-integration">VCS plugs</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Xcconfig文件的用法]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa/"/>
-    <updated>2014-02-09T11:24:19+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/xcconfigwen-jian-de-yong-fa</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享，所以今天需要向大家简单介绍一下。</p>
-
-<p><img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jeos42pj20vg0brjts.jpg" alt="" /><br>
-图所示的是我创建的一个工程，我们看iOS Deployment Target这一行下面的Debug与Release， 后面是空白的，即没有设置是哪一个iOS version.<br>
-当然我们可以在xcode中进行设置，在这儿我要介绍通过xcconfig的方法设置。</p>
-
-<p>首先我们创建一个Debug.xcconfig文件，名字随便起，只要你自己能区分就行了。方法与创建一个新文件类似<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jj9yo2sj20nw0f0mz7.jpg" alt="" /></p>
-
-<p>接下来我们对Debug.xcconfig文件进行配置，如何进行配置呢，有个简单的方法，就是在xcode中将要配置的文件copy过来。
-首先在xcode中选中要进行配置的一行，如图<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1ed8jntemnwj20tf03pwf3.jpg" alt="" />
-然后command+c进行复制，接着到Debug.xcconfig中command+v粘贴。
-粘贴的内容类似：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>//:configuration = Debug
-</span><span class='line'>IPHONEOS_DEPLOYMENT_TARGET = 6.0
-</span><span class='line'>
-</span><span class='line'>//:completeSettings = none</span></code></pre></td></tr></table></div></figure>
-
-
-<p>在这儿我们想配置我们的项目支持iOS6的系统。</p>
-
-<p>按照这个方法配置所有你想要配置的。</p>
-
-<p>配置好Debug.xcconfig后，接下来我们使xcode加载它。直接上图，大家就明白了。<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jstod1aj20vj0avgn3.jpg" alt="" />
-注意图中选中项。</p>
-
-<p>现在再到Target的Build setting中看iOS Deployment Target去看看，就多了一列了，Debug那一行设置就是6.0.<br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1ed8jz5qtswj20vo0bmacj.jpg" alt="" /></p>
-
-<p>网上有人已奖基本的配置文件做出来了，你也就不需要一个一个去copy, parse了。<br>
-可以参看github上的<a href="https://github.com/jspahrsummers/xcconfigs">xcconfigs</a></p>
-
-<p>参考：
-<a href="http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file">http://b2cloud.com.au/how-to-guides/using-a-xcconfig-file</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Http URL Cache清除]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/ios-http-url-cacheqing-chu/"/>
-    <updated>2014-02-09T11:23:10+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/ios-http-url-cacheqing-chu</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>三行代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
-</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
-</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其实只需要第一行即可。</p>
-
-<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[LevelDB for iOS]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios/"/>
-    <updated>2014-02-09T11:20:55+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/leveldb-for-ios</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近NO SQL型数据库比较火，本人也想了解了解。于是找到了LevelDB这个数据库,它是一个KV型的数库据，还度那是杠杠的。于是试着用一下。</p>
-
-<p>它是开源的，首先得编译它。网上已有很多人成功编译了它。<br>
-首先就是下载源码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>clone levelDB repo https://code.google.com/p/leveldb/</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这个工程里的mackfile就支持编译iOS平台，只不过很久有没有更新了，现在iOS7出来后，常用指令集分别是armv7,armv7s,arm64. 对于armv6我们可以放弃了，毕竟技术是在不断发展的，过时的就不要用了。
-现在我们来修改Makefile, 主要就是去掉armv6, 然后增加armv7s与arm64.</p>
-
-<p>定位到.cc.o的198行与.c.o的205行
-修改为：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.cc.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CXX) $(CXXFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CXX) $(CXXFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@
-</span><span class='line'>
-</span><span class='line'>.c.o:
-</span><span class='line'>  mkdir -p ios-x86/$(dir $@)
-</span><span class='line'>  $(CC) $(CFLAGS) -isysroot $(SIMULATORROOT)/SDKs/iPhoneSimulator$(IOSVERSION).sdk -arch i686 -c $&lt; -o ios-x86/$@
-</span><span class='line'>  mkdir -p ios-arm/$(dir $@)
-</span><span class='line'>  xcrun -sdk iphoneos $(CC) $(CFLAGS) -isysroot $(DEVICEROOT)/SDKs/iPhoneOS$(IOSVERSION).sdk  -arch armv7 -arch armv7s -arch arm64 -c $&lt; -o ios-arm/$@
-</span><span class='line'>  lipo ios-x86/$@ ios-arm/$@ -create -output $@</span></code></pre></td></tr></table></div></figure>
-
-
-<p>保存，</p>
-
-<p>然后用命令进行编译</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>或</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CXXFLAGS=-stdlib=libstdc++ make PLATFORM=IOS</span></code></pre></td></tr></table></div></figure>
-
-
-<p>都可以，由于用到了c++标准库，这儿分别用了新旧不同的库而已。libc++是支持c++ 11标准的，这儿分别对应xcode中引用的两个库ibc++.dylib与libstdc++.dylib两个库。</p>
-
-<p>编译成功后，在源码根目录就会有一个libleveldb.a的库文件与include的头文件目录。然后就可以试用了。这儿我引用<a href="http://www.tanhao.me/pieces/1397.html">老谭</a>哥写好的wrapper，并写了一个for iOS的测试工程。
-创建一个iOS的新工程，将libleveldb.a与include copy到工程目录中，然后将libleveldb.a拖到工程中，接着配置header查找目录，在xcode setting中的Header Search path中加入一行${SRCROOT}，它后面选择recursive， 表示在工程源码目录中递归遍历查找头文件。
-<img src="http://user-image.logdown.io/user/6397/blog/6392/post/177919/9MjT1fJxRXCdmUCZgmio_Screen%20Shot%202014-02-04%20at%201.52.41%20pm.png" alt="Screen Shot 2014-02-04 at 1.52.41 pm.png" /></p>
-
-<p>接着在AppDelegate.m中引入老潭的wrapper头文件</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#import "THLevelDB.h"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着在didFinishLaunchingWithOptions中写测试代码。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-</span><span class='line'>NSString *dbPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"leveldb_demo.ldb"];
-</span><span class='line'>THLevelDB *db = [THLevelDB levelDBWithPath:dbPath];
-</span><span class='line'>
-</span><span class='line'>//存储字符串
-</span><span class='line'>[db setString:@"成都" forKey:@"city"];
-</span><span class='line'>
-</span><span class='line'>//存储基本类型
-</span><span class='line'>[db setInt:13579 forKey:@"count"];
-</span><span class='line'>[db setFloat:30.2 forKey:@"temperature"];
-</span><span class='line'>
-</span><span class='line'>//存储Data数据
-</span><span class='line'>NSData *data = [@"天府之国" dataUsingEncoding:NSUTF8StringEncoding];
-</span><span class='line'>[db setData:data forKey:@"data"];
-</span><span class='line'>
-</span><span class='line'>//存储任意对象(实现了NSCoding协议的对象)
-</span><span class='line'>[db setObject:[NSDate date] forKey:@"object"];
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>NSLog(@"城市:%@",[db stringForKey:@"city"]);
-</span><span class='line'>NSLog(@"数量:%d",[db intForKey:@"count"]);
-</span><span class='line'>NSLog(@"Data:%@",[db dataForKey:@"data"]);
-</span><span class='line'>NSLog(@"对象:%@",[db objectForKey:@"object"]);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>测试工程<a href="https://github.com/ondev/LevelDBiOSDemo">传送门</a>。</p>
-
-<p>参考：<br>
-<a href="http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/">http://blog.rpplusplus.me/blog/2014/01/20/build-leveldb/</a>
-<a href="http://www.tanhao.me/pieces/1397.html">http://www.tanhao.me/pieces/1397.html</a>
-<a href="http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/">http://herkuang.info/blog/2014/01/28/ios%E4%B8%8B%E7%BC%96%E8%AF%91leveldb%E7%9A%84%E6%80%BB%E7%BB%93/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[PhpStorm调试xiuno BBS]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs/"/>
-    <updated>2014-02-09T11:13:37+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/09/phpstormdiao-shi-xiuno-bbs</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>上一篇文章里介绍了PhpStorm的开发环境配置，并能对单页面进行调试。今天我们介绍如何调试一个web application, 就拿一个开源的php源码来做试验：xiuno bbs.</p>
-
-<p>首先当然是到下载入口下载xiuno bbs的源码。然后安装吧， Mac系统自带了Apache， 所以放到站点目录下，然后浏览器访问，就可以了。在安装的时候，数据库请选择pdo_mysql, 因为如果选择mysql用的比较老的mysql操作库，在调试的时候会提示出错。</p>
-
-<p>这儿我以Mac系统为例，我假设你已安装apache默认站点根目录 /Library/WebServer/Documents/</p>
-
-<p>安装好了，那我们就开始用PhpStorm创建工程，选择Create New Project from Existing Files <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcyawfkcmj20m00gfdh1.jpg" alt="" /></p>
-
-<p>选择xiuno源文件的目录。然后选择Project Root, 然后下一步变化可点击。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcybhsqt7j20ob0hrjtm.jpg" alt="" /></p>
-
-<p>接下来设置local http server. <br>
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcybzki5cj20od0hy3zw.jpg" alt="" /></p>
-
-<p>接下来设置http server的path<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyck053nj20oi0htta2.jpg" alt="" /></p>
-
-<p>接下来设置运行环境<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyd25tprj20tf0dl0u8.jpg" alt="" /></p>
-
-<p>点击加号，然后选择Php Web Application, 因为xiuo bbs是一个web application. <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcydh8g8rj20te0io0u6.jpg" alt="" /> <br>
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcye01oj7j20t80do3zi.jpg" alt="" /></p>
-
-<p>名字任意，但是目前server后面是红色的，点击它后面的button进行设置 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyelh5jaj20l20ett9l.jpg" alt="" /></p>
-
-<p>点击Validate remote environment,然后选择刚才配置的Server, 然后点击下面的Validate, 如图 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcyf2vhrsj20f109gt9o.jpg" alt="" /></p>
-
-<p>接着是http目录设置，如图 <br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcyfkbk74j20tg0igdha.jpg" alt="" /></p>
-
-<p>这样你就可以通过PhoStorm运行或调试源码了。 <br>
-xiuno的调试宏记得打开哟。 <br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcygccolzj21250d541f.jpg" alt="" /></p>
-
-<p>我也开始学习PHP写程序了. ^v^</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

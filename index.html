@@ -85,6 +85,700 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-11T14:14:53+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>好久没有写博客了，今天想写突然发现rake generate出问题了，可能是系统升级造成的。在此记录一下。</p>
+
+<p>随便我就重新装了一下octopress环境。
+以前的环境我是用的rvm安装的ruby，这种方式安装不了最新的ruby,所以我将rvm删了,命令是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rvm implode</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着用brew来安装了最新的ruby</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo brew install ruby</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后到Octopress中安装bundler</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install bundler</span></code></pre></td></tr></table></div></figure>
+
+
+<p>由于以前我使用的rake 版本是0.9.6,  现在我Mac上的rake版本却是10.4.2, 所以到Gemfile中修改rake版本</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.4.2'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>rake版本可以通过下面命令查看</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake -V</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面总结一下Octopress 2.0的rake命令</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["XXX"]  //新建博文
+</span><span class='line'>rake new_page["xxx"]  //新建页面
+</span><span class='line'>rake install ["theme name"]   //.theme目录下的主题
+</span><span class='line'>rake generate   //生成静态html文件
+</span><span class='line'>rake preview    //本地浏览 http://127.0.0.1:4000
+</span><span class='line'>rake watch    //没用过，不太清楚作用
+</span><span class='line'>rake deploy   //发布</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Octopress 3.0将要发布了，到时候就不用rake命公了，<a href="http://octopress.org/">这儿</a>抢先了解。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-10T16:04:35+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>安装<a href="http://brew.sh/">brew</a></li>
+<li>安装gdb</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew tap homebrew/dupes
+</span><span class='line'>brew install gdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将被安装到/usr/local/bin/gdb
+3. 由于Mac不允许随意进入进程空间，要经过许可才可以。如果要用gdb依附进程，那就要对gdb授权才可以。所以需要创建自签证书。下面命令进行授权</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>codesign -s gdb-cert $(which gdb)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下就可以使用GDB了</p>
+
+<p>参考:<a href="http://ntraft.com/installing-gdb-on-os-x-mavericks/">http://ntraft.com/installing-gdb-on-os-x-mavericks/</a></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-22T10:50:41+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Item 1</h3>
+
+<p>熟悉C/C++会提高你ObjC的能力 <br></p>
+
+<h3>Item 2</h3>
+
+<p>包括头文件要注意，尽量写到.m中，.h中尽量用预声明 <br></p>
+
+<h3>Item 3</h3>
+
+<p>尽量用ObjC的精简语法来创建NSFoundation</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSNumber *intNumber = @1;
+</span><span class='line'>NSNumber *floatNumber = @2.f;
+</span><span class='line'>NSNumber *doubleNumber = @3.14;
+</span><span class='line'>NSNumber *boolNumber = @YES;
+</span><span class='line'>NSNumber *charNumber = @'a'
+</span><span class='line'>NSArray *animals = @[@"cat", @"dog", @"mouse", @"badger"];
+</span><span class='line'>NSString *dog = animals[1];
+</span><span class='line'>NSDictionary *personData = @{@"firstName": @"Matt", @"lastName": @"Galloway", @"age": @28};
+</span><span class='line'>NSString *lastName = personData[@"lastName"];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 4 尽量用常量代替宏</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>static const NSTimeInterval kAnimationDuration = 0.3;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>//代替</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define ANIMATION_DURATION 0.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>static 是为了防止重名重定义，即本文件可见，其它文件不可见，const是为了防止改变其值</p>
+
+<p>.h中extern 定义全局变量，.m中赋值，这样引用.h后就对其变量可见，达到全局变量的效果</p>
+
+<h3>Item 5</h3>
+
+<p>正确使用枚举</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef enum ETest: NSInteger {
+</span><span class='line'>  ETest1,
+</span><span class='line'>  ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等同</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_ENUM(NSInteger, ETest) {
+</span><span class='line'>    ETest1,
+</span><span class='line'>    ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用or运算的optional</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_OPTIONS(NSInteger, ETest) {
+</span><span class='line'>    ETest1 = 1 &lt;&lt; 0,
+</span><span class='line'>    ETest2 = 1 &lt;&lt; 1
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 6</h3>
+
+<p>理解属性
+@public</p>
+
+<p>@private</p>
+
+<p>@property声明数据封装</p>
+
+<p>@synthesize 自动生成操作成员变量的方法</p>
+
+<p>@dynamic 手动生成操作成员变量的方法</p>
+
+<p>类属性的一些属性</p>
+
+<p>nonatomic, readwrite, readonly, assign, strong, weak, unsafe_unretained, copy, getter, setter</p>
+
+<h3>Item 7</h3>
+
+<p>类内部实现中最好直接操作类变量，不要用property的方法。</p>
+
+<p>@dynamic自己实现数据封装，能够实现延迟加载</p>
+
+<h3>Item 8 理解对象相等</h3>
+
+<p>比较相等要实现isEqual:与hash方法</p>
+
+<p>两个对象相等那么他们的hash返回的值一定相等，hash返回的值相等，两个对象不一定相等</p>
+
+<p>比较两个对象是否相等，根据需要来比较，并不一定要比较所有的属性</p>
+
+<p>自定义hash方法，一定要快速高效的方法</p>
+
+<h3>Item 9 用类簇隐藏子类的执行细节</h3>
+
+<p>类簇可以隐藏开放接口后的实现细节</p>
+
+<p>类簇常用在系统框架中</p>
+
+<h3>Item 10 给存在的实例依附数据</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void objc_setAssociatedObject(id object, void *key, id value, objc_AssociationPolicy policy);
+</span><span class='line'>id objc_getAssociatedObject(id object, void *key);
+</span><span class='line'>void objc_removeAssociatedObjects(id object);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该方法将两个实例关联起来</p>
+
+<p>内存管理一定要注意</p>
+
+<p>不到万不得已的时候不要用，因为出了问题很难找到原因</p>
+
+<h3>Item 11 理解objc_msgSend</h3>
+
+<p>Objc中方法调用叫发消息，消息是由消息接收者，selector(路由)与参数组成。发送一个消息给接收者同步对应调用一个方法。</p>
+
+<p>调用就是消息查询路由，然后找到执行入口，最好执行。</p>
+
+<h3>Item 12 理解消息走向</h3>
+
+<p>在Item 11中解释了正确情况下的消息走向，接着讲在非正常情况下(即selector不存在的情况下)消息的走向。</p>
+
+<p>如果发送的消息，实例没有对应的selector，那么就会crash并报unrecognized selector send to的错误。</p>
+
+<p>iOS XMPP Framework就运用了这个技巧实现了多代理类</p>
+
+<h3>Item 13 用方法移置来调试,达到hook效果</h3>
+
+<p>Method class_getInstanceMethod(Class aClass, SEL aSelector) 获取方法的method
+void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的IMP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(uppercaseString)); method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; NSLog(@"lowercaseString = %@", lowercaseString);
+</span><span class='line'>// Output: lowercaseString = THIS IS THE STRING
+</span><span class='line'>NSString *uppercaseString = [string uppercaseString]; NSLog(@"uppercaseString = %@", uppercaseString);
+</span><span class='line'>// Output: uppercaseString = this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>hook系统方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface NSString (EOCMyAdditions) 
+</span><span class='line'>- (NSString*)eoc_myLowercaseString; 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation NSString (EOCMyAdditions)
+</span><span class='line'>- (NSString*)eoc_myLowercaseString {
+</span><span class='line'>NSString *lowercase = [self eoc_myLowercaseString]; 
+</span><span class='line'>NSLog(@"%@ =&gt; %@", self, lowercase);
+</span><span class='line'>return lowercase;
+</span><span class='line'>} 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class], @selector(eoc_myLowercaseString)); 
+</span><span class='line'>method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; 
+</span><span class='line'>// Output: ThIs iS tHe StRiNg =&gt; this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>路由后的执行入口可以被添加，与可以被改变</p>
+
+<p>Swizzling可以用来丰富原来接口的内容</p>
+
+<p>尽量少用，用来调试不错。</p>
+
+<h3>Item 14 理解类对象</h3>
+
+<p>略</p>
+
+<h3>Item 15 类名前缀，防止重复定义</h3>
+
+<p>略</p>
+
+<h3>Item 16 初始化方法设计</h3>
+
+<p>根据需要设计实现初始化方法</p>
+
+<p>子类中根据需要重写super初始化方法</p>
+
+<p>子类中不需要的父类的初始化方法重写，并在实现中抛出异常</p>
+
+<h3>Item 17 重写description方法</h3>
+
+<p>debugDescription或description</p>
+
+<p>NSLog出来更有可读性，用NSDictionary来format</p>
+
+<h3>Item 18 少用可变类型的属性</h3>
+
+<p>属性对外只读，对内可读写，实现方式是在.h中readonly, 在.m中用readwrite重新声明一下属性</p>
+
+<p>提供方法来操作可变容器，不要直接声明为属性</p>
+
+<h3>Item 19 命名意图清晰</h3>
+
+<p>命名要更像objc</p>
+
+<p>命名要简明，优雅得像一句陈诉句</p>
+
+<p>命名避免缩写</p>
+
+<p>命名风格要一致</p>
+
+<h3>Item 20 私有方法用前缀表明</h3>
+
+<p>前缀私有方法用于区别公有方法</p>
+
+<p>不要用_来做私有方法前缀，因为苹果用了这规则</p>
+
+<h3>Item 21 理解Objc Error Model</h3>
+
+<p>异常是用来处理fatal error的</p>
+
+<p>非fatal error,要用代理或参数方式来自行处理</p>
+
+<h3>Item 22 理解NSCopying协议</h3>
+
+<p>如果想copy，那就一定要执行NSCopying协议</p>
+
+<p>如果有mutable的变量，那么还需要执行NSMutableCopying</p>
+
+<p>区分Shallow copy与Deep copy</p>
+
+<p>建意使用deep copy, 如果需要的话</p>
+
+<h3>Item 23 内部通信使用代理协议与数据协议</h3>
+
+<p>delegate在开发中运用得非常多，这儿不再多说</p>
+
+<h3>Item 24 用Category来拆分类，使其更容易维护</h3>
+
+<p>很容易明白，也不说了</p>
+
+<h3>Item 25 Category中要加前缀，防止出现bug,容易调试</h3>
+
+<p>Category中的类要加前缀</p>
+
+<p>category中方法名要加前缀</p>
+
+<h3>Item 26 Category中避免声明属性</h3>
+
+<p>属性是数据的封装，不能在category中声明属性，编译器会找不到的。</p>
+
+<p>有两种方法可以，一种是在Item 10中介绍的，一种是可以声明readonly的属性，然后手动实现其get方法。</p>
+
+<h3>Item 27 用class-continuation的Category隐藏类的执行(类似private方法)</h3>
+
+<p>class-continuation category与一般的category差不多，只是括号时用写名字。</p>
+
+<p>class-continuation category可以在里面声明属性与方法，也可以遵循protocol，其中的方法相当于私有方法。</p>
+
+<p>可以改变类属性的一些类型，如只读变成可读写</p>
+
+<h3>Item 28 用protocol提供匿名对象</h3>
+
+<p>id加protocol提供匿名类型</p>
+
+<p>如果想隐藏类则可以使用匿名对象</p>
+
+<p>只关心实现了方法，不关心实现细节的时候可以用匿名对象</p>
+
+<h2>5 内存管理</h2>
+
+<h3>Item 29 理解引用计数</h3>
+
+<p>每个对象使用的时候会对其引用次数进行计数。</p>
+
+<p>new出来的对象retainCount为1.</p>
+
+<p>retain对象retainCount加1.</p>
+
+<p>release对象retainCount减1.</p>
+
+<p>autorelease对象retainCount减1.</p>
+
+<p>当retainCount为0的时候，内存被回收。</p>
+
+<p>对象加到容器(如NSArray)中，会对其retain一次，及引用计数加1,记得要平衡retainCount.</p>
+
+<p>避免循环引用</p>
+
+<h3>Item 30 使用ARC管理引用计数</h3>
+
+<p>ARC中将不再手动调用retain,release,autorelease，dealloc等方法了。编译器会自动将这些加入到我们的程序当中。</p>
+
+<p>ARC解放了开发人员对内存的管理，还少写代码。</p>
+
+<p>ARC只能管理ObjC的对象，CoreFoundation object还是得用CFRetain/CFRelease来管理内存</p>
+
+<h3>Item 31 清理与删观察者只放在dealloc中执行</h3>
+
+<p>有dealloc中释放CoreFoundation并去掉观察者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc {
+</span><span class='line'>    CFRelease(coreFoundationObject);
+</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是MRC, 调用[super dealloc];应放到最后</p>
+
+<p>如果有文件操作，一定要记得close</p>
+
+<h3>Item 32 内存相关记得异常处理</h3>
+
+<p>MRC一定要处理异常处理，方式要正确，@try中需要将释放的工作放到@finally中</p>
+
+<p>ARC要使用-fobjc-arc-exceptions来开启异常处理，不过使用异常处理会降低运行效率</p>
+
+<p>如果有很多异常处理，建意使用NSError的方式来处理</p>
+
+<h3>Item 33 使用弱引用避免循环引用</h3>
+
+<p>循环引用就是A对象拥有B对象，B对象拥有A对象，当A想释放的时候，等待B释放，这时B却又要等待A释放完才释放完才释放，这样两个对象相互等待，却一直释放不了。</p>
+
+<p>用weak或unsafe_unretained声明属性就可以了。</p>
+
+<p>weak比unsafe_unretained更安全</p>
+
+<h3>Item 34 使用Autorelease Pool来管理地高内存分配</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *databaseRecords = /* ... */;
+</span><span class='line'>NSMutableArray *people = [NSMutableArray new]; for (NSDictionary *record in databaseRecords) {
+</span><span class='line'>@autoreleasepool { 
+</span><span class='line'>EOCPerson *person =
+</span><span class='line'>[[EOCPerson alloc] initWithRecord:record];
+</span><span class='line'>[people addObject:person];
+</span><span class='line'>} 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上面的代码，如果NSArray有10000个对象，那么就可以加一个autoreleasepool，这样可以实时的进行内存回收。</p>
+
+<h3>Item 35 使用Zombies来调试内存问题</h3>
+
+<p>内存分配给对象，然后对象被释放。如果该对象内存没有被重写，那么再次向该对象发送消息，也是可以成功执行的。如果被重写了，那么就会崩溃。</p>
+
+<p>所以会出现有时候crash,有时候正常运行，给程序调试与bug排除带来不便。所以我们可以开启Zombies（僵尸对象）。</p>
+
+<p>它将所有释放了的对象放到放到一个Zombies区，内存也不释放也不被重写，这样标记它是一个僵尸对象。如果程序再次向僵尸对象发送消息，那么就会在控制台打出消息提供开发人员，方向开发人员定位排除bug.</p>
+
+<h3>Item 36 避免使用retainCount</h3>
+
+<p>如果用MRC,开发过程中，中心有retainCount的概念平衡retainCount就可以。代码中一定不要用retainCount来做判断，因为是根据runtime autorelease等决定的。所以release一个对象retainCount不是马上改变。如下面的代码就是错误的，是一个死循环。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while([obj retainCount]) {
+</span><span class='line'>    [obj release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>6 块与GCD</h2>
+
+<h3>Item 37 理解块代码</h3>
+
+<p>待续</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-03T12:48:56+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>1.使用淘宝的gem镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem sources --remove https://rubygems.org/
+</span><span class='line'>gem sources -a http://ruby.taobao.org/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.使用国内的Cocoapods镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod repo remove master
+</span><span class='line'>pod repo add master https://gitcafe.com/lloydsheng/Specs.git
+</span><span class='line'>pod repo update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.不用每次install/update更新Cocoapods Specs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod install --verbose --no-repo-update
+</span><span class='line'>pod update --verbose --no-repo-update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想自己搞一个镜像，<a href="http://lloydsheng.com/post/setup-cocoapods-mirror">这儿</a>有方法可以参考</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/22/iosopendevpei-zhi/">iOSOpenDev配置</a></h1>
     
     
@@ -730,415 +1424,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
-
-<h3>1.SEL触发</h3>
-
-<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
-有了SEL这样就可以触发方法调用了,<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
-</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面两句代码是同一个道理。<br></p>
-
-<h3>2. IMP触发</h3>
-
-<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
-
-
-<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
-有了这个函数指针后，我们就可以触发方法：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
-
-<h3>3. objc_msgSend方法</h3>
-
-<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
-
-
-<p>这行代码等价于<br></p>
-
-<p>[self fly];</p>
-
-<h3>4. NSInvocation</h3>
-
-<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
-说得有点抽像，看代码更清楚:<br></p>
-
-<p>假如我们实现了一个两个数相加的方法，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
-
-
-<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
-</span><span class='line'>  NSNumber *retval;
-</span><span class='line'> 
-</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
-</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
-</span><span class='line'> 
-</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
-</span><span class='line'> 
-</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
-</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-</span><span class='line'> 
-</span><span class='line'>  [invocation setTarget:self];
-</span><span class='line'>  [invocation setSelector:selector];
-</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
-</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
-</span><span class='line'>  [invocation invoke];
-</span><span class='line'> 
-</span><span class='line'>  if ([sig methodReturnLength]) {
-</span><span class='line'>      [invocation getReturnValue:&retval];
-</span><span class='line'>      return retval;
-</span><span class='line'>  }
-</span><span class='line'>  
-</span><span class='line'>  return nil;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
-
-<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
-</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
-</span><span class='line'>}
-</span><span class='line'> 
-</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
-</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
-</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
-</span><span class='line'> 
-</span><span class='line'>  [invocation setTarget:target];
-</span><span class='line'>  [invocation setSelector:selector];
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>  if(arg1) {
-</span><span class='line'>      va_list args;
-</span><span class='line'>      va_start(args, arg1);
-</span><span class='line'> 
-</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
-</span><span class='line'> 
-</span><span class='line'>      id obj;
-</span><span class='line'>      int ct = 3;
-</span><span class='line'> 
-</span><span class='line'>      while( obj = va_arg(args, id) ) {
-</span><span class='line'>          NSLog(@"%@", obj);
-</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
-</span><span class='line'> 
-</span><span class='line'>          ct++;
-</span><span class='line'>      }
-</span><span class='line'> 
-</span><span class='line'>      va_end(args);
-</span><span class='line'>  }
-</span><span class='line'> 
-</span><span class='line'> 
-</span><span class='line'>  return invocation;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>调用方法:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
-</span><span class='line'> 
-</span><span class='line'>[invocation invoke];
-</span><span class='line'>[invocation getReturnValue:&retval];
-</span><span class='line'> 
-</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-07T21:31:53+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/06/07/ios8-appguo-ji-hua/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>1.创建一个Localizable.strings文件 <br>
-2.code中用字符串的地方使用NSLocalizedString，这与系统语言相关 <br>
-3.时间显示，数字，金融与地区相关，所以需要各类NSFormater, 如NSDateFormatter, NSNumberFormatter &hellip; <br>
-3.用命令将所有NSLocalizedString返回的字符串格式化到Localizable.strings里。命令行进入工程目录（我的工程名是LocalizationTest），运行下面命令：<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find ./ -name "*.m" -print0 | xargs -0 genstrings -o LocalizationTest/en.lproj</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.这下就将Localizable.strings拿给翻译的人 <br></p>
-
-<p>上面是iOS7以下国际化的方法。</p>
-
-<p>在iOS8中加入了一种国际通用的xliff文件，全称是 Localisation Interchange File Format（本地化交换文件格式，是xml文件）， 里面就是需要翻译的东西。打开xliff文件，里面<source></source>标签中是表示要翻译的东西，对应Localizable.strings中=号左边的字符串，<target></target>中是每种语言的翻译，对应Localizable.strings中=号右边的字符串。没有一个source标签对应一个target标签。</p>
-
-<p>选中Editor &ndash;> Export For Localization就可以导出需要翻译的字符串，它会遍历整个工程，将xib，stroryboard, 代码中需要本地化字符串导出到.xliff文件中。小伙伴们再也不需要手动输入上面的命令将NSLocalizedString对应的需要翻译的字符串输出到Localizable.strings里了。 Import Localizations就是导入翻译的字符串，并自动刷新xib，.strings， storyboard中本地化文件 <br></p>
-
-<p>同时Xcode6加入了 语言Debug方式，以前测试国际化，都是修改系统的语言，然后运行程序，现在在xcode中的target的scheme中就可以修改该target运行时的语言。  这样就不需要到系统设置里去设置，更简单高效。<br></p>
-
-<p>同时xcode storyboard的预览功能更加强大了，可以实时修改预览的语言。<br></p>
-
-<p>开发越来越方便了。<br></p>
-
-<p>继续写代码，改变世界。<br></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-14T12:42:37+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时候在Mac App Store下载或更新应用的，会出现一些错误，造成这原因可能是由于cookie造成的。所以我们可以重设appstore的cookie。方法如下：<br>
-1.打开Terminal, 运行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>defaults write com.apple.appstore ShowDebugMenu -bool true</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.重启Mac App Store， 大家就可以发现菜单栏多了一个Debug菜单。<br>
-快选择清除cookie试试。</p>
-
-<p><img src="http://iosman.qiniudn.com/2014-04-14PM.png" alt="" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-23T10:38:15+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1165,7 +1450,8 @@
 <section>
   <h1>Categories</h1>
   <ul id="categories">
-    <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
+    <li class='category'><a href='/blog/categories/blog/'>Blog (1)</a></li>
+<li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
 <li class='category'><a href='/blog/categories/jailbreak/'>Jailbreak (2)</a></li>
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
@@ -1176,8 +1462,10 @@
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/cocoapods/'>cocoapods (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>iOS (15)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
+<li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
   </ul>
 </section>
@@ -1186,23 +1474,23 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/22/iosopendevpei-zhi/">iOSOpenDev配置</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/">使用Auto Layout的坑</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/">iOS Jailbreak Dev准备工作</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/">自定义iOS上双击Home键App切屏</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/">一个基于Nodejs的简单iOS MDM服务</a>
       </li>
     
   </ul>
@@ -1270,7 +1558,7 @@ var duoshuoQuery = {short_name:"ifun"};
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013-2014 - Haven -
+  Copyright &copy; 2013-2015 - Haven -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
