@@ -113,7 +113,7 @@
 
   <div class="entry-content"><p>业余时间开发的app, V2EX网站iOS原生态App. 感兴趣的可以下来玩玩<br>
 <a href="https://itunes.apple.com/cn/app/v2ex-club/id883141469?l=en&amp;mt=8">Appstore</a><br>
-<a href="https://bitbucket.org/xpisceo/v2ex">源码</a></p>
+<a href="https://github.com/ondev/iV2EX">源码</a></p>
 
 <p>单枪匹马干了这么几年，希望结识各路高手。</p>
 </div>
@@ -739,6 +739,106 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 <h2>6 块与GCD</h2>
 
 <h3>Item 37 理解块代码</h3>
+
+<p>匿名block</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>^{
+</span><span class='line'>    //Block代码
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>声明block</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^someBlock)() = ^ {
+</span><span class='line'>    //Block代码
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Block声明后，作用域以外的地方是不可见的。如以下代码:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^block)();
+</span><span class='line'>if (/*condition*/) {
+</span><span class='line'>    block = ^{
+</span><span class='line'>        NSLog("Test block A");
+</span><span class='line'>    }
+</span><span class='line'>} else {
+</span><span class='line'>    block = ^{
+</span><span class='line'>        NSLog("Test block B");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>block();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上代码是有问题的，因为是block的内存是在栈上分配的，出了作用域编译器就会重写栈，所有可能会crash.解决方法是加一个copy， 将内存放到堆上去。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^block)();
+</span><span class='line'>if (/*condition*/) {
+</span><span class='line'>    block = [^{
+</span><span class='line'>        NSLog("Test block A");
+</span><span class='line'>    } copy]
+</span><span class='line'>} else {
+</span><span class='line'>    block = [^{
+</span><span class='line'>    NSLog("Test block B");
+</span><span class='line'>    } copy]
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>block();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Block内存管理与一般对象一样的。</p>
+
+<h3>Item 38 用typedef定义Block类型</h3>
+
+<p>声明block的格式如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>type (^blockName)(parameters);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用typedef可以让Block与一般类型一样，使用非常方便。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef void(^EOCCompletionHandler)(NSData *data, NSError *error);
+</span><span class='line'>
+</span><span class='line'>- (void)startWithCompletionHandler:(EOCCompletionHandler)completion;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可见使用typedef让block的使用更加简单</p>
+
+<h3>Item 39 使用Block可以减少代码分很开的弊端</h3>
 
 <p>待续</p>
 
