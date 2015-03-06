@@ -85,6 +85,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/">DeckView在iOS7中的bug</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:52:32+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/deckviewzai-ios7zhong-de-bug/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>前面有两篇文件介绍了适配iOS7的工作，也总结了其最主要的改变就是view全屏模式的布局方式。
+我iOS开发的朋友可能用过<a href="https://github.com/Inferis/ViewDeck">ViewDeck</a>这个库，它可以做出类似facebook那样的左右滑动的效果。当你升级到iOS7后，将会有一些问题。这篇文章将介绍我遇到的问题及解决方法。</p>
+
+<p>首先，我说说我用viewdeck的ui布局， window的rooterViewController是一个UITabBarViewController, 然后IIViewDeckController是UITabBarViewController的子view. 然后每一个IIViewDeckController的left,center是UINavigationController. 还有一点需要说明， UITabBar的background Image是自定义的一张图片。</p>
+
+<p>这样的布局在iOS6上显示正常的，在iOS7 3.5 retina的Simulator上显示也是正常的，但是在iPhone4s上显示不正确了，IIViewDeckController的left与center的view高度刚好少44。也就是说这个问题只会在设备上出现。我debug了一下，发现造成这个问题的原因是UITabBar自定义了背景图片，如果不自定义则ok.但是我们的程序是需要自定义UITabBar的背景的。由于我看到刚好少了44px,所以我就试着在IIViewDeckController的viewDidLoad中加了一句代码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
+</span><span class='line'>        self.extendedLayoutIncludesOpaqueBars = YES;
+</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这样就可以成功运行了。 这句话的意思就是，是否延升到Tabbar区域。默认是NO的，由于Tabbar是44px,这样修改刚好可以fix这个问 但是最让我费解的就是在Simulator上没有这个问题，在Device上有问题，不过问题总算解决了。</p>
+
+<p>我也把我做的测试工程放到了<a href="https://github.com/ondev/TestViewDeck">GitHub</a>, 大家可以下载分别运行到Simulator与Device, 然后把上面代码注释掉再运行做比较。 我的开发环境是:Version 5.0 (5A1413) + iOS7</p>
+
+<p>如果你的测试结果与我不一样，请告诉我</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/09/ios7yin-cang-status-bar/">iOS7隐藏status Bar</a></h1>
     
     
@@ -780,7 +842,7 @@
 <p>Omnigraffle</p>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
-name:<a href="&#109;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x70;&#x72;&#97;&#x74;&#x65;&#122;&#64;&#x72;&#x75;&#108;&#x65;&#x2e;&#110;&#101;&#x74;">&#x70;&#x72;&#97;&#x74;&#x65;&#x7a;&#x40;&#114;&#x75;&#x6c;&#x65;&#x2e;&#x6e;&#x65;&#116;</a> <br>
+name:<a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#112;&#x72;&#x61;&#116;&#101;&#122;&#x40;&#x72;&#117;&#x6c;&#x65;&#46;&#x6e;&#101;&#116;">&#112;&#114;&#97;&#x74;&#x65;&#122;&#x40;&#114;&#x75;&#108;&#101;&#x2e;&#110;&#x65;&#x74;</a> <br>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <p>Charles</p>
@@ -844,64 +906,9 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/08/make-ios-framework/">Make iOS Framework</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-08T22:42:06+08:00" pubdate data-updated="true">Feb 8<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/08/make-ios-framework/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>制作framework的好处不用再说，网上也有相应的方法介绍。今天我在此总结一下常用的方法。</p>
-
-<h3>1.用模板</h3>
-
-<p>下载<a href="https://github.com/kstenerud/iOS-Universal-Framework">xcode模板</a>后按照教程安装模板，安装后就可以用xcode创建生成framework的项目工程。这种方法简单易用，没有什么难度。</p>
-
-<h3>2.用static library生成</h3>
-
-<p>这种方法是用脚本将.a文件与头文件，包装成.framework的文件格式。 脚本与步骤在<a href="https://github.com/jverkoey/iOS-Framework">这儿</a>都有详细介绍。 但是还有一步，需要做，就是将工种设置中的Build Active Architecture Only 设为NO, 否则生成的.framework 会提示找不到armv7s</p>
-
-<h3>3.用bundle模拟</h3>
-
-<p>这个方法也是用脚本的方法，组装bundle为framewrok. 大家直接看<a href="http://jaym2503.blogspot.sg/2012/09/how-to-create-custom-ios-framework.html">教程</a></p>
-
-<p>这三种方法都试了，我比较喜欢用第二种方式，因为它的来龙去脉都比较清晰，知道.framework是如何生成的。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -931,6 +938,7 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
 <li class='category'><a href='/blog/categories/jailbreak/'>Jailbreak (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (1)</a></li>
@@ -951,6 +959,10 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/">V2EX for iOS源码</a>
       </li>
     
@@ -964,10 +976,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <li class="post">
         <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a>
       </li>
     
   </ul>

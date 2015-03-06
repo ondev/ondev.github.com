@@ -640,6 +640,102 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 
 <h3>Item 39 使用Block可以减少代码分很开的弊端</h3>
 
+<p>回调方法以前都用Delegate, 可以试试用Block的方式。 用过的人都知道。</p>
+
+<h3>Item 40 使用Block的时候注意循环引用</h3>
+
+<p>特别注意Block引用self, 可能会循环引用</p>
+
+<h3>Item 41 Dispatch Queues异步锁</h3>
+
+<p>有三种方式使共享资源多线程安全:<br></p>
+
+<h4>使用 @synchronized</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)synchronizedMethod { 
+</span><span class='line'>  @synchronized(self) {       // Safe } }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用 NSLock</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_lock = [[NSLock alloc] init];
+</span><span class='line'>- (void)synchronizedMethod { 
+</span><span class='line'>  [_lock lock];   // Safe [_lock unlock]; }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用 Dispatch Queues</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_syncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);- (NSString*)someString { __block NSString *localSomeString; dispatch_sync(_syncQueue, ^{ localSomeString = _someString; });  return localSomeString; 
+</span><span class='line'>}
+</span><span class='line'>- (void)setSomeString:(NSString*)someString {     dispatch_barrier_async(_syncQueue, ^{   _someString = someString; });￼}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>42 GCD方式的performSelector</h3>
+
+<p>延迟执行一般方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:@selector(doSomething) withObject:nilafterDelay:5.0];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>GCD方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));dispatch_after(time, dispatch_get_main_queue(), ^(void){  [self doSomething];});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>主线程执行一般方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelectorOnMainThread:@selector(doSomething) withObject:nil waitUntilDone:NO];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>GCD方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_async(dispatch_get_main_queue(), ^{ [self doSomething]; 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ARC方式下的performSelector非常危险，因为是运行时决定的，所以ARC不能在编译的时候对内存进行管理。返回值与参数都有局限。</p>
+
+<h3>43 什么时候用GCD，什么时候用Operation Queues</h3>
+
+<p>GCD是纯C的API, Operation Queues是Objective C. Operation Queues也有像GCD方式的调用，如NSBlockOperation或NSOperationQueue的addOperationWithBlock， Operation Queues还有以下优点：</p>
+
+<h4>取消队列</h4>
+
+<p>NSOperation的cancel方法可以设置一个取消标志，告诉NSOperation不再运行。而GCD一但运行，就没法取消。</p>
+
+<h4>队列依赖</h4>
+
+<p>一个消息队列可以依赖其它消息队列，比如下载服务器文件与处理文件两个队列，处理队列依赖下载队列，因为只有下载完后，才能处理文件。</p>
+
+<h4>队列的属性可以使用KVO</h4>
+
+<p>可以用KVO的方式检测队列的状态</p>
+
+<h4>队列优先级</h4>
+
+<p>可以用Queues中的每一个NSOperation设置一个优先级，GCD只能对整个队列设置优先级，不但单独对每一个block设置优先级。Operations也可以设置在线程上运行的优先级，同时GCD也可以。</p>
+
+<h4>队列重用</h4>
+
+<p>Operation的类可以直接重用</p>
+
+<p>GCD并不是唯一的多线程与任务管理方案。Operation提供灵活的方式来实现与GCD相关的功能。</p>
+
+<h3>44</h3>
+
 <p>待续</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
@@ -738,6 +834,7 @@ var duoshuoQuery = {short_name:"ifun"};
 <li class='category'><a href='/blog/categories/cocoa/'>Cocoa (1)</a></li>
 <li class='category'><a href='/blog/categories/ffmpeg/'>FFmpeg (1)</a></li>
 <li class='category'><a href='/blog/categories/jailbreak/'>Jailbreak (2)</a></li>
+<li class='category'><a href='/blog/categories/java/'>Java (1)</a></li>
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (1)</a></li>
@@ -758,6 +855,10 @@ var duoshuoQuery = {short_name:"ifun"};
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/">V2EX for iOS源码</a>
       </li>
     
@@ -771,10 +872,6 @@ var duoshuoQuery = {short_name:"ifun"};
     
       <li class="post">
         <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a>
       </li>
     
   </ul>
