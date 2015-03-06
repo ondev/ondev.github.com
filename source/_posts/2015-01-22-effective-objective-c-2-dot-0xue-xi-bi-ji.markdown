@@ -346,6 +346,156 @@ while([obj retainCount]) {
 
 ## 6 块与GCD
 ### Item 37 理解块代码
+匿名block
+
+```
+^{
+    //Block代码
+}
+```
+
+声明block
+
+```
+void (^someBlock)() = ^ {
+    //Block代码
+}
+```
+
+Block声明后，作用域以外的地方是不可见的。如以下代码:
+
+```
+void (^block)();
+if (/*condition*/) {
+    block = ^{
+        NSLog("Test block A");
+    }
+} else {
+    block = ^{
+        NSLog("Test block B");
+    }
+}
+
+block();
+```
+
+以上代码是有问题的，因为是block的内存是在栈上分配的，出了作用域编译器就会重写栈，所有可能会crash.解决方法是加一个copy， 将内存放到堆上去。
+
+```
+void (^block)();
+if (/*condition*/) {
+    block = [^{
+        NSLog("Test block A");
+    } copy]
+} else {
+    block = [^{
+    NSLog("Test block B");
+    } copy]
+}
+
+block();
+```
+Block内存管理与一般对象一样的。
+
+### Item 38 用typedef定义Block类型
+声明block的格式如下
+
+```
+type (^blockName)(parameters);
+```
+
+使用typedef可以让Block与一般类型一样，使用非常方便。
+
+```
+typedef void(^EOCCompletionHandler)(NSData *data, NSError *error);
+
+- (void)startWithCompletionHandler:(EOCCompletionHandler)completion;
+```
+
+可见使用typedef让block的使用更加简单
+
+
+### Item 39 使用Block可以减少代码分很开的弊端
+回调方法以前都用Delegate, 可以试试用Block的方式。 用过的人都知道。
+
+
+### Item 40 使用Block的时候注意循环引用
+特别注意Block引用self, 可能会循环引用
+
+
+### Item 41 Dispatch Queues异步锁
+有三种方式使共享资源多线程安全:<br>
+#### 使用 @synchronized
+
+```
+- (void)synchronizedMethod { 
+	@synchronized(self) {		// Safe	} }
+```
+#### 使用 NSLock
+
+```
+_lock = [[NSLock alloc] init];
+- (void)synchronizedMethod { 
+	[_lock lock];	// Safe	[_lock unlock]; }
+```
+#### 使用 Dispatch Queues
+
+```
+_syncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);- (NSString*)someString {	__block NSString *localSomeString; dispatch_sync(_syncQueue, ^{	localSomeString = _someString; });	return localSomeString; 
+}
+- (void)setSomeString:(NSString*)someString { 	dispatch_barrier_async(_syncQueue, ^{	_someString = someString; });￼}
+```
+
+### 42 GCD方式的performSelector
+延迟执行一般方式
+
+```
+[self performSelector:@selector(doSomething) withObject:nilafterDelay:5.0];
+```
+
+GCD方式
+
+```
+dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));dispatch_after(time, dispatch_get_main_queue(), ^(void){ 	[self doSomething];});
+```
+
+主线程执行一般方式
+
+```
+[self performSelectorOnMainThread:@selector(doSomething) withObject:nil waitUntilDone:NO];
+```
+GCD方式
+
+```
+dispatch_async(dispatch_get_main_queue(), ^{	[self doSomething]; 
+});
+```
+ARC方式下的performSelector非常危险，因为是运行时决定的，所以ARC不能在编译的时候对内存进行管理。返回值与参数都有局限。
+
+
+### 43 什么时候用GCD，什么时候用Operation Queues
+
+GCD是纯C的API, Operation Queues是Objective C. Operation Queues也有像GCD方式的调用，如NSBlockOperation或NSOperationQueue的addOperationWithBlock， Operation Queues还有以下优点：
+
+#### 取消队列
+NSOperation的cancel方法可以设置一个取消标志，告诉NSOperation不再运行。而GCD一但运行，就没法取消。
+
+#### 队列依赖
+一个消息队列可以依赖其它消息队列，比如下载服务器文件与处理文件两个队列，处理队列依赖下载队列，因为只有下载完后，才能处理文件。
+
+#### 队列的属性可以使用KVO
+可以用KVO的方式检测队列的状态
+
+#### 队列优先级
+可以用Queues中的每一个NSOperation设置一个优先级，GCD只能对整个队列设置优先级，不但单独对每一个block设置优先级。Operations也可以设置在线程上运行的优先级，同时GCD也可以。
+
+#### 队列重用
+Operation的类可以直接重用
+
+GCD并不是唯一的多线程与任务管理方案。Operation提供灵活的方式来实现与GCD相关的功能。
+
+### 44 
+
 待续
 
 
