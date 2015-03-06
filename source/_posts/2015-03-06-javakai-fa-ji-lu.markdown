@@ -77,6 +77,26 @@ java -XstartOnFirstThread -jar ibot.jar
 jar 包成功运行。
 
 
+### 封装Mac下可运行的app
+参考[https://www.eclipse.org/swt/macosx/](https://www.eclipse.org/swt/macosx/) <BR>
+做了一点修改，将可运行脚本改为了
+
+```
+#!/bin/sh
+BASEDIR=`dirname $0`
+exec java \
+        -XstartOnFirstThread \
+        -jar $BASEDIR/ibot.jar
+```
+
+记录一下创建dmg的命令:
+
+```
+hdiutil create -srcfolder SWTHello SWTHello.dmg
+hdiutil internet-enable -yes SWTHello.dmg
+```
+
+
 ### 加载资源
 程序是由代码加资源文件组成的，比如要读取icon,声间文件。由于我是新手，所以加载资源也把我难住了，幸好万能的Google我还能打开，窃喜！！！
 
