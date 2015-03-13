@@ -121,5 +121,8 @@ ImageDescriptor.createFromFile(Main.class, "/res/login.png")；
 返回的ImageDescriptor正是Action中要用到的。
 
 
+##参考资料
+[http://www.eclipse.org/swt/](http://www.eclipse.org/swt/)
+
 >时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:<疯狂IT人>93916004
 
