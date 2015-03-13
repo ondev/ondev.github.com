@@ -85,6 +85,107 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/">自定义iOS上双击Home键App切屏</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-10T16:34:06+08:00" pubdate data-updated="true">Jul 10<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/07/10/zi-ding-yi-iosshang-shuang-ji-homejian-appqie-ping/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>在iOS7上，如果双击Home，会来到iOS App的switcher页面，在这儿列出了当前系统挂起的App, 上面有每个App的切屏，相信大家都熟悉这个东东了。它其实是每个App在挂起前，对App截屏。</p>
+
+<p>那么我们如何自定义它在App Switcher上的展示呢，明白了它其实是对App的截屏，那么在它快进入后台的时候，我们改变其外观，那么截下来的图片，不就改变了吗？</p>
+
+<p>明白这个原理后，那我们就试一试。</p>
+
+<p>新建一个工程，准备三张图片，Defautl.png, Defautl@2x.png, Default-568h@2x.png,  将其放进工程。</p>
+
+<p>我们在AppDelegate.h中声明一个UIImageView变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface AppDelegate : UIResponder &lt;UIApplicationDelegate&gt; {
+</span><span class='line'>    UIImageView *screenShotView;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>@property (strong, nonatomic) UIWindow *window;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>接着在AppDelegate中加入以下代码:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)applicationWillResignActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    if (!screenShotView) {
+</span><span class='line'>        screenShotView = [[UIImageView alloc]initWithFrame:[self.window frame]];
+</span><span class='line'>        [screenShotView setImage:[UIImage imageNamed:@"Default-568h"]];
+</span><span class='line'>        [self.window addSubview:screenShotView];
+</span><span class='line'>    }
+</span><span class='line'>    screenShotView.alpha = 1;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)applicationDidBecomeActive:(UIApplication *)application
+</span><span class='line'>{
+</span><span class='line'>    screenShotView.alpha = 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>先在模拟器上删除以app,然后再点xcode run.  双击Home, 这下你是不是在App Switcher中看到了你的Default的图片，将上面的代码中Default-568h改为其它图片, 这样达到了自定义目的, 是不是太简单了呀？</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/">一个基于Nodejs的简单iOS MDM服务</a></h1>
     
     
@@ -919,93 +1020,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/">iOS7计算字符串所占空间大小</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-17T21:42:20+08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7以前计算NSString所占size的API是NSString的成员方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在iOS7中如果用这个方法计算，计算出来的值要比实际值小，所以可能出现显示不完全的效果。这是因为在iOS7中，上面这个方法已被新的API替代了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面的代码是一个示例，大家可以做为参考：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CGSize expectedLabelSize = CGSizeZero;
-</span><span class='line'>    
-</span><span class='line'>    if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-</span><span class='line'>        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-</span><span class='line'>        NSDictionary *attributes = @{NSFontAttributeName:sideLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
-</span><span class='line'>        
-</span><span class='line'>        expectedLabelSize = [sideLabel.text boundingRectWithSize:CGSizeMake(260, 999) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-</span><span class='line'>    }
-</span><span class='line'>    else {
-</span><span class='line'>        expectedLabelSize = [sideLabel.text sizeWithFont:sideLabel.font
-</span><span class='line'>                                       constrainedToSize:CGSizeMake(260, 999)
-</span><span class='line'>                                           lineBreakMode:sideLabel.lineBreakMode];
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就正确了。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1042,6 +1056,7 @@
 <li class='category'><a href='/blog/categories/mdm/'>MDM (1)</a></li>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (1)</a></li>
+<li class='category'><a href='/blog/categories/opengles/'>OpenGLES (1)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
@@ -1059,6 +1074,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/">OpenGL ES简明教程之1</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a>
       </li>
     
@@ -1072,10 +1091,6 @@
     
       <li class="post">
         <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a>
       </li>
     
   </ul>

@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Python - Haven's Blog</title>
+  <title>OpenGL ES简明教程之1 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="Category: Python">
-  <meta name="keywords" content="iOS,C/C++,PHP,UITableView,UIKit,Socket,iOS7">
+  <meta name="description" content="加入QQ群:93916004更多精彩">
+  <meta name="keywords" content="OpenGLES">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.ccblog/categories/python">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -78,36 +78,152 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Python</h1>
+    
+      <h1 class="entry-title">OpenGL ES简明教程之1</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-13T12:48:55+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2015</time>
+        
+		
+		          | <a href="#comments">Comments</a>
+		
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>最近在弄一点3D相关的东西，大概有四年没有做3D相关的东西了，也忘得差不多了。我就把最近学到的东西总结一下，记录一下，方便查询。</p>
 
-  
-  <h2>2014</h2>
+<p>在iOS上开发3D的东西，有三个选择:OpenGLES,GLKit,Metal. <br></p>
 
-<article>
-  
-<h1><a href="/blog/2014/02/08/pythonyu-fa-kuai-su-xue-xi/">Python语法快速学习</a></h1>
-<time datetime="2014-02-08T22:45:10+08:00" pubdate><span class='month'>Feb</span> <span class='day'>08</span> <span class='year'>2014</span></time>
+<p>我选择了直接用OpenGLES，因为这样更了解底层。 GLKit也是封装了OpenGLES, Metal则是新出来的苹果3D技术，也学微软了出自己DirectX标准. <br></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/python/'>Python</a></span>
-</footer>
+<p>最新的iOS8+iPhone6是支持OpenGLES 1.0, 2.0的，3.0好像还不支持。<br></p>
+
+<p>本系列教程先介绍并学习OpenGLES 1.0，OpenGLES 1.0学完以后，再过渡到2.0, 因为学东西要先学基础，再深入，这样更容易。<br></p>
+
+<p>在学习的过程中会用到PowerVR SDK, 大家可以去<a href="http://community.imgtec.com/developers/powervr/installers/">这儿</a>下载并安装。<br></p>
+
+<p>还会用到3D建模工具Blender,也请自行下载。<br></p>
+
+<p>还会用到Blender导出格式为pod的插件与导出格式为collada格式的插件。<br></p>
+
+<p>安装插件的方式，就是将下载好的插件文件复制到以下目录</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Applications/Blender/blender.app/Contents/Resources/2.73/scripts/addons/</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>collada格式的插件在<a href="http://sourceforge.net/projects/colladablender/">这儿</a>下载.<br></p>
 
+<p>PowerVR Gen Pod的插件是在以下目录</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Applications/Imagination/PowerVR_Graphics/PowerVR_Tools/PVRGeoPOD/Plugins/Blender/OSX_x86/</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意是复制目录下的文件</p></blockquote>
+
+<p>要导出pod，还需要进Blender配置一下。打开blender, 左下角的列表中选择User Preference，在打开的界面中选择Addon，在Import－Export栏中找到Import－Export：PVRGeoPOD，并将其右侧的checkbox选中，保存用户设置。</p>
+
+<p>还不明白的可以看<a href="http://blog.csdn.net/cj_gameboy/article/details/41171171">这儿</a>，有图有真相。</p>
+
+<p>先准备好这些，下一节开始OpenGLES实战。</p>
+
+<p>搞3D,给大家推荐两本书:<br></p>
+
+<p>《iPhone 3D Programming》<br>
+《Learning OpenGL ES for iOS》</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Haven</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-13T12:48:55+08:00" pubdate data-updated="true">Mar 13<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/opengles/'>OpenGLES</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/" data-via="" data-counturl="http://www.ifun.cc/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/03/06/javakai-fa-ji-lu/" title="Previous Post: Java开发记录">&laquo; Java开发记录</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+
+
+
+  <section>
+    <h1>Comments</h1>
+    <div id="comments" aria-live="polite"><!-- Duoshuo Comment BEGIN -->
+<div class="ds-thread" data-title="我的Octopress配置"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"ifun"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+</script>
+<!-- Duoshuo Comment END -->
+</div>
+  </section>
+
 
 </div>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Java | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/java/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-03-06T17:56:36+08:00</updated>
+  <updated>2015-03-13T13:14:36+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -134,6 +134,10 @@ InputStream is = this.getClass().getResourceAsStream("/res/" + "icon.png");
 ImageDescriptor.createFromFile(Main.class, "/res/login.png")；
 </code>
 返回的ImageDescriptor正是Action中要用到的。</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://www.eclipse.org/swt/">http://www.eclipse.org/swt/</a></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

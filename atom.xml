@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-03-06T17:56:36+08:00</updated>
+  <updated>2015-03-13T13:14:36+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,56 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OpenGL ES简明教程之1]]></title>
+    <link href="http://www.ifun.cc/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/"/>
+    <updated>2015-03-13T12:48:55+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1</id>
+    <content type="html"><![CDATA[<p>最近在弄一点3D相关的东西，大概有四年没有做3D相关的东西了，也忘得差不多了。我就把最近学到的东西总结一下，记录一下，方便查询。</p>
+
+<p>在iOS上开发3D的东西，有三个选择:OpenGLES,GLKit,Metal. <br></p>
+
+<p>我选择了直接用OpenGLES，因为这样更了解底层。 GLKit也是封装了OpenGLES, Metal则是新出来的苹果3D技术，也学微软了出自己DirectX标准. <br></p>
+
+<p>最新的iOS8+iPhone6是支持OpenGLES 1.0, 2.0的，3.0好像还不支持。<br></p>
+
+<p>本系列教程先介绍并学习OpenGLES 1.0，OpenGLES 1.0学完以后，再过渡到2.0, 因为学东西要先学基础，再深入，这样更容易。<br></p>
+
+<p>在学习的过程中会用到PowerVR SDK, 大家可以去<a href="http://community.imgtec.com/developers/powervr/installers/">这儿</a>下载并安装。<br></p>
+
+<p>还会用到3D建模工具Blender,也请自行下载。<br></p>
+
+<p>还会用到Blender导出格式为pod的插件与导出格式为collada格式的插件。<br></p>
+
+<p>安装插件的方式，就是将下载好的插件文件复制到以下目录</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Applications/Blender/blender.app/Contents/Resources/2.73/scripts/addons/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>collada格式的插件在<a href="http://sourceforge.net/projects/colladablender/">这儿</a>下载.<br></p>
+
+<p>PowerVR Gen Pod的插件是在以下目录</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/Applications/Imagination/PowerVR_Graphics/PowerVR_Tools/PVRGeoPOD/Plugins/Blender/OSX_x86/</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>注意是复制目录下的文件</p></blockquote>
+
+<p>要导出pod，还需要进Blender配置一下。打开blender, 左下角的列表中选择User Preference，在打开的界面中选择Addon，在Import－Export栏中找到Import－Export：PVRGeoPOD，并将其右侧的checkbox选中，保存用户设置。</p>
+
+<p>还不明白的可以看<a href="http://blog.csdn.net/cj_gameboy/article/details/41171171">这儿</a>，有图有真相。</p>
+
+<p>先准备好这些，下一节开始OpenGLES实战。</p>
+
+<p>搞3D,给大家推荐两本书:<br></p>
+
+<p>《iPhone 3D Programming》<br>
+《Learning OpenGL ES for iOS》</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Java开发记录]]></title>
@@ -173,6 +223,10 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 
 
 <p>返回的ImageDescriptor正是Action中要用到的。</p>
+
+<h2>参考资料</h2>
+
+<p><a href="http://www.eclipse.org/swt/">http://www.eclipse.org/swt/</a></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>
@@ -2689,63 +2743,6 @@ f.重新zip为iPA文件<br></p>
 <a href="http://johnszumski.com/blog/auto-layout-for-table-view-cells-with-dynamic-heights">http://johnszumski.com/blog/auto-layout-for-table-view-cells-with-dynamic-heights</a>
 <a href="http://technet.weblineindia.com/mobile/add-auto-layout-support-for-uiscrollview-with-example-in-ios-app-development/">http://technet.weblineindia.com/mobile/add-auto-layout-support-for-uiscrollview-with-example-in-ios-app-development/</a>
 <a href="http://useyourloaf.com/blog/2014/02/14/table-view-cells-with-varying-row-heights.html">http://useyourloaf.com/blog/2014/02/14/table-view-cells-with-varying-row-heights.html</a></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS7计算字符串所占空间大小]]></title>
-    <link href="http://www.ifun.cc/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao/"/>
-    <updated>2014-02-17T21:42:20+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/02/17/ios7ji-suan-zi-fu-chuan-suo-zhan-kong-jian-da-xiao</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>iOS7以前计算NSString所占size的API是NSString的成员方法</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode</span></code></pre></td></tr></table></div></figure>
-
-
-<p>现在iOS7中如果用这个方法计算，计算出来的值要比实际值小，所以可能出现显示不完全的效果。这是因为在iOS7中，上面这个方法已被新的API替代了。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>- (CGRect)boundingRectWithSize:(CGSize)size options:(NSStringDrawingOptions)options attributes:(NSDictionary *)attributes context:(NSStringDrawingContext *)context</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面的代码是一个示例，大家可以做为参考：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CGSize expectedLabelSize = CGSizeZero;
-</span><span class='line'>    
-</span><span class='line'>    if ([[[UIDevice currentDevice] systemVersion] floatValue] &gt;= 7) {
-</span><span class='line'>        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-</span><span class='line'>        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-</span><span class='line'>        NSDictionary *attributes = @{NSFontAttributeName:sideLabel.font, NSParagraphStyleAttributeName:paragraphStyle.copy};
-</span><span class='line'>        
-</span><span class='line'>        expectedLabelSize = [sideLabel.text boundingRectWithSize:CGSizeMake(260, 999) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil].size;
-</span><span class='line'>    }
-</span><span class='line'>    else {
-</span><span class='line'>        expectedLabelSize = [sideLabel.text sizeWithFont:sideLabel.font
-</span><span class='line'>                                       constrainedToSize:CGSizeMake(260, 999)
-</span><span class='line'>                                           lineBreakMode:sideLabel.lineBreakMode];
-</span><span class='line'>    }</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就正确了。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>
   </entry>
   
