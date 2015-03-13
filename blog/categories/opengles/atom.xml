@@ -4,7 +4,7 @@
   <title><![CDATA[Category: OpenGLES | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/opengles/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-03-13T13:14:36+08:00</updated>
+  <updated>2015-03-13T13:27:39+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -24,9 +24,9 @@
 
 <p>我选择了直接用OpenGLES，因为这样更了解底层。 GLKit也是封装了OpenGLES, Metal则是新出来的苹果3D技术，也学微软了出自己DirectX标准. <br></p>
 
-<p>最新的iOS8+iPhone6是支持OpenGLES 1.0, 2.0的，3.0好像还不支持。<br></p>
+<p>iOS7就支持OpenGLES 1.0, 2.0，3.0。<br></p>
 
-<p>本系列教程先介绍并学习OpenGLES 1.0，OpenGLES 1.0学完以后，再过渡到2.0, 因为学东西要先学基础，再深入，这样更容易。<br></p>
+<p>本系列教程先介绍并学习OpenGLES 1.0，OpenGLES 1.0学完以后，再过渡到2.0, 最后再上3.0.因为学东西要先学基础，再深入，这样更容易。<br></p>
 
 <p>在学习的过程中会用到PowerVR SDK, 大家可以去<a href="http://community.imgtec.com/developers/powervr/installers/">这儿</a>下载并安装。<br></p>
 
