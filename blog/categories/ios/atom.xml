@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-03-13T13:27:39+08:00</updated>
+  <updated>2015-03-28T10:53:18+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[拯救越狱白苹果]]></title>
+    <link href="http://www.ifun.cc/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/"/>
+    <updated>2015-03-28T10:39:06+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo</id>
+    <content type="html"><![CDATA[<p>今天要一大早，太操蛋了，好久没玩越狱了，用了一个重启命令</p>
+
+<p><code>
+killall -HUP SpringBoard
+</code>
+结果成了白苹果了。</p>
+
+<p>然后我在ssh中用reboot重启，还是白苹果，最后用Home+开机键关机后重启还是不能解决。没法了，然后只有重刷系统了。</p>
+
+<p>首先强制关机Home+Power键
+然后按一直按住Power键，直到屏上出现白苹果时(不要松开Power键)再按住Home键，当屏幕黑屏后松开Power键(Home键不要松)，直到电脑ITunes上有反应时才松开。</p>
+
+<p>如果不成功多次几次，顺序是Power->Power+Home->Home，先按先放，后按后放的原则，理一下过程就清楚了。<br></p>
+
+<p>当ITunes检测到Recovery Mode，Mac系统上按住Option键(Windows上按Shift键)并点击Restore，在弹出的对话框中选你下载的iOS固件(ipsw文件)，然后就是等待了。</p>
+
+<p>我只知道这样解决白苹果，如果你有更好的方法还望告之。</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOSOpenDev配置]]></title>
@@ -230,29 +257,6 @@ screenShotView.alpha = 1;
 
 
 <p>先在模拟器上删除以app,然后再点xcode run.  双击Home, 这下你是不是在App Switcher中看到了你的Default的图片，将上面的代码中Default-568h改为其它图片, 这样达到了自定义目的, 是不是太简单了呀？</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一个基于Nodejs的简单iOS MDM服务]]></title>
-    <link href="http://www.ifun.cc/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/"/>
-    <updated>2014-07-08T18:57:37+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/07/08/[?]-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>如果有效的管理自己的iOS移动设备，苹果为我们提供了MDM技术。最近小弟在研究它，有一点小经验，写了一个简单的iOS MDM服务, 服务器采用Nodejs＋Mongodb.</p>
-
-<p>大家可以试用一下,请直接<a href="https://www.sohoin.com">猛击这儿</a>(记得用设备的safari打开)进入。</p>
-
-<p>首先需要大家注册一个帐号，密码与帐号是管理你设备所需的。</p>
-
-<p>登陆进系统后，会有两步需要你完成，一是点击安装mdm描述文件，安装成功后请进行第二步，安装udid获取描述文件，第二步会获取你设备UDID, 并加入到你的管理列表中，这样你以后就可以对其进行管理。</p>
-
-<p>完成上面两步后就可以看到下面多了两列命令，一个是锁屏，一个是清除密码。目前只支持这两个命令，后续会慢慢加入。</p>
-
-<p>界在很丑呀，有空美化一下，换衣大家提意见。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>
