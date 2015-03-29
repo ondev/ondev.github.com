@@ -81,9 +81,12 @@ ionic lib update
 ```
 
 查看ionic版本
+
 ```
 ionic -v 
 ```
+
+ionic run android如果出现Failure [INSTALL_FAILED_OLDER_SDK],表示你用高版本的sdk编译，安装到低版本的android系统上，所以需要重新配置模拟器的target api level; 如果出现HAX is not installed on this machine (/dev/HAX is missing).表示没有安装Inter X86 Emulator Accelerator(HAXM installer),在Android SDK Manager下的Extras里。 这儿ADT里显示是installed，其实是没有安装的，需要到android sdk目录下的extras/intel/Hardware_Accelerated_Execution_Manager 中手动安装。
 
 
 >时间仓促，难免有不少错误，还往指正。
