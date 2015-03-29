@@ -193,6 +193,8 @@
 </pre></td><td class='code'><pre><code class=''><span class='line'>ionic -v </span></code></pre></td></tr></table></div></figure>
 
 
+<p>ionic run android如果出现Failure [INSTALL_FAILED_OLDER_SDK],表示你用高版本的sdk编译，安装到低版本的android系统上，所以需要重新配置模拟器的target api level; 如果出现HAX is not installed on this machine (/dev/HAX is missing).表示没有安装Inter X86 Emulator Accelerator(HAXM installer),在Android SDK Manager下的Extras里。 这儿ADT里显示是installed，其实是没有安装的，需要到android sdk目录下的extras/intel/Hardware_Accelerated_Execution_Manager 中手动安装。</p>
+
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
 
@@ -309,6 +311,7 @@ var duoshuoQuery = {short_name:"ifun"};
 <li class='category'><a href='/blog/categories/ios/'>iOS (16)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 <li class='category'><a href='/blog/categories/ionic/'>ionic (1)</a></li>
+<li class='category'><a href='/blog/categories/nodejs/'>nodejs (1)</a></li>
 <li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
   </ul>
@@ -316,6 +319,10 @@ var duoshuoQuery = {short_name:"ifun"};
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/29/nodejsban-ben-guan-li/">NodeJS版本管理</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/03/29/javajie-xi-html/">Java解析Html</a>
@@ -331,10 +338,6 @@ var duoshuoQuery = {short_name:"ifun"};
     
       <li class="post">
         <a href="/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/">OpenGL ES简明教程之1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a>
       </li>
     
   </ul>

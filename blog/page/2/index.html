@@ -85,6 +85,73 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-03T12:48:56+08:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>1.使用淘宝的gem镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem sources --remove https://rubygems.org/
+</span><span class='line'>gem sources -a http://ruby.taobao.org/</span></code></pre></td></tr></table></div></figure>
+
+
+<p>2.使用国内的Cocoapods镜像</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod repo remove master
+</span><span class='line'>pod repo add master https://gitcafe.com/lloydsheng/Specs.git
+</span><span class='line'>pod repo update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>3.不用每次install/update更新Cocoapods Specs</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pod install --verbose --no-repo-update
+</span><span class='line'>pod update --verbose --no-repo-update</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果想自己搞一个镜像，<a href="http://lloydsheng.com/post/setup-cocoapods-mirror">这儿</a>有方法可以参考</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/09/22/iosopendevpei-zhi/">iOSOpenDev配置</a></h1>
     
     
@@ -1093,52 +1160,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">结队开发之多storyboard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-23T10:38:15+08:00" pubdate data-updated="true">Feb 23<span>rd</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>Storyboard的出现，让开发变得像讲故事一样，UI间的关系流程也一目了然。它其实是xib的升级版本，将多个xib统一管理了。任何事都有双面性，Storyboard也有它的缺点。笔者就说说自己的经验，版本管理中，多人修改很容易严生冲突。storyboard中UIViewController太多，找到想要的比较困难（特别是在MBA上）。 这些缺点在结队开发中就会遇见。 如果我们用xib文件，这样将UI最小化分隔开，将后用code将这些小单元连接起来，就可以解决这个问题。如果只用xib就展现不出storyboard的故事情节能力。</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/2014/02/23/jie-dui-kai-fa-zhi-duo-storyboard/">Read on &rarr;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1185,6 +1206,7 @@
 <li class='category'><a href='/blog/categories/ios/'>iOS (16)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 <li class='category'><a href='/blog/categories/ionic/'>ionic (1)</a></li>
+<li class='category'><a href='/blog/categories/nodejs/'>nodejs (1)</a></li>
 <li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
   </ul>
@@ -1192,6 +1214,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/29/nodejsban-ben-guan-li/">NodeJS版本管理</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/03/29/javajie-xi-html/">Java解析Html</a>
@@ -1207,10 +1233,6 @@
     
       <li class="post">
         <a href="/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/">OpenGL ES简明教程之1</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a>
       </li>
     
   </ul>
