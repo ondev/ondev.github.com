@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Ionic | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ionic/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-03-29T11:28:57+08:00</updated>
+  <updated>2015-03-29T13:50:56+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -33,6 +33,17 @@ sudo npm install -g cordova ionic
 
 <p><code>
 sudo npm -g install ios-sim
+</code>
+而Android则需要Ant, 在<a href="http://ant.apache.org/bindownload.cgi">这儿</a>下载并解压放到本地目录,然后配置环境变量</p>
+
+<p><code>
+export ANT_HOME=/usr/local/apache-ant-1.9.4
+export PATH=${PATH}:${ANT_HOME}/bin
+</code>
+查看ant版本</p>
+
+<p><code>
+ant -version
 </code></p>
 
 <p>下面就可以通过ionic的CLI来创建工程:</p>
@@ -50,6 +61,37 @@ cd myApp
 $ ionic platform add ios
 $ ionic build ios
 $ ionic emulate ios
+</code>
+发果一切顺利，就会启动iOS的模拟器运行工程。</p>
+
+<p>同时也可以使用浏览器来测试:</p>
+
+<p><code>
+ionic serve
+ionic serve --lab
+</code></p>
+
+<p>编译与运行一步到位</p>
+
+<p><code>
+ionic run ios
+</code></p>
+
+<p>更新cordova与ionic</p>
+
+<p><code>
+npm update -g cordova ionic
+</code></p>
+
+<p>更新项目中使用的js库</p>
+
+<p><code>
+ionic lib update
+</code></p>
+
+<p>查看ionic版本
+<code>
+ionic -v
 </code></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>

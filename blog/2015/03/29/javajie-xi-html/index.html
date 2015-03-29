@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Ionic简明教程一 - Haven's Blog</title>
+  <title>Java解析Html - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="加入QQ群:93916004更多精彩">
-  <meta name="keywords" content="ionichybrid">
+  <meta name="description" content="java解析html">
+  <meta name="keywords" content="JavaHtmlParser">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2015/03/29/ionicjian-ming-jiao-cheng">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2015/03/29/javajie-xi-html">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -82,7 +82,7 @@
   
   <header>
     
-      <h1 class="entry-title">Ionic简明教程一</h1>
+      <h1 class="entry-title">Java解析Html</h1>
     
     
       <p class="meta">
@@ -98,7 +98,7 @@
   
 
 
-<time datetime="2015-03-29T11:17:10+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time>
+<time datetime="2015-03-29T13:20:36+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -108,90 +108,137 @@
   </header>
 
 
-<div class="entry-content"><p>ionic是一个Hybrid框架，关于它的介绍可以看它的<a href="http://www.ionic.io">官网</a><br></p>
+<div class="entry-content"><p>最近用到了Java解析Html的一个库Jsoup, 这儿是<a href="http://jsoup.org/">官网</a>, 在此分享给大家，有这方面需要的朋友可以试一试。</p>
 
-<p>要使用这个框架，得配置环境。<br>
-需要安装nodejs,自行google。<br></p>
+<p>有三个类需要我们了解，分别是Document，Elements，Element</p>
 
-<p>安装cordova, ionic，cordova是什么？你应听说过PhoneGap吧，就是它，同一个东西。</p>
+<p>大至用法有两步<br></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo npm install -g cordova ionic</span></code></pre></td></tr></table></div></figure>
+<h1>第一步:加载html,，这儿提供两种方式，一种是从本地加载，一种是从网上直接加载。</h1>
 
-
-<p>在Mac上开发测试iOS需要模拟器，还需要安装ios-sim</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo npm -g install ios-sim</span></code></pre></td></tr></table></div></figure>
-
-
-<p>而Android则需要Ant, 在<a href="http://ant.apache.org/bindownload.cgi">这儿</a>下载并解压放到本地目录,然后配置环境变量</p>
+<h2>从本地加载:</h2>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>export ANT_HOME=/usr/local/apache-ant-1.9.4
-</span><span class='line'>export PATH=${PATH}:${ANT_HOME}/bin</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String html = "YOU HTML STRING";
+</span><span class='line'>Document doc = Jsoup.parse(html);</span></code></pre></td></tr></table></div></figure>
 
 
-<p>查看ant版本</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ant -version</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面就可以通过ionic的CLI来创建工程:</p>
+<p>也可以直接从文件加载</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ionic start myApp tabs</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>File input = new File("/tmp/input.html");
+</span><span class='line'>Document doc = Jsoup.parse(input, "UTF-8", "http://example.com/");</span></code></pre></td></tr></table></div></figure>
 
 
-<p>其中myApp是工程名字，tabs是内置模板中的一种，与xcode创建iOS工程的一样，有模板选择。inoic内置模板包括:blank,tabs,sidemenu</p>
+<h2>通过url从网络加载</h2>
 
-<p>下面编译并运行项目:</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Document doc = Jsoup.connect("http://en.wikipedia.org/").get();
+</span><span class='line'>String title = doc.title();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面是通过http的get方法，下可以通过post来获取</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd myApp
-</span><span class='line'>$ ionic platform add ios
-</span><span class='line'>$ ionic build ios
-</span><span class='line'>$ ionic emulate ios</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Document doc = Jsoup.connect("http://example.com")
+</span><span class='line'>  .data("query", "Java")
+</span><span class='line'>  .userAgent("Safari")
+</span><span class='line'>  .cookie("auth", "token")
+</span><span class='line'>  .timeout(3000)
+</span><span class='line'>  .post();</span></code></pre></td></tr></table></div></figure>
 
 
-<p>发果一切顺利，就会启动iOS的模拟器运行工程。</p>
+<h1>第二步:定位元素</h1>
 
-<p>同时也可以使用浏览器来测试:</p>
+<h2>通过定义的api定位无素</h2>
+
+<p>定位body</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ionic serve
-</span><span class='line'>ionic serve --lab</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>String html = "&lt;div&gt;&lt;p&gt;Lorem ipsum.&lt;/p&gt;";
+</span><span class='line'>Document doc = Jsoup.parseBodyFragment(html);
+</span><span class='line'>Element body = doc.body();</span></code></pre></td></tr></table></div></figure>
 
 
-<p>编译与运行一步到位</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ionic run ios </span></code></pre></td></tr></table></div></figure>
-
-
-<p>更新cordova与ionic</p>
+<p>定位标签</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>npm update -g cordova ionic</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Element content = doc.getElementById("content");
+</span><span class='line'>Elements links = content.getElementsByTag("a");
+</span><span class='line'>for (Element link : links) {
+</span><span class='line'>  String linkHref = link.attr("href");
+</span><span class='line'>  String linkText = link.text();
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>更新项目中使用的js库</p>
+<p>常用的API有</p>
+
+<p>查找API：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ionic lib update </span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>getElementById(String id)
+</span><span class='line'>getElementsByTag(String tag)
+</span><span class='line'>getElementsByClass(String className)
+</span><span class='line'>getElementsByAttribute(String key) (and related methods)
+</span><span class='line'>兄弟关系的:siblingElements(), firstElementSibling(), lastElementSibling(); nextElementSibling(), previousElementSibling()
+</span><span class='line'>父子关系的: parent(), children(), child(int index)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>查看ionic版本</p>
+<p>值操作API:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ionic -v </span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>attr(String key) to get and attr(String key, String value) to set attributes
+</span><span class='line'>attributes() to get all attributes
+</span><span class='line'>id(), className() and classNames()
+</span><span class='line'>text() to get and text(String value) to set the text content
+</span><span class='line'>html() to get and html(String value) to set the inner HTML content
+</span><span class='line'>outerHtml() to get the outer HTML value
+</span><span class='line'>data() to get data content (e.g. of script and style tags)
+</span><span class='line'>tag() and tagName()</span></code></pre></td></tr></table></div></figure>
 
+
+<p>修改API</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>append(String html), prepend(String html)
+</span><span class='line'>appendText(String text), prependText(String text)
+</span><span class='line'>appendElement(String tagName), prependElement(String tagName)
+</span><span class='line'>html(String value)</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>通过select语法定位元素</h2>
+
+<p>这个不好用文字表达，直接看<a href="http://jsoup.org/cookbook/extracting-data/selector-syntax">官网</a>文档吧.</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
@@ -216,12 +263,12 @@
   
 
 
-<time datetime="2015-03-29T11:17:10+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time>
+<time datetime="2015-03-29T13:20:36+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ionic/'>ionic</a>
+    <a class='category' href='/blog/categories/java/'>Java</a>
   
 </span>
 
@@ -230,7 +277,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2015/03/29/ionicjian-ming-jiao-cheng/" data-via="" data-counturl="http://www.ifun.cc/blog/2015/03/29/ionicjian-ming-jiao-cheng/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2015/03/29/javajie-xi-html/" data-via="" data-counturl="http://www.ifun.cc/blog/2015/03/29/javajie-xi-html/" >Tweet</a>
   
   
   
@@ -239,10 +286,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/" title="Previous Post: 拯救越狱白苹果">&laquo; 拯救越狱白苹果</a>
+        <a class="basic-alignment left" href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/" title="Previous Post: ionic简明教程一">&laquo; ionic简明教程一</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2015/03/29/javajie-xi-html/" title="Next Post: Java解析Html">Java解析Html &raquo;</a>
       
     </p>
   </footer>
