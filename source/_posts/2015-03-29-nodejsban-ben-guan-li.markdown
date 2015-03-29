@@ -3,7 +3,7 @@ layout: post
 title: "NodeJS版本管理"
 date: 2015-03-29 20:28:04 +0800
 comments: true
-categories: [nodejs]
+categories: [Nodejs]
 keywords: [nodejs,nodejs更新]
 description: 
 ---
