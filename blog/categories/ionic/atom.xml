@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ionic | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/ionic/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2015-03-29T11:28:57+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Ionic简明教程一]]></title>
+    <link href="http://www.ifun.cc/blog/2015/03/29/ionicjian-ming-jiao-cheng/"/>
+    <updated>2015-03-29T11:17:10+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/03/29/ionicjian-ming-jiao-cheng</id>
+    <content type="html"><![CDATA[<p>ionic是一个Hybrid框架，关于它的介绍可以看它的<a href="http://www.ionic.io">官网</a><br></p>
+
+<p>要使用这个框架，得配置环境。<br>
+需要安装nodejs,自行google。<br></p>
+
+<p>安装cordova, ionic，cordova是什么？你应听说过PhoneGap吧，就是它，同一个东西。</p>
+
+<p><code>
+sudo npm install -g cordova ionic
+</code></p>
+
+<p>在Mac上开发测试iOS需要模拟器，还需要安装ios-sim</p>
+
+<p><code>
+sudo npm -g install ios-sim
+</code></p>
+
+<p>下面就可以通过ionic的CLI来创建工程:</p>
+
+<p><code>
+ionic start myApp tabs
+</code></p>
+
+<p>其中myApp是工程名字，tabs是内置模板中的一种，与xcode创建iOS工程的一样，有模板选择。inoic内置模板包括:blank,tabs,sidemenu</p>
+
+<p>下面编译并运行项目:</p>
+
+<p><code>
+cd myApp
+$ ionic platform add ios
+$ ionic build ios
+$ ionic emulate ios
+</code></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

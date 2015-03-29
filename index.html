@@ -85,6 +85,82 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-29T11:17:10+08:00" pubdate data-updated="true">Mar 29<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>ionic是一个Hybrid框架，关于它的介绍可以看它的<a href="http://www.ionic.io">官网</a><br></p>
+
+<p>要使用这个框架，得配置环境。<br>
+需要安装nodejs,自行google。<br></p>
+
+<p>安装cordova, ionic，cordova是什么？你应听说过PhoneGap吧，就是它，同一个东西。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo npm install -g cordova ionic</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在Mac上开发测试iOS需要模拟器，还需要安装ios-sim</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo npm -g install ios-sim</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面就可以通过ionic的CLI来创建工程:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ionic start myApp tabs</span></code></pre></td></tr></table></div></figure>
+
+
+<p>其中myApp是工程名字，tabs是内置模板中的一种，与xcode创建iOS工程的一样，有模板选择。inoic内置模板包括:blank,tabs,sidemenu</p>
+
+<p>下面编译并运行项目:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd myApp
+</span><span class='line'>$ ionic platform add ios
+</span><span class='line'>$ ionic build ios
+</span><span class='line'>$ ionic emulate ios</span></code></pre></td></tr></table></div></figure>
+
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a></h1>
     
     
@@ -1474,73 +1550,6 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/">使用Auto Layout的坑</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-23T17:40:05+08:00" pubdate data-updated="true">Jul 23<span>rd</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/07/23/shi-yong-auto-layoutde-keng/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近在研究iOS8, 用beta版的xcode创建了一个swift项目，由于iOS8加入了size classes的概念，所以当然要用这先进东西了。</p>
-
-<p>创建了一个tabbar的工程，试着在storyboard中研究它，发于UITextView这个控件在w(Compact), h(Regular)iPhone竖屏的情况下，字符显示不完整（如下图所以，好像UITextView的frame比较小）。最开始以为是constraints的问题，仔细看了一下，没有发现constraints有问题。
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvr8u4eoj20v40zo75u.jpg" alt="" /><br></p>
-
-<p>由于强迫症严重，所以总感觉这样不太对。 最后终于找到了，原来是没有设置Editable属性。只需要在storyboard属性栏中将其勾中就ok了。</p>
-
-<p><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eimvucfa68j20eq0go767.jpg" alt="" /> <br></p>
-
-<p>下在是不是看着顺眼多了？ ^V^</p>
-
-<p><img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvvwb33aj20t20v0dhf.jpg" alt="" /> <br></p>
-
-<p>然后我试着运行工程，看结果，发现第二个tab中UITextView中的字符不见了。
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1eimvz0q0xwj20gw0vo0ta.jpg" alt="" /> <br>
-这是为什么呢？</p>
-
-<p>经研究发现是constraints的Placeholder属性勾中了。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1eimw0ph1taj20dy0ceab9.jpg" alt="" /> <br></p>
-
-<p>Placeholder就是占位的意思，在编译的时候就会去掉这个Constraint. 由于去掉了Constraint,那么就不无决定它的frame, 结果就显示不出来了。</p>
-
-<p>有了这个属性，那么就可以在storyboard或xib中先用了个constraints来占位，可以去掉警告， 方便代码加Constraints的朋友使用。</p>
-
-<p>虽然用Auto Layout有一段时间了，但是这些细节还不是很清楚，还得慢慢吸收。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1584,6 +1593,7 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 <li class='category'><a href='/blog/categories/cocoapods/'>cocoapods (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>iOS (16)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
+<li class='category'><a href='/blog/categories/ionic/'>ionic (1)</a></li>
 <li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
   </ul>
@@ -1591,6 +1601,10 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a>
@@ -1606,10 +1620,6 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
     
       <li class="post">
         <a href="/blog/2015/02/11/v2ex-for-iosyuan-ma/">V2EX for iOS源码</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a>
       </li>
     
   </ul>
