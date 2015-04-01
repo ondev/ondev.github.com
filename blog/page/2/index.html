@@ -84,6 +84,675 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-22T10:50:41+08:00" pubdate data-updated="true">Jan 22<span>nd</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Item 1</h3>
+
+<p>熟悉C/C++会提高你ObjC的能力 <br></p>
+
+<h3>Item 2</h3>
+
+<p>包括头文件要注意，尽量写到.m中，.h中尽量用预声明 <br></p>
+
+<h3>Item 3</h3>
+
+<p>尽量用ObjC的精简语法来创建NSFoundation</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSNumber *intNumber = @1;
+</span><span class='line'>NSNumber *floatNumber = @2.f;
+</span><span class='line'>NSNumber *doubleNumber = @3.14;
+</span><span class='line'>NSNumber *boolNumber = @YES;
+</span><span class='line'>NSNumber *charNumber = @'a'
+</span><span class='line'>NSArray *animals = @[@"cat", @"dog", @"mouse", @"badger"];
+</span><span class='line'>NSString *dog = animals[1];
+</span><span class='line'>NSDictionary *personData = @{@"firstName": @"Matt", @"lastName": @"Galloway", @"age": @28};
+</span><span class='line'>NSString *lastName = personData[@"lastName"];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 4 尽量用常量代替宏</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>static const NSTimeInterval kAnimationDuration = 0.3;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>//代替</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#define ANIMATION_DURATION 0.3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>static 是为了防止重名重定义，即本文件可见，其它文件不可见，const是为了防止改变其值</p>
+
+<p>.h中extern 定义全局变量，.m中赋值，这样引用.h后就对其变量可见，达到全局变量的效果</p>
+
+<h3>Item 5</h3>
+
+<p>正确使用枚举</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef enum ETest: NSInteger {
+</span><span class='line'>  ETest1,
+</span><span class='line'>  ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>等同</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_ENUM(NSInteger, ETest) {
+</span><span class='line'>    ETest1,
+</span><span class='line'>    ETest2
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可以使用or运算的optional</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef NS_OPTIONS(NSInteger, ETest) {
+</span><span class='line'>    ETest1 = 1 &lt;&lt; 0,
+</span><span class='line'>    ETest2 = 1 &lt;&lt; 1
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Item 6</h3>
+
+<p>理解属性
+@public</p>
+
+<p>@private</p>
+
+<p>@property声明数据封装</p>
+
+<p>@synthesize 自动生成操作成员变量的方法</p>
+
+<p>@dynamic 手动生成操作成员变量的方法</p>
+
+<p>类属性的一些属性</p>
+
+<p>nonatomic, readwrite, readonly, assign, strong, weak, unsafe_unretained, copy, getter, setter</p>
+
+<h3>Item 7</h3>
+
+<p>类内部实现中最好直接操作类变量，不要用property的方法。</p>
+
+<p>@dynamic自己实现数据封装，能够实现延迟加载</p>
+
+<h3>Item 8 理解对象相等</h3>
+
+<p>比较相等要实现isEqual:与hash方法</p>
+
+<p>两个对象相等那么他们的hash返回的值一定相等，hash返回的值相等，两个对象不一定相等</p>
+
+<p>比较两个对象是否相等，根据需要来比较，并不一定要比较所有的属性</p>
+
+<p>自定义hash方法，一定要快速高效的方法</p>
+
+<h3>Item 9 用类簇隐藏子类的执行细节</h3>
+
+<p>类簇可以隐藏开放接口后的实现细节</p>
+
+<p>类簇常用在系统框架中</p>
+
+<h3>Item 10 给存在的实例依附数据</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void objc_setAssociatedObject(id object, void *key, id value, objc_AssociationPolicy policy);
+</span><span class='line'>id objc_getAssociatedObject(id object, void *key);
+</span><span class='line'>void objc_removeAssociatedObjects(id object);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>该方法将两个实例关联起来</p>
+
+<p>内存管理一定要注意</p>
+
+<p>不到万不得已的时候不要用，因为出了问题很难找到原因</p>
+
+<h3>Item 11 理解objc_msgSend</h3>
+
+<p>Objc中方法调用叫发消息，消息是由消息接收者，selector(路由)与参数组成。发送一个消息给接收者同步对应调用一个方法。</p>
+
+<p>调用就是消息查询路由，然后找到执行入口，最好执行。</p>
+
+<h3>Item 12 理解消息走向</h3>
+
+<p>在Item 11中解释了正确情况下的消息走向，接着讲在非正常情况下(即selector不存在的情况下)消息的走向。</p>
+
+<p>如果发送的消息，实例没有对应的selector，那么就会crash并报unrecognized selector send to的错误。</p>
+
+<p>iOS XMPP Framework就运用了这个技巧实现了多代理类</p>
+
+<h3>Item 13 用方法移置来调试,达到hook效果</h3>
+
+<p>Method class_getInstanceMethod(Class aClass, SEL aSelector) 获取方法的method
+void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的IMP</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class],
+</span><span class='line'>@selector(uppercaseString)); method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; NSLog(@"lowercaseString = %@", lowercaseString);
+</span><span class='line'>// Output: lowercaseString = THIS IS THE STRING
+</span><span class='line'>NSString *uppercaseString = [string uppercaseString]; NSLog(@"uppercaseString = %@", uppercaseString);
+</span><span class='line'>// Output: uppercaseString = this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>hook系统方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface NSString (EOCMyAdditions) 
+</span><span class='line'>- (NSString*)eoc_myLowercaseString; 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>@implementation NSString (EOCMyAdditions)
+</span><span class='line'>- (NSString*)eoc_myLowercaseString {
+</span><span class='line'>NSString *lowercase = [self eoc_myLowercaseString]; 
+</span><span class='line'>NSLog(@"%@ =&gt; %@", self, lowercase);
+</span><span class='line'>return lowercase;
+</span><span class='line'>} 
+</span><span class='line'>@end
+</span><span class='line'>
+</span><span class='line'>Method originalMethod = class_getInstanceMethod([NSString class], @selector(lowercaseString));
+</span><span class='line'>Method swappedMethod = class_getInstanceMethod([NSString class], @selector(eoc_myLowercaseString)); 
+</span><span class='line'>method_exchangeImplementations(originalMethod, swappedMethod);
+</span><span class='line'>
+</span><span class='line'>NSString *string = @"ThIs iS tHe StRiNg";
+</span><span class='line'>NSString *lowercaseString = [string lowercaseString]; 
+</span><span class='line'>// Output: ThIs iS tHe StRiNg =&gt; this is the string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>路由后的执行入口可以被添加，与可以被改变</p>
+
+<p>Swizzling可以用来丰富原来接口的内容</p>
+
+<p>尽量少用，用来调试不错。</p>
+
+<h3>Item 14 理解类对象</h3>
+
+<p>略</p>
+
+<h3>Item 15 类名前缀，防止重复定义</h3>
+
+<p>略</p>
+
+<h3>Item 16 初始化方法设计</h3>
+
+<p>根据需要设计实现初始化方法</p>
+
+<p>子类中根据需要重写super初始化方法</p>
+
+<p>子类中不需要的父类的初始化方法重写，并在实现中抛出异常</p>
+
+<h3>Item 17 重写description方法</h3>
+
+<p>debugDescription或description</p>
+
+<p>NSLog出来更有可读性，用NSDictionary来format</p>
+
+<h3>Item 18 少用可变类型的属性</h3>
+
+<p>属性对外只读，对内可读写，实现方式是在.h中readonly, 在.m中用readwrite重新声明一下属性</p>
+
+<p>提供方法来操作可变容器，不要直接声明为属性</p>
+
+<h3>Item 19 命名意图清晰</h3>
+
+<p>命名要更像objc</p>
+
+<p>命名要简明，优雅得像一句陈诉句</p>
+
+<p>命名避免缩写</p>
+
+<p>命名风格要一致</p>
+
+<h3>Item 20 私有方法用前缀表明</h3>
+
+<p>前缀私有方法用于区别公有方法</p>
+
+<p>不要用_来做私有方法前缀，因为苹果用了这规则</p>
+
+<h3>Item 21 理解Objc Error Model</h3>
+
+<p>异常是用来处理fatal error的</p>
+
+<p>非fatal error,要用代理或参数方式来自行处理</p>
+
+<h3>Item 22 理解NSCopying协议</h3>
+
+<p>如果想copy，那就一定要执行NSCopying协议</p>
+
+<p>如果有mutable的变量，那么还需要执行NSMutableCopying</p>
+
+<p>区分Shallow copy与Deep copy</p>
+
+<p>建意使用deep copy, 如果需要的话</p>
+
+<h3>Item 23 内部通信使用代理协议与数据协议</h3>
+
+<p>delegate在开发中运用得非常多，这儿不再多说</p>
+
+<h3>Item 24 用Category来拆分类，使其更容易维护</h3>
+
+<p>很容易明白，也不说了</p>
+
+<h3>Item 25 Category中要加前缀，防止出现bug,容易调试</h3>
+
+<p>Category中的类要加前缀</p>
+
+<p>category中方法名要加前缀</p>
+
+<h3>Item 26 Category中避免声明属性</h3>
+
+<p>属性是数据的封装，不能在category中声明属性，编译器会找不到的。</p>
+
+<p>有两种方法可以，一种是在Item 10中介绍的，一种是可以声明readonly的属性，然后手动实现其get方法。</p>
+
+<h3>Item 27 用class-continuation的Category隐藏类的执行(类似private方法)</h3>
+
+<p>class-continuation category与一般的category差不多，只是括号时用写名字。</p>
+
+<p>class-continuation category可以在里面声明属性与方法，也可以遵循protocol，其中的方法相当于私有方法。</p>
+
+<p>可以改变类属性的一些类型，如只读变成可读写</p>
+
+<h3>Item 28 用protocol提供匿名对象</h3>
+
+<p>id加protocol提供匿名类型</p>
+
+<p>如果想隐藏类则可以使用匿名对象</p>
+
+<p>只关心实现了方法，不关心实现细节的时候可以用匿名对象</p>
+
+<h2>5 内存管理</h2>
+
+<h3>Item 29 理解引用计数</h3>
+
+<p>每个对象使用的时候会对其引用次数进行计数。</p>
+
+<p>new出来的对象retainCount为1.</p>
+
+<p>retain对象retainCount加1.</p>
+
+<p>release对象retainCount减1.</p>
+
+<p>autorelease对象retainCount减1.</p>
+
+<p>当retainCount为0的时候，内存被回收。</p>
+
+<p>对象加到容器(如NSArray)中，会对其retain一次，及引用计数加1,记得要平衡retainCount.</p>
+
+<p>避免循环引用</p>
+
+<h3>Item 30 使用ARC管理引用计数</h3>
+
+<p>ARC中将不再手动调用retain,release,autorelease，dealloc等方法了。编译器会自动将这些加入到我们的程序当中。</p>
+
+<p>ARC解放了开发人员对内存的管理，还少写代码。</p>
+
+<p>ARC只能管理ObjC的对象，CoreFoundation object还是得用CFRetain/CFRelease来管理内存</p>
+
+<h3>Item 31 清理与删观察者只放在dealloc中执行</h3>
+
+<p>有dealloc中释放CoreFoundation并去掉观察者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)dealloc {
+</span><span class='line'>    CFRelease(coreFoundationObject);
+</span><span class='line'>    [[NSNotificationCenter defaultCenter] removeObserver:self];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是MRC, 调用[super dealloc];应放到最后</p>
+
+<p>如果有文件操作，一定要记得close</p>
+
+<h3>Item 32 内存相关记得异常处理</h3>
+
+<p>MRC一定要处理异常处理，方式要正确，@try中需要将释放的工作放到@finally中</p>
+
+<p>ARC要使用-fobjc-arc-exceptions来开启异常处理，不过使用异常处理会降低运行效率</p>
+
+<p>如果有很多异常处理，建意使用NSError的方式来处理</p>
+
+<h3>Item 33 使用弱引用避免循环引用</h3>
+
+<p>循环引用就是A对象拥有B对象，B对象拥有A对象，当A想释放的时候，等待B释放，这时B却又要等待A释放完才释放完才释放，这样两个对象相互等待，却一直释放不了。</p>
+
+<p>用weak或unsafe_unretained声明属性就可以了。</p>
+
+<p>weak比unsafe_unretained更安全</p>
+
+<h3>Item 34 使用Autorelease Pool来管理地高内存分配</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *databaseRecords = /* ... */;
+</span><span class='line'>NSMutableArray *people = [NSMutableArray new]; for (NSDictionary *record in databaseRecords) {
+</span><span class='line'>@autoreleasepool { 
+</span><span class='line'>EOCPerson *person =
+</span><span class='line'>[[EOCPerson alloc] initWithRecord:record];
+</span><span class='line'>[people addObject:person];
+</span><span class='line'>} 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如上面的代码，如果NSArray有10000个对象，那么就可以加一个autoreleasepool，这样可以实时的进行内存回收。</p>
+
+<h3>Item 35 使用Zombies来调试内存问题</h3>
+
+<p>内存分配给对象，然后对象被释放。如果该对象内存没有被重写，那么再次向该对象发送消息，也是可以成功执行的。如果被重写了，那么就会崩溃。</p>
+
+<p>所以会出现有时候crash,有时候正常运行，给程序调试与bug排除带来不便。所以我们可以开启Zombies（僵尸对象）。</p>
+
+<p>它将所有释放了的对象放到放到一个Zombies区，内存也不释放也不被重写，这样标记它是一个僵尸对象。如果程序再次向僵尸对象发送消息，那么就会在控制台打出消息提供开发人员，方向开发人员定位排除bug.</p>
+
+<h3>Item 36 避免使用retainCount</h3>
+
+<p>如果用MRC,开发过程中，中心有retainCount的概念平衡retainCount就可以。代码中一定不要用retainCount来做判断，因为是根据runtime autorelease等决定的。所以release一个对象retainCount不是马上改变。如下面的代码就是错误的，是一个死循环。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>while([obj retainCount]) {
+</span><span class='line'>    [obj release];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>6 块与GCD</h2>
+
+<h3>Item 37 理解块代码</h3>
+
+<p>匿名block</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>^{
+</span><span class='line'>    //Block代码
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>声明block</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^someBlock)() = ^ {
+</span><span class='line'>    //Block代码
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Block声明后，作用域以外的地方是不可见的。如以下代码:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^block)();
+</span><span class='line'>if (/*condition*/) {
+</span><span class='line'>    block = ^{
+</span><span class='line'>        NSLog("Test block A");
+</span><span class='line'>    }
+</span><span class='line'>} else {
+</span><span class='line'>    block = ^{
+</span><span class='line'>        NSLog("Test block B");
+</span><span class='line'>    }
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>block();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>以上代码是有问题的，因为是block的内存是在栈上分配的，出了作用域编译器就会重写栈，所有可能会crash.解决方法是加一个copy， 将内存放到堆上去。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void (^block)();
+</span><span class='line'>if (/*condition*/) {
+</span><span class='line'>    block = [^{
+</span><span class='line'>        NSLog("Test block A");
+</span><span class='line'>    } copy]
+</span><span class='line'>} else {
+</span><span class='line'>    block = [^{
+</span><span class='line'>    NSLog("Test block B");
+</span><span class='line'>    } copy]
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>block();</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Block内存管理与一般对象一样的。</p>
+
+<h3>Item 38 用typedef定义Block类型</h3>
+
+<p>声明block的格式如下</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>type (^blockName)(parameters);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>使用typedef可以让Block与一般类型一样，使用非常方便。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>typedef void(^EOCCompletionHandler)(NSData *data, NSError *error);
+</span><span class='line'>
+</span><span class='line'>- (void)startWithCompletionHandler:(EOCCompletionHandler)completion;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>可见使用typedef让block的使用更加简单</p>
+
+<h3>Item 39 使用Block可以减少代码分很开的弊端</h3>
+
+<p>回调方法以前都用Delegate, 可以试试用Block的方式。 用过的人都知道。</p>
+
+<h3>Item 40 使用Block的时候注意循环引用</h3>
+
+<p>特别注意Block引用self, 可能会循环引用</p>
+
+<h3>Item 41 Dispatch Queues异步锁</h3>
+
+<p>有三种方式使共享资源多线程安全:<br></p>
+
+<h4>使用 @synchronized</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)synchronizedMethod { 
+</span><span class='line'>  @synchronized(self) {       // Safe } }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用 NSLock</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_lock = [[NSLock alloc] init];
+</span><span class='line'>- (void)synchronizedMethod { 
+</span><span class='line'>  [_lock lock];   // Safe [_lock unlock]; }</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>使用 Dispatch Queues</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_syncQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);- (NSString*)someString { __block NSString *localSomeString; dispatch_sync(_syncQueue, ^{ localSomeString = _someString; });  return localSomeString; 
+</span><span class='line'>}
+</span><span class='line'>- (void)setSomeString:(NSString*)someString {     dispatch_barrier_async(_syncQueue, ^{   _someString = someString; });￼}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>42 GCD方式的performSelector</h3>
+
+<p>延迟执行一般方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:@selector(doSomething) withObject:nilafterDelay:5.0];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>GCD方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC));dispatch_after(time, dispatch_get_main_queue(), ^(void){  [self doSomething];});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>主线程执行一般方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelectorOnMainThread:@selector(doSomething) withObject:nil waitUntilDone:NO];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>GCD方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dispatch_async(dispatch_get_main_queue(), ^{ [self doSomething]; 
+</span><span class='line'>});</span></code></pre></td></tr></table></div></figure>
+
+
+<p>ARC方式下的performSelector非常危险，因为是运行时决定的，所以ARC不能在编译的时候对内存进行管理。返回值与参数都有局限。</p>
+
+<h3>43 什么时候用GCD，什么时候用Operation Queues</h3>
+
+<p>GCD是纯C的API, Operation Queues是Objective C. Operation Queues也有像GCD方式的调用，如NSBlockOperation或NSOperationQueue的addOperationWithBlock， Operation Queues还有以下优点：</p>
+
+<h4>取消队列</h4>
+
+<p>NSOperation的cancel方法可以设置一个取消标志，告诉NSOperation不再运行。而GCD一但运行，就没法取消。</p>
+
+<h4>队列依赖</h4>
+
+<p>一个消息队列可以依赖其它消息队列，比如下载服务器文件与处理文件两个队列，处理队列依赖下载队列，因为只有下载完后，才能处理文件。</p>
+
+<h4>队列的属性可以使用KVO</h4>
+
+<p>可以用KVO的方式检测队列的状态</p>
+
+<h4>队列优先级</h4>
+
+<p>可以用Queues中的每一个NSOperation设置一个优先级，GCD只能对整个队列设置优先级，不但单独对每一个block设置优先级。Operations也可以设置在线程上运行的优先级，同时GCD也可以。</p>
+
+<h4>队列重用</h4>
+
+<p>Operation的类可以直接重用</p>
+
+<p>GCD并不是唯一的多线程与任务管理方案。Operation提供灵活的方式来实现与GCD相关的功能。</p>
+
+<h3>44</h3>
+
+<p>待续</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/12/03/cocoapodsguo-nei-su-du-wen-ti/">Cocoapods国内速度问题</a></h1>
     
     
@@ -1110,55 +1779,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-14T12:42:37+08:00" pubdate data-updated="true">Apr 14<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>有时候在Mac App Store下载或更新应用的，会出现一些错误，造成这原因可能是由于cookie造成的。所以我们可以重设appstore的cookie。方法如下：<br>
-1.打开Terminal, 运行:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>defaults write com.apple.appstore ShowDebugMenu -bool true</span></code></pre></td></tr></table></div></figure>
-
-
-<p>2.重启Mac App Store， 大家就可以发现菜单栏多了一个Debug菜单。<br>
-快选择清除cookie试试。</p>
-
-<p><img src="http://iosman.qiniudn.com/2014-04-14PM.png" alt="" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1200,7 +1820,7 @@
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
 <li class='category'><a href='/blog/categories/cocoapods/'>cocoapods (1)</a></li>
-<li class='category'><a href='/blog/categories/ios/'>iOS (16)</a></li>
+<li class='category'><a href='/blog/categories/ios/'>iOS (17)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
 <li class='category'><a href='/blog/categories/ionic/'>ionic (1)</a></li>
 <li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
@@ -1210,6 +1830,10 @@
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/03/29/nodejsban-ben-guan-li/">NodeJS版本管理</a>
@@ -1225,10 +1849,6 @@
     
       <li class="post">
         <a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/13/opengl-esjian-ming-jiao-cheng-zhi-1/">OpenGL ES简明教程之1</a>
       </li>
     
   </ul>
