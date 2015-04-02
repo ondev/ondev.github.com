@@ -84,6 +84,267 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-02T15:50:23+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>在本系统教程1中我们做好了准备，这次我们开始我们的OpenGLES的渲染。<br></p>
+
+<h4>Step 1</h4>
+
+<p>创建一个Single Page的iOS工程。</p>
+
+<h4>Step 2</h4>
+
+<p>创建一个UIView的子类，比如叫EGLView.<br>
+在EGLView.h中声明三个变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EAGLContext *m_context;
+</span><span class='line'>GLuint m_renderbuffer;
+</span><span class='line'>GLuint m_framebuffer;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在EGLView.m中引入OpenglES头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;OpenGLES/ES1/gl.h&gt;
+</span><span class='line'>#import &lt;OpenGLES/ES1/glext.h&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后实现如下方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (Class) layerClass
+</span><span class='line'>{
+</span><span class='line'>    return [CAEAGLLayer class];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id) initWithFrame: (CGRect) frame
+</span><span class='line'>{
+</span><span class='line'>    if (self = [super initWithFrame:frame]) {
+</span><span class='line'>        CAEAGLLayer* eaglLayer = (CAEAGLLayer*) super.layer;
+</span><span class='line'>        eaglLayer.opaque = YES;
+</span><span class='line'>        
+</span><span class='line'>        // step 1 创建Context
+</span><span class='line'>        EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>        m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>
+</span><span class='line'>        if (!m_context) {
+</span><span class='line'>            api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>            m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 2 马上设置为当前Context
+</span><span class='line'>        if (!m_context || ![EAGLContext setCurrentContext:m_context]) {
+</span><span class='line'>            return nil;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (api == kEAGLRenderingAPIOpenGLES1) {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 1.1");
+</span><span class='line'>        } else {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 2.0");
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 3 创建render buffer 也叫 color buffer
+</span><span class='line'>        glGenRenderbuffersOES(1, &m_renderbuffer);
+</span><span class='line'>        glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        // step 4, 这一步一定要在step 3之后，否则会失败
+</span><span class='line'>        [m_context renderbufferStorage:GL_RENDERBUFFER fromDrawable: eaglLayer];
+</span><span class='line'>        
+</span><span class='line'>        
+</span><span class='line'>        // step 5 创建frame buffer
+</span><span class='line'>        glGenFramebuffersOES(1, &m_framebuffer);
+</span><span class='line'>        glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_framebuffer);
+</span><span class='line'>        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        //这句可有可无
+</span><span class='line'>        GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
+</span><span class='line'>        if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
+</span><span class='line'>            NSLog(@"err");
+</span><span class='line'>        }
+</span><span class='line'>        
+</span><span class='line'>        // step 6 设置 view port
+</span><span class='line'>        glViewport(0, 0, frame.size.width, frame.size.height);
+</span><span class='line'>        
+</span><span class='line'>        [self drawView: nil];
+</span><span class='line'>        m_timestamp = CACurrentMediaTime();
+</span><span class='line'>
+</span><span class='line'>        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
+</span><span class='line'>        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void) drawView: (CADisplayLink*) displayLink
+</span><span class='line'>{
+</span><span class='line'>    
+</span><span class='line'>    glLoadIdentity();
+</span><span class='line'>    glClearColor(0.7, 0.7, 0.7, 1.0);
+</span><span class='line'>    glClear(GL_COLOR_BUFFER_BIT);
+</span><span class='line'>     
+</span><span class='line'>    static GLfloat vertexData[] = {-0.4f,-0.4f, 0.0f, 0.4f,-0.4f, 0.0f, 0.0f, 0.4f, 0.0f};
+</span><span class='line'>    glEnableClientState(GL_VERTEX_ARRAY);
+</span><span class='line'>    glVertexPointer(3, GL_FLOAT, 0, vertexData);
+</span><span class='line'>    glColor4f(1.0f, 1.0f, 0.66f, 1.0f);
+</span><span class='line'>    glDrawArrays(GL_TRIANGLES, 0, 3);
+</span><span class='line'>
+</span><span class='line'>    [m_context presentRenderbuffer:GL_RENDERBUFFER];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 3</h4>
+
+<p>使用EGLView<br>
+在ViewController.m中的viewDidLoad中加以下代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGRect frameSize;
+</span><span class='line'>UIScreen* screen = [UIScreen mainScreen];
+</span><span class='line'>CGFloat    scale = 1.0;
+</span><span class='line'>if ([UIScreen instancesRespondToSelector:@selector(scale)])
+</span><span class='line'>{
+</span><span class='line'>    scale = [screen scale];
+</span><span class='line'>}
+</span><span class='line'>CGRect appFrame = [screen bounds];
+</span><span class='line'>frameSize       = CGRectMake(appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+</span><span class='line'>EAGLView *v = [[EAGLView alloc] initWithFrame:frameSize];
+</span><span class='line'>
+</span><span class='line'>[self.view addSubview:v];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行吧，将会看到一个黄色的三角形，代码里有明确的注释不不多解释。<br>
+glVertexPointer第一个参数表示每个顶点占几个顶点数组成员，这儿3表示点3个(因为一个点是x,y,z). 第二个参数是顶点是什么类型数据，这儿是GLfloat对应的就是GL_FLOAT, 第三个是每个顶点之间的步长，如果数据中有存color就需要设置这儿，这儿没有color，所以就设为0表示边续，最后一个参数则是存顶点数据的内存。</p>
+
+<p>glDrawArrays第一个参数表示绘制的方式，看下面图就明白了，第二个表示顶点数据内存中的起始索引，这儿为0,最后一个表示顶点的个数，三角形有3个顶点，所以这儿为3.如果不明白，再仔细消化一下。<br>
+<img src="/images/openglesdrawmodel.png" alt="" /></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a></h1>
     
     
@@ -639,6 +900,8 @@
 
 <p>《iPhone 3D Programming》<br>
 《Learning OpenGL ES for iOS》</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
   
   
@@ -980,68 +1243,6 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-10T16:04:35+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2015</time>
-        
-		
-		          | <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><ol>
-<li>安装<a href="http://brew.sh/">brew</a></li>
-<li>安装gdb</li>
-</ol>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>brew tap homebrew/dupes
-</span><span class='line'>brew install gdb</span></code></pre></td></tr></table></div></figure>
-
-
-<p>将被安装到/usr/local/bin/gdb
-3. 由于Mac不允许随意进入进程空间，要经过许可才可以。如果要用gdb依附进程，那就要对gdb授权才可以。所以需要创建自签证书。下面命令进行授权</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>codesign -s gdb-cert $(which gdb)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这下就可以使用GDB了</p>
-
-<p>参考:<a href="http://ntraft.com/installing-gdb-on-os-x-mavericks/">http://ntraft.com/installing-gdb-on-os-x-mavericks/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1075,6 +1276,7 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (2)</a></li>
 <li class='category'><a href='/blog/categories/opengles/'>OpenGLES (1)</a></li>
+<li class='category'><a href='/blog/categories/opengles-ios/'>OpenGLES,iOS (1)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
@@ -1093,6 +1295,10 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a>
       </li>
     
@@ -1106,10 +1312,6 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
     
       <li class="post">
         <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a>
       </li>
     
   </ul>

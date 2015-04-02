@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: OpenGLES,iOS | Haven's Blog]]></title>
+  <link href="http://www.ifun.cc/blog/categories/opengles-ios/atom.xml" rel="self"/>
+  <link href="http://www.ifun.cc/"/>
+  <updated>2015-04-02T16:41:47+08:00</updated>
+  <id>http://www.ifun.cc/</id>
+  <author>
+    <name><![CDATA[Haven]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OpenGL ES简明教程之2]]></title>
+    <link href="http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/"/>
+    <updated>2015-04-02T15:50:23+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2</id>
+    <content type="html"><![CDATA[<p>在本系统教程1中我们做好了准备，这次我们开始我们的OpenGLES的渲染。<br></p>
+
+<h4>Step 1</h4>
+
+<p>创建一个Single Page的iOS工程。</p>
+
+<h4>Step 2</h4>
+
+<p>创建一个UIView的子类，比如叫EGLView.<br>
+在EGLView.h中声明三个变量</p>
+
+<p>```</p>
+
+<pre><code>EAGLContext *m_context;
+GLuint m_renderbuffer;
+GLuint m_framebuffer;
+</code></pre>
+
+<p>```</p>
+
+<p>在EGLView.m中引入OpenglES头文件</p>
+
+<p>```</p>
+
+<h1>import &lt;OpenGLES/ES1/gl.h></h1>
+
+<h1>import &lt;OpenGLES/ES1/glext.h></h1>
+
+<p>```</p>
+
+<p>然后实现如下方法</p>
+
+<p>```
++ (Class) layerClass
+{</p>
+
+<pre><code>return [CAEAGLLayer class];
+</code></pre>
+
+<p>}</p>
+
+<ul>
+<li><p>(id) initWithFrame: (CGRect) frame
+{
+  if (self = [super initWithFrame:frame]) {
+      CAEAGLLayer<em> eaglLayer = (CAEAGLLayer</em>) super.layer;
+      eaglLayer.opaque = YES;</p>
+
+<pre><code>  // step 1 创建Context
+  EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES1;
+  m_context = [[EAGLContext alloc] initWithAPI:api];
+
+  if (!m_context) {
+      api = kEAGLRenderingAPIOpenGLES1;
+      m_context = [[EAGLContext alloc] initWithAPI:api];
+  }
+
+  // step 2 马上设置为当前Context
+  if (!m_context || ![EAGLContext setCurrentContext:m_context]) {
+      return nil;
+  }
+
+  if (api == kEAGLRenderingAPIOpenGLES1) {
+      NSLog(@"Using OpenGL ES 1.1");
+  } else {
+      NSLog(@"Using OpenGL ES 2.0");
+  }
+
+  // step 3 创建render buffer 也叫 color buffer
+  glGenRenderbuffersOES(1, &amp;m_renderbuffer);
+  glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_renderbuffer);
+
+  // step 4, 这一步一定要在step 3之后，否则会失败
+  [m_context renderbufferStorage:GL_RENDERBUFFER fromDrawable: eaglLayer];
+
+
+  // step 5 创建frame buffer
+  glGenFramebuffersOES(1, &amp;m_framebuffer);
+  glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_framebuffer);
+  glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_renderbuffer);
+
+  //这句可有可无
+  GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
+  if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
+      NSLog(@"err");
+  }
+
+  // step 6 设置 view port
+  glViewport(0, 0, frame.size.width, frame.size.height);
+
+  [self drawView: nil];
+  m_timestamp = CACurrentMediaTime();
+
+  CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
+  [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+</code></pre>
+
+<p>  }
+  return self;
+}</p></li>
+<li><p>(void) drawView: (CADisplayLink*) displayLink
+{</p>
+
+<p>  glLoadIdentity();
+  glClearColor(0.7, 0.7, 0.7, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);</p>
+
+<p>  static GLfloat vertexData[] = {-0.4f,-0.4f, 0.0f, 0.4f,-0.4f, 0.0f, 0.0f, 0.4f, 0.0f};
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glVertexPointer(3, GL_FLOAT, 0, vertexData);
+  glColor4f(1.0f, 1.0f, 0.66f, 1.0f);
+  glDrawArrays(GL_TRIANGLES, 0, 3);</p>
+
+<p>  [m_context presentRenderbuffer:GL_RENDERBUFFER];
+}
+```</p></li>
+</ul>
+
+
+<h4>Step 3</h4>
+
+<p>使用EGLView<br>
+在ViewController.m中的viewDidLoad中加以下代码</p>
+
+<p>```</p>
+
+<pre><code>CGRect frameSize;
+UIScreen* screen = [UIScreen mainScreen];
+CGFloat    scale = 1.0;
+if ([UIScreen instancesRespondToSelector:@selector(scale)])
+{
+    scale = [screen scale];
+}
+CGRect appFrame = [screen bounds];
+frameSize       = CGRectMake(appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+EAGLView *v = [[EAGLView alloc] initWithFrame:frameSize];
+
+[self.view addSubview:v];
+</code></pre>
+
+<p>```</p>
+
+<p>运行吧，将会看到一个黄色的三角形，代码里有明确的注释不不多解释。<br>
+glVertexPointer第一个参数表示每个顶点占几个顶点数组成员，这儿3表示点3个(因为一个点是x,y,z). 第二个参数是顶点是什么类型数据，这儿是GLfloat对应的就是GL_FLOAT, 第三个是每个顶点之间的步长，如果数据中有存color就需要设置这儿，这儿没有color，所以就设为0表示边续，最后一个参数则是存顶点数据的内存。</p>
+
+<p>glDrawArrays第一个参数表示绘制的方式，看下面图就明白了，第二个表示顶点数据内存中的起始索引，这儿为0,最后一个表示顶点的个数，三角形有3个顶点，所以这儿为3.如果不明白，再仔细消化一下。<br>
+<img src="/images/openglesdrawmodel.png" alt="" /></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
+  
+</feed>

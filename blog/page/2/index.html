@@ -84,6 +84,68 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-10T16:04:35+08:00" pubdate data-updated="true">Feb 10<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/02/10/macxia-an-zhuang-gdb/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><ol>
+<li>安装<a href="http://brew.sh/">brew</a></li>
+<li>安装gdb</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>brew tap homebrew/dupes
+</span><span class='line'>brew install gdb</span></code></pre></td></tr></table></div></figure>
+
+
+<p>将被安装到/usr/local/bin/gdb
+3. 由于Mac不允许随意进入进程空间，要经过许可才可以。如果要用gdb依附进程，那就要对gdb授权才可以。所以需要创建自签证书。下面命令进行授权</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>codesign -s gdb-cert $(which gdb)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这下就可以使用GDB了</p>
+
+<p>参考:<a href="http://ntraft.com/installing-gdb-on-os-x-mavericks/">http://ntraft.com/installing-gdb-on-os-x-mavericks/</a></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/01/22/effective-objective-c-2-dot-0xue-xi-bi-ji/">Effective Objective-C 2.0学习笔记</a></h1>
     
     
@@ -1815,72 +1877,6 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-07T21:31:53+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/06/07/ios8-appguo-ji-hua/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>1.创建一个Localizable.strings文件 <br>
-2.code中用字符串的地方使用NSLocalizedString，这与系统语言相关 <br>
-3.时间显示，数字，金融与地区相关，所以需要各类NSFormater, 如NSDateFormatter, NSNumberFormatter &hellip; <br>
-3.用命令将所有NSLocalizedString返回的字符串格式化到Localizable.strings里。命令行进入工程目录（我的工程名是LocalizationTest），运行下面命令：<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find ./ -name "*.m" -print0 | xargs -0 genstrings -o LocalizationTest/en.lproj</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.这下就将Localizable.strings拿给翻译的人 <br></p>
-
-<p>上面是iOS7以下国际化的方法。</p>
-
-<p>在iOS8中加入了一种国际通用的xliff文件，全称是 Localisation Interchange File Format（本地化交换文件格式，是xml文件）， 里面就是需要翻译的东西。打开xliff文件，里面<source></source>标签中是表示要翻译的东西，对应Localizable.strings中=号左边的字符串，<target></target>中是每种语言的翻译，对应Localizable.strings中=号右边的字符串。没有一个source标签对应一个target标签。</p>
-
-<p>选中Editor &ndash;> Export For Localization就可以导出需要翻译的字符串，它会遍历整个工程，将xib，stroryboard, 代码中需要本地化字符串导出到.xliff文件中。小伙伴们再也不需要手动输入上面的命令将NSLocalizedString对应的需要翻译的字符串输出到Localizable.strings里了。 Import Localizations就是导入翻译的字符串，并自动刷新xib，.strings， storyboard中本地化文件 <br></p>
-
-<p>同时Xcode6加入了 语言Debug方式，以前测试国际化，都是修改系统的语言，然后运行程序，现在在xcode中的target的scheme中就可以修改该target运行时的语言。  这样就不需要到系统设置里去设置，更简单高效。<br></p>
-
-<p>同时xcode storyboard的预览功能更加强大了，可以实时修改预览的语言。<br></p>
-
-<p>开发越来越方便了。<br></p>
-
-<p>继续写代码，改变世界。<br></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1916,6 +1912,7 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (2)</a></li>
 <li class='category'><a href='/blog/categories/opengles/'>OpenGLES (1)</a></li>
+<li class='category'><a href='/blog/categories/opengles-ios/'>OpenGLES,iOS (1)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
@@ -1934,6 +1931,10 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a>
       </li>
     
@@ -1947,10 +1948,6 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
     
       <li class="post">
         <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a>
       </li>
     
   </ul>

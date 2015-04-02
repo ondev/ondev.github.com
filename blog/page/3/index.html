@@ -84,6 +84,72 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/06/07/ios8-appguo-ji-hua/">iOS8 APP国际化</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-07T21:31:53+08:00" pubdate data-updated="true">Jun 7<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/06/07/ios8-appguo-ji-hua/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>1.创建一个Localizable.strings文件 <br>
+2.code中用字符串的地方使用NSLocalizedString，这与系统语言相关 <br>
+3.时间显示，数字，金融与地区相关，所以需要各类NSFormater, 如NSDateFormatter, NSNumberFormatter &hellip; <br>
+3.用命令将所有NSLocalizedString返回的字符串格式化到Localizable.strings里。命令行进入工程目录（我的工程名是LocalizationTest），运行下面命令：<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find ./ -name "*.m" -print0 | xargs -0 genstrings -o LocalizationTest/en.lproj</span></code></pre></td></tr></table></div></figure>
+
+
+<p>4.这下就将Localizable.strings拿给翻译的人 <br></p>
+
+<p>上面是iOS7以下国际化的方法。</p>
+
+<p>在iOS8中加入了一种国际通用的xliff文件，全称是 Localisation Interchange File Format（本地化交换文件格式，是xml文件）， 里面就是需要翻译的东西。打开xliff文件，里面<source></source>标签中是表示要翻译的东西，对应Localizable.strings中=号左边的字符串，<target></target>中是每种语言的翻译，对应Localizable.strings中=号右边的字符串。没有一个source标签对应一个target标签。</p>
+
+<p>选中Editor &ndash;> Export For Localization就可以导出需要翻译的字符串，它会遍历整个工程，将xib，stroryboard, 代码中需要本地化字符串导出到.xliff文件中。小伙伴们再也不需要手动输入上面的命令将NSLocalizedString对应的需要翻译的字符串输出到Localizable.strings里了。 Import Localizations就是导入翻译的字符串，并自动刷新xib，.strings， storyboard中本地化文件 <br></p>
+
+<p>同时Xcode6加入了 语言Debug方式，以前测试国际化，都是修改系统的语言，然后运行程序，现在在xcode中的target的scheme中就可以修改该target运行时的语言。  这样就不需要到系统设置里去设置，更简单高效。<br></p>
+
+<p>同时xcode storyboard的预览功能更加强大了，可以实时修改预览的语言。<br></p>
+
+<p>开发越来越方便了。<br></p>
+
+<p>继续写代码，改变世界。<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/04/14/rang-appstorekai-qi-degubcai-dan/">让Appstore开启Degub菜单</a></h1>
     
     
@@ -636,61 +702,6 @@ Mac自带的svn server，见参考。</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/">iOS Http URL Cache清除</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-02-09T11:23:10+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
-        
-		
-		          | <a href="/blog/2014/02/09/ios-http-url-cacheqing-chu/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>三行代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[[NSURLCache sharedURLCache] removeAllCachedResponses];
-</span><span class='line'>[[NSURLCache sharedURLCache] setDiskCapacity:0];
-</span><span class='line'>[[NSURLCache sharedURLCache] setMemoryCapacity:0];</span></code></pre></td></tr></table></div></figure>
-
-
-<p>其实只需要第一行即可。</p>
-
-<p>UIWebView中的cache也可以用此方法清除， 所有通过URL Loading System缓存的数据都可以清除。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -726,6 +737,7 @@ Mac自带的svn server，见参考。</p>
 <li class='category'><a href='/blog/categories/mac/'>Mac (5)</a></li>
 <li class='category'><a href='/blog/categories/nodejs/'>Nodejs (2)</a></li>
 <li class='category'><a href='/blog/categories/opengles/'>OpenGLES (1)</a></li>
+<li class='category'><a href='/blog/categories/opengles-ios/'>OpenGLES,iOS (1)</a></li>
 <li class='category'><a href='/blog/categories/php/'>PHP (3)</a></li>
 <li class='category'><a href='/blog/categories/python/'>Python (1)</a></li>
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
@@ -744,6 +756,10 @@ Mac自带的svn server，见参考。</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a>
       </li>
     
@@ -757,10 +773,6 @@ Mac自带的svn server，见参考。</p>
     
       <li class="post">
         <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/28/zheng-jiu-yue-yu-bai-ping-guo/">拯救越狱白苹果</a>
       </li>
     
   </ul>

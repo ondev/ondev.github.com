@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-04-02T09:48:02+08:00</updated>
+  <updated>2015-04-02T16:41:47+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,237 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OpenGL ES简明教程之2]]></title>
+    <link href="http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/"/>
+    <updated>2015-04-02T15:50:23+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2</id>
+    <content type="html"><![CDATA[<p>在本系统教程1中我们做好了准备，这次我们开始我们的OpenGLES的渲染。<br></p>
+
+<h4>Step 1</h4>
+
+<p>创建一个Single Page的iOS工程。</p>
+
+<h4>Step 2</h4>
+
+<p>创建一个UIView的子类，比如叫EGLView.<br>
+在EGLView.h中声明三个变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EAGLContext *m_context;
+</span><span class='line'>GLuint m_renderbuffer;
+</span><span class='line'>GLuint m_framebuffer;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在EGLView.m中引入OpenglES头文件</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;OpenGLES/ES1/gl.h&gt;
+</span><span class='line'>#import &lt;OpenGLES/ES1/glext.h&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后实现如下方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (Class) layerClass
+</span><span class='line'>{
+</span><span class='line'>    return [CAEAGLLayer class];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (id) initWithFrame: (CGRect) frame
+</span><span class='line'>{
+</span><span class='line'>    if (self = [super initWithFrame:frame]) {
+</span><span class='line'>        CAEAGLLayer* eaglLayer = (CAEAGLLayer*) super.layer;
+</span><span class='line'>        eaglLayer.opaque = YES;
+</span><span class='line'>        
+</span><span class='line'>        // step 1 创建Context
+</span><span class='line'>        EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>        m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>
+</span><span class='line'>        if (!m_context) {
+</span><span class='line'>            api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>            m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 2 马上设置为当前Context
+</span><span class='line'>        if (!m_context || ![EAGLContext setCurrentContext:m_context]) {
+</span><span class='line'>            return nil;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (api == kEAGLRenderingAPIOpenGLES1) {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 1.1");
+</span><span class='line'>        } else {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 2.0");
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 3 创建render buffer 也叫 color buffer
+</span><span class='line'>        glGenRenderbuffersOES(1, &m_renderbuffer);
+</span><span class='line'>        glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        // step 4, 这一步一定要在step 3之后，否则会失败
+</span><span class='line'>        [m_context renderbufferStorage:GL_RENDERBUFFER fromDrawable: eaglLayer];
+</span><span class='line'>        
+</span><span class='line'>        
+</span><span class='line'>        // step 5 创建frame buffer
+</span><span class='line'>        glGenFramebuffersOES(1, &m_framebuffer);
+</span><span class='line'>        glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_framebuffer);
+</span><span class='line'>        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        //这句可有可无
+</span><span class='line'>        GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
+</span><span class='line'>        if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
+</span><span class='line'>            NSLog(@"err");
+</span><span class='line'>        }
+</span><span class='line'>        
+</span><span class='line'>        // step 6 设置 view port
+</span><span class='line'>        glViewport(0, 0, frame.size.width, frame.size.height);
+</span><span class='line'>        
+</span><span class='line'>        [self drawView: nil];
+</span><span class='line'>        m_timestamp = CACurrentMediaTime();
+</span><span class='line'>
+</span><span class='line'>        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
+</span><span class='line'>        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void) drawView: (CADisplayLink*) displayLink
+</span><span class='line'>{
+</span><span class='line'>    
+</span><span class='line'>    glLoadIdentity();
+</span><span class='line'>    glClearColor(0.7, 0.7, 0.7, 1.0);
+</span><span class='line'>    glClear(GL_COLOR_BUFFER_BIT);
+</span><span class='line'>     
+</span><span class='line'>    static GLfloat vertexData[] = {-0.4f,-0.4f, 0.0f, 0.4f,-0.4f, 0.0f, 0.0f, 0.4f, 0.0f};
+</span><span class='line'>    glEnableClientState(GL_VERTEX_ARRAY);
+</span><span class='line'>    glVertexPointer(3, GL_FLOAT, 0, vertexData);
+</span><span class='line'>    glColor4f(1.0f, 1.0f, 0.66f, 1.0f);
+</span><span class='line'>    glDrawArrays(GL_TRIANGLES, 0, 3);
+</span><span class='line'>
+</span><span class='line'>    [m_context presentRenderbuffer:GL_RENDERBUFFER];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Step 3</h4>
+
+<p>使用EGLView<br>
+在ViewController.m中的viewDidLoad中加以下代码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGRect frameSize;
+</span><span class='line'>UIScreen* screen = [UIScreen mainScreen];
+</span><span class='line'>CGFloat    scale = 1.0;
+</span><span class='line'>if ([UIScreen instancesRespondToSelector:@selector(scale)])
+</span><span class='line'>{
+</span><span class='line'>    scale = [screen scale];
+</span><span class='line'>}
+</span><span class='line'>CGRect appFrame = [screen bounds];
+</span><span class='line'>frameSize       = CGRectMake(appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+</span><span class='line'>EAGLView *v = [[EAGLView alloc] initWithFrame:frameSize];
+</span><span class='line'>
+</span><span class='line'>[self.view addSubview:v];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>运行吧，将会看到一个黄色的三角形，代码里有明确的注释不不多解释。<br>
+glVertexPointer第一个参数表示每个顶点占几个顶点数组成员，这儿3表示点3个(因为一个点是x,y,z). 第二个参数是顶点是什么类型数据，这儿是GLfloat对应的就是GL_FLOAT, 第三个是每个顶点之间的步长，如果数据中有存color就需要设置这儿，这儿没有color，所以就设为0表示边续，最后一个参数则是存顶点数据的内存。</p>
+
+<p>glDrawArrays第一个参数表示绘制的方式，看下面图就明白了，第二个表示顶点数据内存中的起始索引，这儿为0,最后一个表示顶点的个数，三角形有3个顶点，所以这儿为3.如果不明白，再仔细消化一下。<br>
+<img src="http://www.ifun.cc/images/openglesdrawmodel.png" alt="" /></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS自动化测试]]></title>
@@ -397,6 +628,8 @@
 
 <p>《iPhone 3D Programming》<br>
 《Learning OpenGL ES for iOS》</p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>
   </entry>
   
@@ -2137,42 +2370,6 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
 
 
 <p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS8 APP国际化]]></title>
-    <link href="http://www.ifun.cc/blog/2014/06/07/ios8-appguo-ji-hua/"/>
-    <updated>2014-06-07T21:31:53+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/06/07/ios8-appguo-ji-hua</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>1.创建一个Localizable.strings文件 <br>
-2.code中用字符串的地方使用NSLocalizedString，这与系统语言相关 <br>
-3.时间显示，数字，金融与地区相关，所以需要各类NSFormater, 如NSDateFormatter, NSNumberFormatter &hellip; <br>
-3.用命令将所有NSLocalizedString返回的字符串格式化到Localizable.strings里。命令行进入工程目录（我的工程名是LocalizationTest），运行下面命令：<br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>find ./ -name "*.m" -print0 | xargs -0 genstrings -o LocalizationTest/en.lproj</span></code></pre></td></tr></table></div></figure>
-
-
-<p>4.这下就将Localizable.strings拿给翻译的人 <br></p>
-
-<p>上面是iOS7以下国际化的方法。</p>
-
-<p>在iOS8中加入了一种国际通用的xliff文件，全称是 Localisation Interchange File Format（本地化交换文件格式，是xml文件）， 里面就是需要翻译的东西。打开xliff文件，里面<source></source>标签中是表示要翻译的东西，对应Localizable.strings中=号左边的字符串，<target></target>中是每种语言的翻译，对应Localizable.strings中=号右边的字符串。没有一个source标签对应一个target标签。</p>
-
-<p>选中Editor &ndash;> Export For Localization就可以导出需要翻译的字符串，它会遍历整个工程，将xib，stroryboard, 代码中需要本地化字符串导出到.xliff文件中。小伙伴们再也不需要手动输入上面的命令将NSLocalizedString对应的需要翻译的字符串输出到Localizable.strings里了。 Import Localizations就是导入翻译的字符串，并自动刷新xib，.strings， storyboard中本地化文件 <br></p>
-
-<p>同时Xcode6加入了 语言Debug方式，以前测试国际化，都是修改系统的语言，然后运行程序，现在在xcode中的target的scheme中就可以修改该target运行时的语言。  这样就不需要到系统设置里去设置，更简单高效。<br></p>
-
-<p>同时xcode storyboard的预览功能更加强大了，可以实时修改预览的语言。<br></p>
-
-<p>开发越来越方便了。<br></p>
-
-<p>继续写代码，改变世界。<br></p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
 ]]></content>

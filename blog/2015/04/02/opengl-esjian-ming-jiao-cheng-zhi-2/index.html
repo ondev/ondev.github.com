@@ -5,12 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>iOS App重新签名方法介绍 - Haven's Blog</title>
+  <title>OpenGL ES简明教程之2 - Haven's Blog</title>
   <meta name="author" content="Haven">
 
   
-  <meta name="description" content="教大家如何重签名APP">
-  <meta name="keywords" content="iOS,App签名,重签名,resign,codesign">
+  <meta name="description" content="加入QQ群:93916004更多精彩">
+  <meta name="keywords" content="OpenGLESiOSiOS Tutorial">
 
   <!-- http://t.co/dKP3o1e -->
   <meta name="HandheldFriendly" content="True">
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao">
+  <link rel="canonical" href="http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Haven's Blog" type="application/atom+xml">
@@ -81,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">iOS App重新签名方法介绍</h1>
+      <h1 class="entry-title">OpenGL ES简明教程之2</h1>
     
     
       <p class="meta">
@@ -97,7 +97,7 @@
   
 
 
-<time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
+<time datetime="2015-04-02T15:50:23+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2015</time>
         
 		
 		          | <a href="#comments">Comments</a>
@@ -107,36 +107,34 @@
   </header>
 
 
-<div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+<div class="entry-content"><p>在本系统教程1中我们做好了准备，这次我们开始我们的OpenGLES的渲染。<br></p>
 
-<p>今天要给大家介绍两种app重新签名的方法, 做一下记录方便需要的朋友。<br>
-1. <a href="#md-1">通过Xcode重答名</a> <br>
-2. <a href="#md-2">直接修改已签名的iPA文件</a></p>
+<h4>Step 1</h4>
 
-<!-- more -->
+<p>创建一个Single Page的iOS工程。</p>
+
+<h4>Step 2</h4>
+
+<p>创建一个UIView的子类，比如叫EGLView.<br>
+在EGLView.h中声明三个变量</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EAGLContext *m_context;
+</span><span class='line'>GLuint m_renderbuffer;
+</span><span class='line'>GLuint m_framebuffer;</span></code></pre></td></tr></table></div></figure>
 
 
-<h3>1.<a name="md-1" id="md-1">通过Xcode重答名</a></h3>
+<p>在EGLView.m中引入OpenglES头文件</p>
 
-<p>用Xcode打过包的朋友都知道，只需要在Xcode中点两下，就可以签名了，这种方法比较简单直观。今天要介绍的是打包后，不同Mac上重新签名的方法，即传播Xcode Archive.<br></p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;OpenGLES/ES1/gl.h&gt;
+</span><span class='line'>#import &lt;OpenGLES/ES1/glext.h&gt;</span></code></pre></td></tr></table></div></figure>
 
-<p>在Xcode中archive成功后，点击Distribute后,我们选择第三个选项：Export as Xcode Archive:<br>
-<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eds5kjya4pj20o30h4767.jpg" alt="" /><br></p>
 
-<p>然后我们就会得到一个后缀为xcarchive的文件，用于Mac间传递。现在我们就可以将这个.xcarchive文件发给其它同事，同事收到后双击，就可以在Xcode中打开，接着它就可以Submit to the iOS App Store或Save for Enterprise or Ad Hoc Deployment. 这样就可以达到重签名的目的 <br></p>
-
-<h3>2.<a name="md-2" id="md-2">直接修改已签名的iPA文件</a></h3>
-
-<p>其实iPA文件就是zip文件，只是后缀不同而已。要重签名，我们需要准备证书与provision profile， 证书直接在Keychian里管理，provision profile与证书是对应关系。 真机调试或提交过App到App Store的朋友都应不会陌生。<br></p>
-
-<p>下面直接说步骤：<br>
-a.解压iPA文件<br>
-b.删掉旧的签名文件<br>
-c.拷贝新的provision profile替换旧的embedded.mobileprovision<br>
-d.用codesign命令重签名<br>
-f.重新zip为iPA文件<br></p>
-
-<p>下面有一个脚本，它完成了上面5步骤：<br></p>
+<p>然后实现如下方法</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -170,58 +168,168 @@ f.重新zip为iPA文件<br></p>
 <span class='line-number'>30</span>
 <span class='line-number'>31</span>
 <span class='line-number'>32</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
-</span><span class='line'>
-</span><span class='line'>if ! ([ -f "$1" ]); then
-</span><span class='line'>echo \"${1}\"文件不存在
-</span><span class='line'>exit
-</span><span class='line'>fi
-</span><span class='line'>ipaName=${1%.ipa}
-</span><span class='line'>if [ "$ipaName" = "$1" ]; then
-</span><span class='line'>echo \"${1}\"不是ipa文件
-</span><span class='line'>exit
-</span><span class='line'>fi
-</span><span class='line'>
-</span><span class='line'>## step 1, unzip ipa file
-</span><span class='line'>unzip ${ipaName}.ipa
-</span><span class='line'>
-</span><span class='line'>## step 2, remove old codesign
-</span><span class='line'>rm -rf Payload/*.app/_CodeSignature/
-</span><span class='line'>
-</span><span class='line'>## step 3, copy new provision profile
-</span><span class='line'>cp 123.mobileprovision Payload/*.app/embedded.mobileprovision
-</span><span class='line'>
-</span><span class='line'>## step 4, codesign with new certificate and provision
-</span><span class='line'>(/usr/bin/codesign -f -s "iPhone Developer: XXXXX (XXX)" --resource-rules Payload/*.app/ResourceRules.plist Payload/*.app/) || {
-</span><span class='line'>## if code sign error, will to here
-</span><span class='line'>echo failed
-</span><span class='line'>rm -rf Payload/
-</span><span class='line'>exit
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (Class) layerClass
+</span><span class='line'>{
+</span><span class='line'>    return [CAEAGLLayer class];
 </span><span class='line'>}
 </span><span class='line'>
-</span><span class='line'>## step 5, zip it
-</span><span class='line'>zip -r ${ipaName}abc.ipa Payload/
-</span><span class='line'>rm -rf Payload/
-</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>- (id) initWithFrame: (CGRect) frame
+</span><span class='line'>{
+</span><span class='line'>    if (self = [super initWithFrame:frame]) {
+</span><span class='line'>        CAEAGLLayer* eaglLayer = (CAEAGLLayer*) super.layer;
+</span><span class='line'>        eaglLayer.opaque = YES;
+</span><span class='line'>        
+</span><span class='line'>        // step 1 创建Context
+</span><span class='line'>        EAGLRenderingAPI api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>        m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>
+</span><span class='line'>        if (!m_context) {
+</span><span class='line'>            api = kEAGLRenderingAPIOpenGLES1;
+</span><span class='line'>            m_context = [[EAGLContext alloc] initWithAPI:api];
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 2 马上设置为当前Context
+</span><span class='line'>        if (!m_context || ![EAGLContext setCurrentContext:m_context]) {
+</span><span class='line'>            return nil;
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>        if (api == kEAGLRenderingAPIOpenGLES1) {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 1.1");
+</span><span class='line'>        } else {
+</span><span class='line'>            NSLog(@"Using OpenGL ES 2.0");
+</span><span class='line'>        }
+</span><span class='line'>
+</span><span class='line'>      // step 3 创建render buffer 也叫 color buffer
+</span><span class='line'>        glGenRenderbuffersOES(1, &m_renderbuffer);
+</span><span class='line'>        glBindRenderbufferOES(GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        // step 4, 这一步一定要在step 3之后，否则会失败
+</span><span class='line'>        [m_context renderbufferStorage:GL_RENDERBUFFER fromDrawable: eaglLayer];
+</span><span class='line'>        
+</span><span class='line'>        
+</span><span class='line'>        // step 5 创建frame buffer
+</span><span class='line'>        glGenFramebuffersOES(1, &m_framebuffer);
+</span><span class='line'>        glBindFramebufferOES(GL_FRAMEBUFFER_OES, m_framebuffer);
+</span><span class='line'>        glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, m_renderbuffer);
+</span><span class='line'>        
+</span><span class='line'>        //这句可有可无
+</span><span class='line'>        GLenum status = glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES);
+</span><span class='line'>        if (status != GL_FRAMEBUFFER_COMPLETE_OES) {
+</span><span class='line'>            NSLog(@"err");
+</span><span class='line'>        }
+</span><span class='line'>        
+</span><span class='line'>        // step 6 设置 view port
+</span><span class='line'>        glViewport(0, 0, frame.size.width, frame.size.height);
+</span><span class='line'>        
+</span><span class='line'>        [self drawView: nil];
+</span><span class='line'>        m_timestamp = CACurrentMediaTime();
+</span><span class='line'>
+</span><span class='line'>        CADisplayLink *displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(drawView:)];
+</span><span class='line'>        [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+</span><span class='line'>    }
+</span><span class='line'>    return self;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void) drawView: (CADisplayLink*) displayLink
+</span><span class='line'>{
+</span><span class='line'>    
+</span><span class='line'>    glLoadIdentity();
+</span><span class='line'>    glClearColor(0.7, 0.7, 0.7, 1.0);
+</span><span class='line'>    glClear(GL_COLOR_BUFFER_BIT);
+</span><span class='line'>     
+</span><span class='line'>    static GLfloat vertexData[] = {-0.4f,-0.4f, 0.0f, 0.4f,-0.4f, 0.0f, 0.0f, 0.4f, 0.0f};
+</span><span class='line'>    glEnableClientState(GL_VERTEX_ARRAY);
+</span><span class='line'>    glVertexPointer(3, GL_FLOAT, 0, vertexData);
+</span><span class='line'>    glColor4f(1.0f, 1.0f, 0.66f, 1.0f);
+</span><span class='line'>    glDrawArrays(GL_TRIANGLES, 0, 3);
+</span><span class='line'>
+</span><span class='line'>    [m_context presentRenderbuffer:GL_RENDERBUFFER];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
 
 
-<p>需要注意脚本中有两处需要你们手动修改，第一处是123.mobileprovision，这个文件需要与脚本放同一目录，第二处是XXXXX (XXX), 这儿XXX改为你keychian里有的证书，只需要改XXX, 括号保留。<br></p>
+<h4>Step 3</h4>
 
-<h3>用法</h3>
-
-<p>保存并修改上面的脚本为resign.sh，再将需要重签名的xxx.ipa与123.mobileprovision文件置于同一目录。然后运行命令：<br></p>
+<p>使用EGLView<br>
+在ViewController.m中的viewDidLoad中加以下代码</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>chmod 777 resign.sh
-</span><span class='line'>./resign.sh xxx.ipa</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CGRect frameSize;
+</span><span class='line'>UIScreen* screen = [UIScreen mainScreen];
+</span><span class='line'>CGFloat    scale = 1.0;
+</span><span class='line'>if ([UIScreen instancesRespondToSelector:@selector(scale)])
+</span><span class='line'>{
+</span><span class='line'>    scale = [screen scale];
+</span><span class='line'>}
+</span><span class='line'>CGRect appFrame = [screen bounds];
+</span><span class='line'>frameSize       = CGRectMake(appFrame.origin.x, appFrame.origin.y, appFrame.size.width, appFrame.size.height);
+</span><span class='line'>EAGLView *v = [[EAGLView alloc] initWithFrame:frameSize];
+</span><span class='line'>
+</span><span class='line'>[self.view addSubview:v];</span></code></pre></td></tr></table></div></figure>
 
 
-<p>成功后，在目录里会多一个重签名的abc.ipa<br></p>
+<p>运行吧，将会看到一个黄色的三角形，代码里有明确的注释不不多解释。<br>
+glVertexPointer第一个参数表示每个顶点占几个顶点数组成员，这儿3表示点3个(因为一个点是x,y,z). 第二个参数是顶点是什么类型数据，这儿是GLfloat对应的就是GL_FLOAT, 第三个是每个顶点之间的步长，如果数据中有存color就需要设置这儿，这儿没有color，所以就设为0表示边续，最后一个参数则是存顶点数据的内存。</p>
 
-<hr />
+<p>glDrawArrays第一个参数表示绘制的方式，看下面图就明白了，第二个表示顶点数据内存中的起始索引，这儿为0,最后一个表示顶点的个数，三角形有3个顶点，所以这儿为3.如果不明白，再仔细消化一下。<br>
+<img src="/images/openglesdrawmodel.png" alt="" /></p>
 
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 </div>
 
 
@@ -244,12 +352,12 @@ f.重新zip为iPA文件<br></p>
   
 
 
-<time datetime="2014-02-22T14:38:26+08:00" pubdate data-updated="true">Feb 22<span>nd</span>, 2014</time>
+<time datetime="2015-04-02T15:50:23+08:00" pubdate data-updated="true">Apr 2<span>nd</span>, 2015</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/ios/'>iOS</a>
+    <a class='category' href='/blog/categories/opengles-ios/'>OpenGLES,iOS</a>
   
 </span>
 
@@ -258,7 +366,7 @@ f.重新zip为iPA文件<br></p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/" data-via="" data-counturl="http://www.ifun.cc/blog/2014/02/22/ios-appzhong-xin-qian-ming-fang-fa-jie-shao/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/" data-via="" data-counturl="http://www.ifun.cc/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/" >Tweet</a>
   
   
   
@@ -267,10 +375,8 @@ f.重新zip为iPA文件<br></p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/02/21/dong-tai-ji-suan-uitableviewcellgao-du-xiang-jie/" title="Previous Post: 动态计算UITableViewCell高度详解">&laquo; 动态计算UITableViewCell高度详解</a>
+        <a class="basic-alignment left" href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/" title="Previous Post: iOS自动化测试">&laquo; iOS自动化测试</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2014/02/22/ioskai-fa-zhi-xibji-qiao-jie-shao/" title="Next Post: iOS开发之xib技巧介绍">iOS开发之xib技巧介绍 &raquo;</a>
       
     </p>
   </footer>
