@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-04-01T09:09:23+08:00</updated>
+  <updated>2015-04-02T09:48:02+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -1307,9 +1307,111 @@ void method_exchangeImplementations(Method m1, Method m2) 交换两个方法的I
 
 <p>GCD并不是唯一的多线程与任务管理方案。Operation提供灵活的方式来实现与GCD相关的功能。</p>
 
-<h3>44</h3>
+<h3>44 Dispatch group</h3>
 
-<p>待续</p>
+<p>将任务定义为一个组，当这个组所有任务完成后会得到通知。</p>
+
+<h3>45 dispatch once实现单例</h3>
+
+<p>单例的实现，很容易理解。</p>
+
+<h3>46 避免使用dispatch_get_current_queue</h3>
+
+<p>GDC是不可重入的，用dispatch_queue_set_specific代替dispatch_get_current_queue</p>
+
+<h3>47 熟悉系统框架</h3>
+
+<p>搞iOS的都应知道</p>
+
+<h3>48 遍历容器的方法</h3>
+
+<h4>for loop of C/C++</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>for (int i = 0; i &lt; count; i++)</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Objective-C 1.0 NSEnumerator</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *anArray = /* ... */;NSEnumerator *enumerator = [anArray objectEnumerator]; id object;while ((object = [enumerator nextObject]) != nil) {// Do something with 'object'}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Objective-C 2.0 Fast Enumeration</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *anArray = /* ... */; for (id object in anArray) {// Do something with 'object'}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>Block-Based Enumeration</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSArray *anArray = /* ... */; 
+</span><span class='line'>[anArray enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop){ // Do something with 'object'if (shouldStop) {  *stop = YES; 
+</span><span class='line'>}}];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>还可以设置option</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)enumerateObjectsWithOptions: (NSEnumerationOptions)options usingBlock:(void(^)(id obj, NSUInteger idx, BOOL *stop))block- (void)enumerateKeysAndObjectsWithOptions: (NSEnumerationOptions)options usingBlock:(void(^)(id key, id obj, BOOL *stop))block</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>49 Top-free bridge</h3>
+
+<p><strong>bridge是将类型强转， 不改变内存管理权
+</strong>bridge_retain 将Objc的类型转化为Core Foundation类型，内时移交内存管理权，即要使用CFRelease
+__bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内存管理权，不用再使用CFRelease</p>
+
+<h3>50 NSCache代替NSDictionary</h3>
+
+<p>NSCache是线程安全的，系统根据内存自动free内存，也可以使用NSPurgeableData进行手动控制</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (void)downloadDataForURL:(NSURL*)url {    NSPurgeableData *cachedData = [_cache objectForKey:url]; 
+</span><span class='line'>    if (cachedData) {        // Stop the data being purged        [cacheData beginContentAccess]; // Use the cached data        [self useData:cachedData];        // Mark that the data may be purged again        [cacheData endContentAccess]; 
+</span><span class='line'>    } else {        // Cache miss        EOCNetworkFetcher *fetcher = [[EOCNetworkFetcher alloc] initWithURL:url];        [fetcher startWithCompletionHandler:^(NSData *data){ 
+</span><span class='line'>      NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data]; 
+</span><span class='line'>      [_cache setObject:purgeableData forKey:url cost:purgeableData.length];      // Don't need to beginContentAccess as it begins // with access already marked      // Use the retrieved data       [self useData:data];        // Mark that the data may be purged now     [purgeableData endContentAccess]; }];   } 
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>51 initialize与load中尽量少写代码</h3>
+
+<p>一个类只会调用一次，initialize是延迟触发，不要在里面初始化全局变量。</p>
+
+<h3>52 NSTimer会Retain Target</h3>
+
+<p>所以会循环引用，导致内存泄漏。用block来解决</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSTimer*)eoc_scheduledTimerWithTimeInterval: (NSTimeInterval)intervalblock:(void(^)())block repeats:(BOOL)repeats{    return [self scheduledTimerWithTimeInterval:interval target:self selector:@selector(eoc_blockInvoke:) userInfo:[block copy] repeats:repeats];}
+</span><span class='line'>+ (void)eoc_blockInvoke:(NSTimer*)timer { 
+</span><span class='line'>    void (^block)() = timer.userInfo;    if (block) {        block(); 
+</span><span class='line'>    }}
+</span><span class='line'>- (void)startPolling {
+</span><span class='line'>  __weak EOCClass *weakSelf = self;
+</span><span class='line'>  _pollTimer = [NSTimer eoc_scheduledTimerWithTimerInterval:5.0 
+</span><span class='line'>                                              block:^{EOCClass *strongSelf = weakSelf;
+</span><span class='line'>                                              [strongSelf p_doPoll];}, repeats:YES];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>
