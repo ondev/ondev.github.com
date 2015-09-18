@@ -84,6 +84,45 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/04/10/macxia-theoshuan-jing-da-jian/">Mac下Theos环境搭建</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-10T14:50:48+08:00" pubdate data-updated="true">Apr 10<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/04/10/macxia-theoshuan-jing-da-jian/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a></h1>
     
     
@@ -1151,98 +1190,6 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-11T14:14:53+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
-        
-		
-		          | <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>好久没有写博客了，今天想写突然发现rake generate出问题了，可能是系统升级造成的。在此记录一下。</p>
-
-<p>随便我就重新装了一下octopress环境。
-以前的环境我是用的rvm安装的ruby，这种方式安装不了最新的ruby,所以我将rvm删了,命令是</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm implode</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着用brew来安装了最新的ruby</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo brew install ruby</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后到Octopress中安装bundler</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install bundler</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由于以前我使用的rake 版本是0.9.6,  现在我Mac上的rake版本却是10.4.2, 所以到Gemfile中修改rake版本</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.4.2'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>rake版本可以通过下面命令查看</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake -V</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面总结一下Octopress 2.0的rake命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["XXX"]  //新建博文
-</span><span class='line'>rake new_page["xxx"]  //新建页面
-</span><span class='line'>rake install ["theme name"]   //.theme目录下的主题
-</span><span class='line'>rake generate   //生成静态html文件
-</span><span class='line'>rake preview    //本地浏览 http://127.0.0.1:4000
-</span><span class='line'>rake watch    //没用过，不太清楚作用
-</span><span class='line'>rake deploy   //发布</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Octopress 3.0将要发布了，到时候就不用rake命公了，<a href="http://octopress.org/">这儿</a>抢先了解。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1295,6 +1242,10 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/10/macxia-theoshuan-jing-da-jian/">Mac下Theos环境搭建</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
       </li>
     
@@ -1308,10 +1259,6 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
     
       <li class="post">
         <a href="/blog/2015/03/29/javajie-xi-html/">Java解析Html</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
       </li>
     
   </ul>

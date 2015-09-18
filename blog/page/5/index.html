@@ -84,6 +84,85 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2014/02/09/gua-pei-ios7kai-fa-2/">适配iOS7开发2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-02-09T00:34:13+08:00" pubdate data-updated="true">Feb 9<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/02/09/gua-pei-ios7kai-fa-2/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>在前一篇文章中介绍了非autolayout模式下iOS7的适配工作。 今天来介绍一下autolayout下的适配工作。<br></p>
+
+<p>首先，我们用xcode4.6.3创建一个simgle view application. 选中Use storyboard.<br>
+拖一个UIButton到view中。 由于开启了autoLayout， 在xcode4.6.3中，自动会有两个auto layout约束，分别是水平与垂直的约束：
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcfz58ucgj20o00a40u0.jpg" alt="" /></p>
+
+<p>运行程序效果：
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcfzva8w4j20hs0vkjrm.jpg" alt="" /></p>
+
+<p>可以看到是垂直方向上距status bar底部是45px，距右边是186px.<br>
+现在我们用xcode5打开这个工程。会提示Upgrade storyboard，我们点击Upgrade. Upgrade后，你会发现，垂直方向上有变化了，约束是从顶部开始，不是从status bar底部开始计算。这也我们想要的结果不一样，我们还是希望约束是从status bar底部开始计算。<br>
+仔细看看storyboard中的View Controller， 你会发现，这儿多了两个东东，分别是Top Layout Guide，Bottom Layout Guide. <br>
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg16hbatj20ny0adaal.jpg" alt="" /></p>
+
+<p>选在我们的button,按住control键，然后拖到Top Layout Guide上，在弹出的对话框选择Vertical spacing
+<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1edcg1x4fjij204n03bmx3.jpg" alt="" /></p>
+
+<p>这样又建立了一个垂直约束，你会发现这个约束是从Status bar底部开始计算的。这个约束有点像是我们需要的，
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg2i341lj20mt0a7wf4.jpg" alt="" /></p>
+
+<p>但是这个约束距status bar是25px,我们想要的是45px. 那只需要修改一下，将25px改为45px
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg36ji0xj20vk09fmy3.jpg" alt="" /></p>
+
+<p>你会发现有storyboard中有红色提示，这说明约束条件发生了冲突，因为垂直约束的值都为45，显示冲突了。由于我们只需要status bar底部开始计算的那个约束，所以我们将旧的那个删掉即可。
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1edcg3vzbylj20nj0akt97.jpg" alt="" /></p>
+
+<p>现在分别选择iOS6/iOS7来运行。都是距status bar下面45px显示button. 适配工程完成。<br>
+顺便介绍一下xcode5中，用xib或storyboard布局的时候，preview iOS7与iOS7以前版本的效果。 快捷键：option+command+enter 打开Assistant editor,然后选择右边的automatic->preview->xxxxx(preview)
+<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1edcg4xvwgnj20fi0fcabq.jpg" alt="" /></p>
+
+<p>然后在出现的画面下面有一个切换iOS7与以前版本的切换开关
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1edcg5lktzgj20ca0l6t9c.jpg" alt="" /></p>
+
+<p>这样可以方例你实时的查看布局效果以适配不同版本的iOS.<br>
+最后： auto layout是好东西，虽然只有>iOS6的版本才支持，但是我还是建意大家用auto layout,因为以后苹果也可能出现多种屏幕，到时候代码修改量将会减少。</p>
+
+<p>参考：<a href="https://developer.apple.com/library/ios/qa/qa1797/_index.html">https://developer.apple.com/library/ios/qa/qa1797/_index.html</a></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2014/02/08/gua-pei-ios7kai-fa-1/">适配iOS7开发1</a></h1>
     
     
@@ -600,7 +679,7 @@
 <p>Omnigraffle</p>
 
 <p><a href="http://www.omnigroup.com/download/latest/omnigrafflepro.dmg">Omnigraffle</a>这个不用多说，就是mac下的viso 这儿列出的是5.2.1版本。 <br>
-name:<a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#112;&#114;&#x61;&#x74;&#x65;&#122;&#64;&#x72;&#117;&#x6c;&#101;&#x2e;&#x6e;&#x65;&#116;">&#x70;&#114;&#x61;&#x74;&#x65;&#x7a;&#x40;&#114;&#x75;&#x6c;&#x65;&#46;&#x6e;&#x65;&#116;</a> <br>
+name:<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#x3a;&#112;&#114;&#x61;&#116;&#101;&#122;&#64;&#114;&#117;&#108;&#x65;&#x2e;&#110;&#x65;&#x74;">&#x70;&#114;&#x61;&#x74;&#101;&#x7a;&#64;&#x72;&#117;&#x6c;&#101;&#x2e;&#110;&#x65;&#x74;</a> <br>
 sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
 
 <p>Charles</p>
@@ -773,6 +852,10 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/10/macxia-theoshuan-jing-da-jian/">Mac下Theos环境搭建</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
       </li>
     
@@ -786,10 +869,6 @@ sn:kbpo-nsye-jpmt-pjie-jpcl-xem</p>
     
       <li class="post">
         <a href="/blog/2015/03/29/javajie-xi-html/">Java解析Html</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
       </li>
     
   </ul>
