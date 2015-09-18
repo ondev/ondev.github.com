@@ -50,3 +50,5 @@ PowerVR Gen Pod的插件是在以下目录
 
 《iPhone 3D Programming》<br>
 《Learning OpenGL ES for iOS》
+
+>时间仓促，难免有不少错误，还往指正。

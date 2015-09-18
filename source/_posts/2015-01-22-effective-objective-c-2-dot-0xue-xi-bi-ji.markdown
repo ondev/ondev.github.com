@@ -494,9 +494,90 @@ Operation的类可以直接重用
 
 GCD并不是唯一的多线程与任务管理方案。Operation提供灵活的方式来实现与GCD相关的功能。
 
-### 44 
+### 44 Dispatch group
+将任务定义为一个组，当这个组所有任务完成后会得到通知。
 
-待续
+
+### 45 dispatch once实现单例
+单例的实现，很容易理解。
+
+### 46 避免使用dispatch_get_current_queue
+GDC是不可重入的，用dispatch_queue_set_specific代替dispatch_get_current_queue
+
+### 47 熟悉系统框架
+搞iOS的都应知道
+
+### 48 遍历容器的方法
+#### for loop of C/C++
+
+```
+for (int i = 0; i < count; i++)
+```
+
+#### Objective-C 1.0 NSEnumerator
+
+```
+NSArray *anArray = /* ... */;NSEnumerator *enumerator = [anArray objectEnumerator]; id object;while ((object = [enumerator nextObject]) != nil) {// Do something with 'object'}
+```
+
+#### Objective-C 2.0 Fast Enumeration
+
+```
+NSArray *anArray = /* ... */; for (id object in anArray) {// Do something with 'object'}
+```
+
+#### Block-Based Enumeration
+
+```
+NSArray *anArray = /* ... */; 
+[anArray enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop){ // Do something with 'object'if (shouldStop) {	*stop = YES; 
+}}];
+```
+还可以设置option
+
+```
+- (void)enumerateObjectsWithOptions: (NSEnumerationOptions)options usingBlock:(void(^)(id obj, NSUInteger idx, BOOL *stop))block- (void)enumerateKeysAndObjectsWithOptions: (NSEnumerationOptions)options usingBlock:(void(^)(id key, id obj, BOOL *stop))block
+```
+
+### 49 Top-free bridge
+
+__bridge是将类型强转， 不改变内存管理权
+__bridge_retain 将Objc的类型转化为Core Foundation类型，内时移交内存管理权，即要使用CFRelease
+__bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内存管理权，不用再使用CFRelease
+
+
+### 50 NSCache代替NSDictionary
+NSCache是线程安全的，系统根据内存自动free内存，也可以使用NSPurgeableData进行手动控制
+
+```
+- (void)downloadDataForURL:(NSURL*)url {    NSPurgeableData *cachedData = [_cache objectForKey:url]; 
+    if (cachedData) {        // Stop the data being purged        [cacheData beginContentAccess]; // Use the cached data        [self useData:cachedData];        // Mark that the data may be purged again        [cacheData endContentAccess]; 
+    } else {        // Cache miss        EOCNetworkFetcher *fetcher = [[EOCNetworkFetcher alloc] initWithURL:url];		[fetcher startWithCompletionHandler:^(NSData *data){ 
+		NSPurgeableData *purgeableData = [NSPurgeableData dataWithData:data]; 
+		[_cache setObject:purgeableData forKey:url cost:purgeableData.length];		// Don't need to beginContentAccess as it begins // with access already marked		// Use the retrieved data		[self useData:data];		// Mark that the data may be purged now		[purgeableData endContentAccess]; }];	} 
+}
+```
+
+### 51 initialize与load中尽量少写代码
+一个类只会调用一次，initialize是延迟触发，不要在里面初始化全局变量。
+
+### 52 NSTimer会Retain Target
+所以会循环引用，导致内存泄漏。用block来解决
+
+```
++ (NSTimer*)eoc_scheduledTimerWithTimeInterval: (NSTimeInterval)intervalblock:(void(^)())block repeats:(BOOL)repeats{    return [self scheduledTimerWithTimeInterval:interval target:self selector:@selector(eoc_blockInvoke:) userInfo:[block copy] repeats:repeats];}
++ (void)eoc_blockInvoke:(NSTimer*)timer { 
+    void (^block)() = timer.userInfo;    if (block) {        block(); 
+    }}
+- (void)startPolling {
+	__weak EOCClass *weakSelf = self;
+	_pollTimer = [NSTimer eoc_scheduledTimerWithTimerInterval:5.0 
+												block:^{EOCClass *strongSelf = weakSelf;
+												[strongSelf p_doPoll];}, repeats:YES];
+}
+```
+
+
 
 
 
