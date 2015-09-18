@@ -84,98 +84,6 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/">Octopress中的rake Generate问题</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-02-11T14:14:53+08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2015</time>
-        
-		
-		          | <a href="/blog/2015/02/11/octopresszhong-de-rake-generatewen-ti/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>好久没有写博客了，今天想写突然发现rake generate出问题了，可能是系统升级造成的。在此记录一下。</p>
-
-<p>随便我就重新装了一下octopress环境。
-以前的环境我是用的rvm安装的ruby，这种方式安装不了最新的ruby,所以我将rvm删了,命令是</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rvm implode</span></code></pre></td></tr></table></div></figure>
-
-
-<p>接着用brew来安装了最新的ruby</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo brew install ruby</span></code></pre></td></tr></table></div></figure>
-
-
-<p>然后到Octopress中安装bundler</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo gem install bundler</span></code></pre></td></tr></table></div></figure>
-
-
-<p>由于以前我使用的rake 版本是0.9.6,  现在我Mac上的rake版本却是10.4.2, 所以到Gemfile中修改rake版本</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'rake', '~&gt; 10.4.2'</span></code></pre></td></tr></table></div></figure>
-
-
-<p>rake版本可以通过下面命令查看</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake -V</span></code></pre></td></tr></table></div></figure>
-
-
-<p>下面总结一下Octopress 2.0的rake命令</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>rake new_post["XXX"]  //新建博文
-</span><span class='line'>rake new_page["xxx"]  //新建页面
-</span><span class='line'>rake install ["theme name"]   //.theme目录下的主题
-</span><span class='line'>rake generate   //生成静态html文件
-</span><span class='line'>rake preview    //本地浏览 http://127.0.0.1:4000
-</span><span class='line'>rake watch    //没用过，不太清楚作用
-</span><span class='line'>rake deploy   //发布</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Octopress 3.0将要发布了，到时候就不用rake命公了，<a href="http://octopress.org/">这儿</a>抢先了解。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
       <h1 class="entry-title"><a href="/blog/2015/02/10/macxia-an-zhuang-gdb/">Mac下安装GDB</a></h1>
     
     
@@ -1721,6 +1629,254 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/">Cocoa触发方法调用的几种方法</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-14T09:38:40+08:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+        
+		
+		          | <a href="/blog/2014/06/14/cocoahong-fa-fang-fa-diao-yong-de-ji-chong-fang-fa/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+
+<p>今天周未，有点空闲时间，小结一下Cocoa中触发方法调用的几种方法。</p>
+
+<h3>1.SEL触发</h3>
+
+<p>SEL就是selector的缩写，它表示Cocoa中的方法选择器，不明白？那请仔细了解Objective_C的运行时机制与Cocoa底层思想。 <br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SEL theSelector = @selector(methodWithInt:andInt:);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>看了上面代码这下你明白了什么是SEL了吧，平时我们开发当中经常用到的。<br>
+有了SEL这样就可以触发方法调用了,<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[self performSelector:theSelector]
+</span><span class='line'>[self performSelector:@selector(methodWithInt:andInt:)];</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面两句代码是同一个道理。<br></p>
+
+<h3>2. IMP触发</h3>
+
+<p>IMP其实就是一个函数指针的概念，就可以这么简单理解。<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IMP theImplementation = [self methodForSelector:theSelector]; </span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面这句代码就是获取methodWithInt:andInt:这个方法的地址。<br>
+有了这个函数指针后，我们就可以触发方法：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>theImplementation(self, theSelector, 30, 5);</span></code></pre></td></tr></table></div></figure>
+
+
+<p>第一个是对象，第二个SEL， 后面的传入的参数。</p>
+
+<h3>3. objc_msgSend方法</h3>
+
+<p>这是Objc运行时的一个C方法，我们先看一个示列:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>objc_msgSend(self, @selector(fly)); </span></code></pre></td></tr></table></div></figure>
+
+
+<p>这行代码等价于<br></p>
+
+<p>[self fly];</p>
+
+<h3>4. NSInvocation</h3>
+
+<p>NSInvocation相比上面几种方法，可以动态决定传入的参数个数。有了它，我们就可以实现&hellip;这样的变参API封装。<br>
+说得有点抽像，看代码更清楚:<br></p>
+
+<p>假如我们实现了一个两个数相加的方法，</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)addNSNumber:(NSNumber *)first withNumber:(NSNumber *)second</span></code></pre></td></tr></table></div></figure>
+
+
+<p>我们可以用下面的方法来触发这个方法，并获取返回值。<BR></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (NSNumber *)testAdd {
+</span><span class='line'>  NSNumber *retval;
+</span><span class='line'> 
+</span><span class='line'>  NSNumber *arg1 = [NSNumber numberWithDouble:15.0];
+</span><span class='line'>  NSNumber *arg2 = [NSNumber numberWithDouble:13.0];
+</span><span class='line'> 
+</span><span class='line'>  SEL selector = @selector(addNSNumber:withNumber:);
+</span><span class='line'> 
+</span><span class='line'>  NSMethodSignature *sig = [self  methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:self];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'>  [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'>  [invocation setArgument:(void *)&arg2 atIndex:3];
+</span><span class='line'>  [invocation invoke];
+</span><span class='line'> 
+</span><span class='line'>  if ([sig methodReturnLength]) {
+</span><span class='line'>      [invocation getReturnValue:&retval];
+</span><span class='line'>      return retval;
+</span><span class='line'>  }
+</span><span class='line'>  
+</span><span class='line'>  return nil;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码很容易理解，我也不多做解释，有不明白的请留言。<br></p>
+
+<p>下面是变参封装, 写了两个NSObject的Extension（Category）:<br></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector {
+</span><span class='line'>  return [NSObject createInvocationOnTarget:target selector:selector withArguments:nil];
+</span><span class='line'>}
+</span><span class='line'> 
+</span><span class='line'>+ (NSInvocation *)createInvocationOnTarget:(id)target selector:(SEL)selector withArguments:(id)arg1, ... {
+</span><span class='line'>  NSMethodSignature *sig = [target methodSignatureForSelector:selector];
+</span><span class='line'>  NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:sig];
+</span><span class='line'> 
+</span><span class='line'>  [invocation setTarget:target];
+</span><span class='line'>  [invocation setSelector:selector];
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  if(arg1) {
+</span><span class='line'>      va_list args;
+</span><span class='line'>      va_start(args, arg1);
+</span><span class='line'> 
+</span><span class='line'>      [invocation setArgument:(void *)&arg1 atIndex:2];
+</span><span class='line'> 
+</span><span class='line'>      id obj;
+</span><span class='line'>      int ct = 3;
+</span><span class='line'> 
+</span><span class='line'>      while( obj = va_arg(args, id) ) {
+</span><span class='line'>          NSLog(@"%@", obj);
+</span><span class='line'>          [invocation setArgument:(void *)&obj atIndex:ct];
+</span><span class='line'> 
+</span><span class='line'>          ct++;
+</span><span class='line'>      }
+</span><span class='line'> 
+</span><span class='line'>      va_end(args);
+</span><span class='line'>  }
+</span><span class='line'> 
+</span><span class='line'> 
+</span><span class='line'>  return invocation;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>调用方法:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NSInvocation *invocation = [NSObject createInvocationOnTarget:mathInstance selector:selector withArguments: arg1, arg2, nil]; 
+</span><span class='line'> 
+</span><span class='line'>[invocation invoke];
+</span><span class='line'>[invocation getReturnValue:&retval];
+</span><span class='line'> 
+</span><span class='line'>return retval;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>目前只了解这些方法，如果你有更多的方法，还望提醒<br></p>
+
+<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -1775,10 +1931,6 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2015/04/10/macxia-theoshuan-jing-da-jian/">Mac下Theos环境搭建</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2015/04/02/opengl-esjian-ming-jiao-cheng-zhi-2/">OpenGL ES简明教程之2</a>
       </li>
     
@@ -1792,6 +1944,10 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
     
       <li class="post">
         <a href="/blog/2015/03/29/javajie-xi-html/">Java解析Html</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/03/29/ionicjian-ming-jiao-cheng/">Ionic简明教程一</a>
       </li>
     
   </ul>
