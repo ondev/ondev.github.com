@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-09-18T17:38:01+08:00</updated>
+  <updated>2015-09-21T12:45:31+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Mac iOS推送测试]]></title>
+    <link href="http://www.ifun.cc/blog/2015/09/21/mac-iostui-song-ce-shi/"/>
+    <updated>2015-09-21T12:37:32+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/09/21/mac-iostui-song-ce-shi</id>
+    <content type="html"><![CDATA[<p>今天给大家介绍一个自己写的iOS推送测试程序，在Mac下有一个同类产品PushMeBaby,它使用的是.cer证书。一般我们都使用p12文件来保存证书与密钥，所以我写了一个用p12文件来测试推送的App,命名为EasyPush. <a href="https://github.com/ondev/EasyPush">源码在此</a>，感兴趣的朋友可以拿来看看。</p>
+
+<p>使用到的第三方库有:<a href="https://github.com/robbiehanson/CocoaAsyncSocket">CocoaAsyncSocket</a></p>
+
+<p>库依赖管理:<a href="https://github.com/Carthage/Carthage">Carthage</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[iOS自动化测试]]></title>
@@ -187,50 +200,6 @@ iosod sshkey -h 192.168.1.1
 <p>有了这个属性，那么就可以在storyboard或xib中先用了个constraints来占位，可以去掉警告， 方便代码加Constraints的朋友使用。</p>
 
 <p>虽然用Auto Layout有一段时间了，但是这些细节还不是很清楚，还得慢慢吸收。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[iOS Jailbreak Dev准备工作]]></title>
-    <link href="http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo/"/>
-    <updated>2014-07-11T16:58:09+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/07/11/ios-jailbreak-devzhun-bei-gong-zuo</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>安全越来越重要了，所以我也在开始着手研究iOS安全。iOS的安全很大一部份是在iOS越狱的基础上进行的，所以对基设备进行越狱，并准备向安全领域进军。</p>
-
-<p>1.iOS越狱设备，这我就不多说了,(有风险，自行承担)
-2.在iOS越狱设备上安装openssh, SBSettings, BigBoss Recommended tools, MobileTerminal,这些可以通过Cydia安装</p>
-
-<p>下面安装clutch,class-dump-z</p>
-
-<p><code>
-ssh root@you ios device ip
-apt-get upgrade
-wget http://networkpx.googlecode.com/files/class-dump-z_0.2a.tar.gz
-tar -xvzf class-dump-z_0.2a.tar.gz
-cd iphone_armv6
-cp class-dump-z /usr/bin
-chmod 777 /usr/bin/class-dump-z
-</code>
-可以用sftp将clutch上传到iOS设备里。Clutch在<a href="https://github.com/KJCracks/Clutch">这儿</a>哦</p>
-
-<p>从appstore上下载的app是加了密的，加了密的app，class-dump-z就无能为力了，所以需要clutch将基解密。</p>
-
-<p>以2048为例</p>
-
-<p><code>
-clutch 2048
-cd /User/Documents/Cracked
-unzip /User/Documents/Cracked/2048.ipa -d 2048
-class-dump-z 2048/Payload/2048.app/2048 &gt; class-info-2048
-</code></p>
-
-<p>3.在Mac上安装theOS,iOSOpenDev,Cycript</p>
-
-<p>就这些了，以后再加用到的。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>
