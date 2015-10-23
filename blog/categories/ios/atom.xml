@@ -4,7 +4,7 @@
   <title><![CDATA[Category: iOS | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/ios/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-09-21T12:45:31+08:00</updated>
+  <updated>2015-10-23T09:35:40+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,104 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[编译opencore-amr for iOS8并支持bitcode]]></title>
+    <link href="http://www.ifun.cc/blog/2015/10/23/bian-yi-opencore-amr-for-ios8bing-zhi-chi-bitcode/"/>
+    <updated>2015-10-23T09:27:30+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/10/23/bian-yi-opencore-amr-for-ios8bing-zhi-chi-bitcode</id>
+    <content type="html"><![CDATA[<p>由于很多网友向我反应，<a href="http://www.ifun.cc/blog/2014/02/09/amr-for-ios7/">这儿</a>这个编译脚本不能成功编译iOS8的库，所以在空闲时间搞了一下, 让其支持iOS8与bitcode.</p>
+
+<p>直接上菜</p>
+
+<p>```</p>
+
+<h1>!/bin/sh</h1>
+
+<p>set -xe</p>
+
+<p>VERSION=&ldquo;0.1.3&rdquo;
+SDKVERSION=&ldquo;8.4&rdquo;
+LIBSRCNAME=&ldquo;opencore-amr&rdquo;</p>
+
+<p>CURRENTPATH=<code>pwd</code></p>
+
+<p>mkdir -p &ldquo;${CURRENTPATH}/src&rdquo;
+tar zxvf ${LIBSRCNAME}&ndash;${VERSION}.tar.gz -C &ldquo;${CURRENTPATH}/src&rdquo;
+cd &ldquo;${CURRENTPATH}/src/${LIBSRCNAME}&ndash;${VERSION}&rdquo;</p>
+
+<p>DEVELOPER=<code>xcode-select -print-path</code>
+DEST=&ldquo;${CURRENTPATH}/lib-ios&rdquo;
+mkdir -p &ldquo;${DEST}&rdquo;</p>
+
+<p>ARCHS=&ldquo;armv7 armv7s arm64 i386 x86_64&rdquo;</p>
+
+<h1>ARCHS=&ldquo;armv7&rdquo;</h1>
+
+<p>LIBS=&ldquo;libopencore-amrnb.a libopencore-amrwb.a&rdquo;</p>
+
+<p>DEVELOPER=<code>xcode-select -print-path</code></p>
+
+<p>for arch in $ARCHS; do
+case $arch in
+arm*)</p>
+
+<p>IOSV=&ldquo;-miphoneos-version-min=7.0&rdquo;
+if [ $arch == &ldquo;arm64&rdquo; ]
+then
+IOSV=&ldquo;-miphoneos-version-min=7.0&rdquo;
+fi</p>
+
+<p>echo &ldquo;Building for iOS $arch ****************&rdquo;
+SDKROOT=&ldquo;$(xcrun &mdash;sdk iphoneos &mdash;show-sdk-path)&rdquo;
+CC=&ldquo;$(xcrun &mdash;sdk iphoneos -f clang)&rdquo;
+CXX=&ldquo;$(xcrun &mdash;sdk iphoneos -f clang++)&rdquo;
+CPP=&ldquo;$(xcrun -sdk iphonesimulator -f clang++)&rdquo;
+CFLAGS=&ldquo;-isysroot $SDKROOT -arch $arch $IOSV -isystem $SDKROOT/usr/include -fembed-bitcode&rdquo;
+CXXFLAGS=$CFLAGS
+CPPFLAGS=$CFLAGS
+export CC CXX CFLAGS CXXFLAGS CPPFLAGS</p>
+
+<p>./configure \
+&mdash;host=arm-apple-darwin \
+&mdash;prefix=$DEST \
+&mdash;disable-shared &mdash;enable-static
+;;
+<em>)
+IOSV=&ldquo;-mios-simulator-version-min=7.0&rdquo;
+echo &ldquo;Building for iOS $arch</em>****************&rdquo;</p>
+
+<p>SDKROOT=<code>xcodebuild -version -sdk iphonesimulator Path</code>
+CC=&ldquo;$(xcrun -sdk iphoneos -f clang)&rdquo;
+CXX=&ldquo;$(xcrun -sdk iphonesimulator -f clang++)&rdquo;
+CPP=&ldquo;$(xcrun -sdk iphonesimulator -f clang++)&rdquo;
+CFLAGS=&ldquo;-isysroot $SDKROOT -arch $arch $IOSV -isystem $SDKROOT/usr/include -fembed-bitcode&rdquo;
+CXXFLAGS=$CFLAGS
+CPPFLAGS=$CFLAGS
+export CC CXX CFLAGS CXXFLAGS CPPFLAGS
+./configure \
+&mdash;prefix=$DEST \
+&mdash;disable-shared
+;;
+esac
+make > /dev/null
+make install
+make clean
+for i in $LIBS; do
+mv $DEST/lib/$i $DEST/lib/$i.$arch
+done
+done</p>
+
+<p>for i in $LIBS; do
+input=&ldquo;&rdquo;
+for arch in $ARCHS; do
+input=&ldquo;$input $DEST/lib/$i.$arch&rdquo;
+done
+lipo -create -output $DEST/lib/$i $input
+done
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Mac iOS推送测试]]></title>
@@ -163,43 +261,6 @@ iosod sshkey -h 192.168.1.1
 <p>进行一些修改，直到编译不报错为止。</p>
 
 <p>Command+Shift+i  将程序布署到设备上，SpringBoard会重启，重启后是不是看到Alert？ 没看到？ 那你一定哪儿错了，重新再来一遍吧，如果还不行，那我也帮不了你，只有去求神了。</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[使用Auto Layout的坑]]></title>
-    <link href="http://www.ifun.cc/blog/2014/07/23/shi-yong-auto-layoutde-keng/"/>
-    <updated>2014-07-23T17:40:05+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/07/23/shi-yong-auto-layoutde-keng</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>最近在研究iOS8, 用beta版的xcode创建了一个swift项目，由于iOS8加入了size classes的概念，所以当然要用这先进东西了。</p>
-
-<p>创建了一个tabbar的工程，试着在storyboard中研究它，发于UITextView这个控件在w(Compact), h(Regular)iPhone竖屏的情况下，字符显示不完整（如下图所以，好像UITextView的frame比较小）。最开始以为是constraints的问题，仔细看了一下，没有发现constraints有问题。
-<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvr8u4eoj20v40zo75u.jpg" alt="" /><br></p>
-
-<p>由于强迫症严重，所以总感觉这样不太对。 最后终于找到了，原来是没有设置Editable属性。只需要在storyboard属性栏中将其勾中就ok了。</p>
-
-<p><img src="http://ww2.sinaimg.cn/large/6bf526ffgw1eimvucfa68j20eq0go767.jpg" alt="" /> <br></p>
-
-<p>下在是不是看着顺眼多了？ ^V^</p>
-
-<p><img src="http://ww1.sinaimg.cn/large/6bf526ffgw1eimvvwb33aj20t20v0dhf.jpg" alt="" /> <br></p>
-
-<p>然后我试着运行工程，看结果，发现第二个tab中UITextView中的字符不见了。
-<img src="http://ww4.sinaimg.cn/large/6bf526ffgw1eimvz0q0xwj20gw0vo0ta.jpg" alt="" /> <br>
-这是为什么呢？</p>
-
-<p>经研究发现是constraints的Placeholder属性勾中了。<br>
-<img src="http://ww3.sinaimg.cn/large/6bf526ffgw1eimw0ph1taj20dy0ceab9.jpg" alt="" /> <br></p>
-
-<p>Placeholder就是占位的意思，在编译的时候就会去掉这个Constraint. 由于去掉了Constraint,那么就不无决定它的frame, 结果就显示不出来了。</p>
-
-<p>有了这个属性，那么就可以在storyboard或xib中先用了个constraints来占位，可以去掉警告， 方便代码加Constraints的朋友使用。</p>
-
-<p>虽然用Auto Layout有一段时间了，但是这些细节还不是很清楚，还得慢慢吸收。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>

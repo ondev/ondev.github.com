@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Server | Haven's Blog]]></title>
   <link href="http://www.ifun.cc/blog/categories/server/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-09-21T12:45:31+08:00</updated>
+  <updated>2015-10-23T09:35:40+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -114,7 +114,7 @@ sudo a2dismod proxy
 
 <p>```
 <VirtualHost *:80>
-  ServerAdmin <a href="&#x6d;&#x61;&#105;&#108;&#116;&#111;&#58;&#97;&#100;&#109;&#105;&#x6e;&#x40;&#103;&#109;&#97;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;">&#x61;&#x64;&#109;&#x69;&#110;&#64;&#x67;&#x6d;&#x61;&#105;&#108;&#x2e;&#x63;&#111;&#x6d;</a>
+  ServerAdmin <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#97;&#100;&#109;&#105;&#x6e;&#64;&#103;&#109;&#97;&#x69;&#x6c;&#x2e;&#99;&#x6f;&#109;">&#97;&#x64;&#x6d;&#105;&#110;&#64;&#x67;&#109;&#97;&#x69;&#108;&#x2e;&#99;&#111;&#109;</a>
   ServerName www.test.com</p>
 
 <p>  ProxyRequests off</p>
