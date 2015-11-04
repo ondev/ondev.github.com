@@ -4,7 +4,7 @@
   <title><![CDATA[Haven's Blog]]></title>
   <link href="http://www.ifun.cc/atom.xml" rel="self"/>
   <link href="http://www.ifun.cc/"/>
-  <updated>2015-10-23T09:35:40+08:00</updated>
+  <updated>2015-11-04T15:57:38+08:00</updated>
   <id>http://www.ifun.cc/</id>
   <author>
     <name><![CDATA[Haven]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Xcode7 Storyboard Reference]]></title>
+    <link href="http://www.ifun.cc/blog/2015/11/04/xcode7-storyboard-reference/"/>
+    <updated>2015-11-04T15:15:17+08:00</updated>
+    <id>http://www.ifun.cc/blog/2015/11/04/xcode7-storyboard-reference</id>
+    <content type="html"><![CDATA[<p>Storyboard在团队开发中一直被人鄙弃，因为其Merge的时候很容易出现冲突。在Xcode7中Storyboard Reference的引入，这个问题将得到解决。</p>
+
+<p>接下来我们就来看看它能做什么。</p>
+
+<p>用Xcode7创建一个tabbar的工程。</p>
+
+<ol>
+<li>分离storyboard</li>
+</ol>
+
+
+<p>在Main.storyboard中选中要分离的UIViewController, 然后顺序点菜单：Editor->Refactor to Storyboard, 这样就可以将选中的UIViewController分离到一个新的storyboard中去。而在Main.storyboard中被分离出来的UIViewController将被Storyboard reference取代。点击它，我们看看它的属性，如图:
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1exoz7tt4dnj20g107eq3b.jpg" alt="" />
+右边的属性表示这引Storyboard reference指向的Storyboard。</p>
+
+<p>我们也可以拖一个Storyboard Reference出来，然后在它属性中选择指向的Storyboard建立关系。</p>
+
+<ol>
+<li>不同Storyboard中相互引用UIViewController</li>
+</ol>
+
+
+<p>在Main.storyboard中拖一个UIViewController，并设置其Storyboard ID为ThreeViewController（可以为任意值）, 如下图:
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1exozk23pvoj209v075dgk.jpg" alt="" /></p>
+
+<p>然后在First.storyboard中拖一个Storyboard Reference, 并设置其属性，如图：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1exozvaxkt9j20ed07kgm0.jpg" alt="" /></p>
+
+<p>Storyboard Reference如果没有设定Refenenced ID， 那么就指向Storyboard的Initial View Controller, 指定了，就指向指定的View Controller.</p>
+
+<p>很好用吧。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[编译opencore-amr for iOS8并支持bitcode]]></title>
@@ -2128,29 +2167,6 @@ __bridge_transfer 将Core Foundation类型转化为Objc类型，内时移交内�
 
 
 <p>先在模拟器上删除以app,然后再点xcode run.  双击Home, 这下你是不是在App Switcher中看到了你的Default的图片，将上面的代码中Default-568h改为其它图片, 这样达到了自定义目的, 是不是太简单了呀？</p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[一个基于Nodejs的简单iOS MDM服务]]></title>
-    <link href="http://www.ifun.cc/blog/2014/07/08/%5B%3F%5D-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu/"/>
-    <updated>2014-07-08T18:57:37+08:00</updated>
-    <id>http://www.ifun.cc/blog/2014/07/08/[?]-ge-ji-yu-nodejsde-jian-dan-ios-mdmfu-wu</id>
-    <content type="html"><![CDATA[<blockquote><p>本站QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-
-<p>如果有效的管理自己的iOS移动设备，苹果为我们提供了MDM技术。最近小弟在研究它，有一点小经验，写了一个简单的iOS MDM服务, 服务器采用Nodejs＋Mongodb.</p>
-
-<p>大家可以试用一下,请直接<a href="https://www.sohoin.com">猛击这儿</a>(记得用设备的safari打开)进入。</p>
-
-<p>首先需要大家注册一个帐号，密码与帐号是管理你设备所需的。</p>
-
-<p>登陆进系统后，会有两步需要你完成，一是点击安装mdm描述文件，安装成功后请进行第二步，安装udid获取描述文件，第二步会获取你设备UDID, 并加入到你的管理列表中，这样你以后就可以对其进行管理。</p>
-
-<p>完成上面两步后就可以看到下面多了两列命令，一个是锁屏，一个是清除密码。目前只支持这两个命令，后续会慢慢加入。</p>
-
-<p>界在很丑呀，有空美化一下，换衣大家提意见。</p>
 
 <blockquote><p>时间仓促，难免有不少错误，还往指正。</p></blockquote>
 ]]></content>

@@ -84,6 +84,75 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2015/11/04/xcode7-storyboard-reference/">Xcode7 Storyboard Reference</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-11-04T15:15:17+08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2015</time>
+        
+		
+		          | <a href="/blog/2015/11/04/xcode7-storyboard-reference/#comments">Comments</a>
+		
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Storyboard在团队开发中一直被人鄙弃，因为其Merge的时候很容易出现冲突。在Xcode7中Storyboard Reference的引入，这个问题将得到解决。</p>
+
+<p>接下来我们就来看看它能做什么。</p>
+
+<p>用Xcode7创建一个tabbar的工程。</p>
+
+<ol>
+<li>分离storyboard</li>
+</ol>
+
+
+<p>在Main.storyboard中选中要分离的UIViewController, 然后顺序点菜单：Editor->Refactor to Storyboard, 这样就可以将选中的UIViewController分离到一个新的storyboard中去。而在Main.storyboard中被分离出来的UIViewController将被Storyboard reference取代。点击它，我们看看它的属性，如图:
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1exoz7tt4dnj20g107eq3b.jpg" alt="" />
+右边的属性表示这引Storyboard reference指向的Storyboard。</p>
+
+<p>我们也可以拖一个Storyboard Reference出来，然后在它属性中选择指向的Storyboard建立关系。</p>
+
+<ol>
+<li>不同Storyboard中相互引用UIViewController</li>
+</ol>
+
+
+<p>在Main.storyboard中拖一个UIViewController，并设置其Storyboard ID为ThreeViewController（可以为任意值）, 如下图:
+<img src="http://ww2.sinaimg.cn/large/6bf526ffgw1exozk23pvoj209v075dgk.jpg" alt="" /></p>
+
+<p>然后在First.storyboard中拖一个Storyboard Reference, 并设置其属性，如图：
+<img src="http://ww1.sinaimg.cn/large/6bf526ffgw1exozvaxkt9j20ed07kgm0.jpg" alt="" /></p>
+
+<p>Storyboard Reference如果没有设定Refenenced ID， 那么就指向Storyboard的Initial View Controller, 指定了，就指向指定的View Controller.</p>
+
+<p>很好用吧。</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2015/10/23/bian-yi-opencore-amr-for-ios8bing-zhi-chi-bitcode/">编译opencore-amr for iOS8并支持bitcode</a></h1>
     
     
@@ -1159,205 +1228,6 @@ glVertexPointer第一个参数表示每个顶点占几个顶点数组成员，�
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/03/06/javakai-fa-ji-lu/">Java开发记录</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-03-06T15:46:32+08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2015</time>
-        
-		
-		          | <a href="/blog/2015/03/06/javakai-fa-ji-lu/#comments">Comments</a>
-		
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>最近在写一个小东东，想一次开发同时运行到多个平台上，由于有UI，所以我选择了JSE + SWT. <br></p>
-
-<p>开发功能还好，没有遇到什么问题，Eclipse用一下就熟悉了.<br></p>
-
-<h3>打包</h3>
-
-<p>开发完后要打包，就遇到问题了，我想打成jar包，结果Eclipse自带的export不强，所以只能google打答案。<br>
-得到答案是需要一份清单列表。而还需要手功创建，看到后就醉了，不就打个包吗，弄得这么麻烦。没法只有硬上了，手动创建一个名为MANIFEST.MF的文件.<br>
-下面是我的清单列表， Class-Path是工程依赖的jar包，然后这些jar包都放到该工程目录下的libs目录下。<br>
-Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Path中每一行前后都有一个空格，最后一行不需要。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Manifest-Version: 1.0
-</span><span class='line'>Class-Path: libs/HttpClient/commons-codec-1.6.jar 
-</span><span class='line'> libs/HttpClient/commons-logging-1.1.3.jar 
-</span><span class='line'> libs/HttpClient/fluent-hc-4.3.6.jar 
-</span><span class='line'> libs/HttpClient/httpclient-4.3.6.jar 
-</span><span class='line'> libs/HttpClient/httpclient-cache-4.3.6.jar 
-</span><span class='line'> libs/HttpClient/httpcore-4.3.3.jar 
-</span><span class='line'> libs/HttpClient/httpmime-4.3.6.jar 
-</span><span class='line'> libs/gson-2.3.1.jar 
-</span><span class='line'> libs/jsoup-1.8.1-sources.jar 
-</span><span class='line'> libs/jsoup-1.8.1.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/quartz-2.2.1.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/quartz-jobs-2.2.1.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/slf4j-log4j12-1.6.6.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/slf4j-api-1.6.6.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/log4j-1.2.16.jar 
-</span><span class='line'> libs/quartz-2.2.1/lib/c3p0-0.9.1.1.jar 
-</span><span class='line'> libs/sqlite-jdbc-3.8.7.jar 
-</span><span class='line'> libs/httpcomponents-asyncclient-4.0.2/lib/httpasyncclient-4.0.2.jar 
-</span><span class='line'> libs/httpcomponents-asyncclient-4.0.2/lib/httpcore-nio-4.3.2.jar 
-</span><span class='line'> libs/os/com.ibm.icu_52.1.0.v201404241930.jar 
-</span><span class='line'> libs/os/org.eclipse.core.commands_3.6.100.v20140528-1422.jar 
-</span><span class='line'> libs/os/org.eclipse.core.runtime_3.10.0.v20140318-2214.jar 
-</span><span class='line'> libs/os/org.eclipse.equinox.common_3.6.200.v20130402-1505.jar 
-</span><span class='line'> libs/os/org.eclipse.equinox.registry_3.5.400.v20140428-1507.jar 
-</span><span class='line'> libs/os/org.eclipse.jface_3.10.1.v20140813-1009.jar 
-</span><span class='line'> libs/os/org.eclipse.jface.text_3.9.1.v20140827-1810.jar 
-</span><span class='line'> libs/os/org.eclipse.osgi_3.10.1.v20140909-1633.jar 
-</span><span class='line'> libs/os/org.eclipse.swt.cocoa.macosx.x86_64_3.103.1.v20140903-1947.jar 
-</span><span class='line'> libs/os/org.eclipse.text_3.5.300.v20130515-1451.jar 
-</span><span class='line'> libs/os/org.eclipse.ui.forms_3.6.100.v20140422-1825.jar 
-</span><span class='line'> libs/os/org.eclipse.ui.workbench_3.106.1.v20140827-1737.jar
-</span><span class='line'>Main-Class: iBot.Main</span></code></pre></td></tr></table></div></figure>
-
-
-<p>有了这个列表，这下我们来开始打包，直接用命令行吧，一下就打好，包教包会:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>jar -cvfm yourjarname.jar MANIFEST.MF -C bin .</span></code></pre></td></tr></table></div></figure>
-
-
-<p>就这么一行命令打包，是不是很easy呀。首先你要cd到你的工程目录，因为我们要用到下面的bin目录，命令中-C后面有bin看到没？</p>
-
-<p>经过上面一行命令的工作，如果一切顺利，在你工程目录下就多了一个yourjarname.jar文件。</p>
-
-<p>这下就可以运行了，我是在Mac系统下运行，双击jar文件却不能运行，然后试着用用命令运行，</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>java -jar yourjarname.jar</span></code></pre></td></tr></table></div></figure>
-
-
-<p>结果报错了，说要运行在主线程，没事，我们求万能的google, 最后解决方法是加一个参数:XstartOnFirstThread</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>java -XstartOnFirstThread -jar ibot.jar</span></code></pre></td></tr></table></div></figure>
-
-
-<p>jar 包成功运行。</p>
-
-<h3>封装Mac下可运行的app</h3>
-
-<p>参考<a href="https://www.eclipse.org/swt/macosx/">https://www.eclipse.org/swt/macosx/</a> <BR>
-做了一点修改，将可运行脚本改为了</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/bin/sh
-</span><span class='line'>BASEDIR=`dirname $0`
-</span><span class='line'>exec java \
-</span><span class='line'>        -XstartOnFirstThread \
-</span><span class='line'>        -jar $BASEDIR/ibot.jar</span></code></pre></td></tr></table></div></figure>
-
-
-<p>记录一下创建dmg的命令:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>hdiutil create -srcfolder SWTHello SWTHello.dmg
-</span><span class='line'>hdiutil internet-enable -yes SWTHello.dmg</span></code></pre></td></tr></table></div></figure>
-
-
-<h3>加载资源</h3>
-
-<p>程序是由代码加资源文件组成的，比如要读取icon,声间文件。由于我是新手，所以加载资源也把我难住了，幸好万能的Google我还能打开，窃喜！！！</p>
-
-<p>将所有的资源放到src/res目录下，这样方便打包。因为放到src目录下，打包的时候会自动将res目录copy到bin目录下去。bin是编译后的生成文件目录，打包的时候-C后面的bin就是指这个目录。这下你明白没？<br></p>
-
-<p>接着我们在程序中加载资源吧: <br></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>String filePath = getClass().getResource("/res/" + "icon.png").getFile();
-</span><span class='line'>File icon = new File(filePath);</span></code></pre></td></tr></table></div></figure>
-
-
-<p>这样就可以了，不过如果打包成jar后，这种方式不能成功获取资源，我们得使用另一个方法，用Stream的方式来获取。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>InputStream is = this.getClass().getResourceAsStream("/res/" + "icon.png"); </span></code></pre></td></tr></table></div></figure>
-
-
-<p>SWT中加载图片，还可以用JFace中的类:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ImageDescriptor.createFromFile(Main.class, "/res/login.png")；</span></code></pre></td></tr></table></div></figure>
-
-
-<p>返回的ImageDescriptor正是Action中要用到的。</p>
-
-<h2>参考资料</h2>
-
-<p><a href="http://www.eclipse.org/swt/">http://www.eclipse.org/swt/</a></p>
-
-<blockquote><p>时间仓促，难免有不少错误，还往指正。若有问题，请留言或加入QQ技术群:&lt;疯狂IT人>93916004</p></blockquote>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -1397,9 +1267,11 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 <li class='category'><a href='/blog/categories/server/'>Server (1)</a></li>
 <li class='category'><a href='/blog/categories/ui/'>UI (1)</a></li>
 <li class='category'><a href='/blog/categories/xcode/'>Xcode (1)</a></li>
+<li class='category'><a href='/blog/categories/xcode7/'>Xcode7 (1)</a></li>
 <li class='category'><a href='/blog/categories/cocoapods/'>cocoapods (1)</a></li>
 <li class='category'><a href='/blog/categories/ios/'>iOS (19)</a></li>
 <li class='category'><a href='/blog/categories/ios7/'>iOS7 (7)</a></li>
+<li class='category'><a href='/blog/categories/ios9/'>iOS9 (1)</a></li>
 <li class='category'><a href='/blog/categories/ionic/'>ionic (1)</a></li>
 <li class='category'><a href='/blog/categories/调试/'>调试 (1)</a></li>
 
@@ -1408,6 +1280,10 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/11/04/xcode7-storyboard-reference/">Xcode7 Storyboard Reference</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2015/10/23/bian-yi-opencore-amr-for-ios8bing-zhi-chi-bitcode/">编译opencore-amr for iOS8并支持bitcode</a>
@@ -1423,10 +1299,6 @@ Main-Class是你的程序入口文件，即包括Main的文件。 注意Class-Pa
     
       <li class="post">
         <a href="/blog/2015/03/30/ioszi-dong-hua-ce-shi/">iOS自动化测试</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/03/29/nodejsban-ben-guan-li/">NodeJS版本管理</a>
       </li>
     
   </ul>
